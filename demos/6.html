@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>表单</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #dadada;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -o-user-select:none;
+            user-select:none;
+        }
+
+        header {
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+            background: #da020c;
+            color: #fff;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        header>a {
+            height: 34px;
+            line-height: 34px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+        }
+
+        #warning {
+            height: 64px;
+            padding: 10px;
+            font-size: 14px;
+            line-height: 1.3;
+            color: red;
+        }
+
+        #wrapper {
+            position: absolute;
+            top: 210px;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #scroller {
+            margin: 0;
+            padding: 0;
+            background: #fff;
+        }
+
+        table {
+            width: 100%;
+            line-height: 42px;
+        }
+
+        table tr td:nth-child(1) {
+            width: 100px;
+            text-align: right;
+        }
+
+        input,
+        textarea {
+            border: 1px solid #ddd;
+            width: 90%;
+            padding: 4px 0;
+        }
+
+        textarea {
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>表单</h1>
+        <a onclick="javascript:history.back()">&lt;返回</a>
+    </header>
+    <div id="warning">
+        敬告：不建议在JRoll上使用输入框<br/> 当软键盘遮挡表单控件时会带来一系列意想不到的副作用，尽管JRoll对Android做了调整位置的处理，但该方案的兼容性有待测试。
+        <br/> IOS可使用overflow:auto;-webkit-overflow-scrolling: touch;不使用JRoll。<br/> 建议在设计上保证表单控件不被软键盘遮挡。
+        <br/> 参考：
+        <a href="http://my.oschina.net/cjlice/blog/625526">WebAPP输入框被软键盘遮挡肿么办？</a>
+    </div>
+    <div id="wrapper">
+        <div id="scroller">
+            <table>
+                <tr>
+                    <td>姓名：</td>
+                    <td><input></td>
+                </tr>
+                <tr>
+                    <td>年龄：</td>
+                    <td><textarea></textarea></td>
+                </tr>
+                <tr>
+                    <td>户籍：</td>
+                    <td><input></td>
+                </tr>
+                <tr>
+                    <td>性别：</td>
+                    <td><textarea></textarea></td>
+                </tr>
+                <tr>
+                    <td>学校：</td>
+                    <td><input></td>
+                </tr>
+                <tr>
+                    <td>职业：</td>
+                    <td><textarea></textarea></td>
+                </tr>
+                <tr>
+                    <td>兴趣：</td>
+                    <td><input></td>
+                </tr>
+                <tr>
+                    <td>爱好：</td>
+                    <td><textarea></textarea></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script src="../vendor/fastclick.js"></script>
+    <script src="../src/jroll.js"></script>
+    <script>
+        var jroll = new JRoll("#wrapper", {
+            id: "demo6",
+            adjustTop: 60
+        });
+
+        FastClick.attach(document.body);
+    </script>
+</body>
+
+</html>

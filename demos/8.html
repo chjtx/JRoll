@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+	<title>动态调整可选项</title>
+	<style>
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			font-size: 16px;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+
+		header {
+			height: 44px;
+			line-height: 44px;
+			text-align: center;
+			background: #da020c;
+			color: #fff;
+		}
+
+		h1 {
+			margin: 0;
+			padding: 0;
+			font-size: 18px;
+			font-weight: normal;
+		}
+
+		a {
+			height: 34px;
+			line-height: 34px;
+			position: absolute;
+			top: 5px;
+			left: 10px;
+		}
+
+		ul,
+		li {
+			margin: 0;
+			padding: 0;
+		}
+
+		img {
+			padding: 0;
+			margin: 0;
+			border: none;
+			display: block;
+		}
+
+		#wrapper {
+			position: absolute;
+			width: 100%;
+			top: 44px;
+			left: 0;
+			bottom: 0;
+		}
+
+		#wrapper li {
+			line-height: 32px;
+			height: 32px;
+			background: #DDD;
+			border-bottom: 1px solid #ccc;
+			border-top: 1px solid #eee;
+			padding-left: 1em;
+			list-style-type: none;
+			overflow: hidden;
+			display: block;
+		}
+
+		#scroller {
+			width: 100%;
+		}
+
+		#btns {
+			position: absolute;
+			top: 58px;
+			right: 10px;
+			background: rgba(0, 0, 0, .5);
+			color: #fff;
+		}
+
+		#btns li {
+			list-style-type: none;
+			line-height: 32px;
+			padding: 0 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1>动态调整可选项</h1>
+		<a onclick="javascript:history.back()">&lt;返回</a>
+	</header>
+	<div id="wrapper">
+		<ul id="scroller"></ul>
+	</div>
+	<ul id="btns">
+		<li>
+			<input type="checkbox">
+			<span>scrollX</span>
+		</li>
+		<li>
+			<input type="checkbox" checked>
+			<span>scrollY</span>
+		</li>
+		<li>
+			<input type="checkbox">
+			<span>scrollFree</span>
+		</li>
+		<li>
+			<input type="checkbox">
+			<span>zoom</span>
+		</li>
+		<li>
+			<input type="checkbox" checked>
+			<span>bounce</span>
+		</li>
+		<li>
+			<input type="checkbox" checked>
+			<span>momentum</span>
+		</li>
+	</ul>
+	<script src="../src/jroll.js"></script>
+	<script>
+		var jroll = new JRoll("#wrapper", {
+			id: "demo8",
+			scrollBarY: true,
+			scrollBarX: true
+		});
+		var scroller = document.getElementById("scroller");
+
+		function plusNum(a) {
+			var i = 5;
+			var b = String(a);
+			while (i--) {
+				b += b;
+			}
+			return b;
+		}
+
+		function createLi(num) {
+			var str = "";
+			for (var i = 1; i <= num; i++) {
+				str += "<li>" + i + "</li>";
+			}
+			scroller.innerHTML = str;
+			jroll.refresh().scrollTo(0, 0, 400);
+		}
+
+		createLi(100);
+
+		//绑定checkbox的change事件
+		var checks = document.querySelectorAll("#btns input");
+		for (var j = 0, l = checks.length; j < l; j++) {
+			checks[j].onchange = function() {
+				jroll.options[this.nextElementSibling.innerText] = this.checked;
+			}
+		}
+	</script>
+</body>
+
+</html>

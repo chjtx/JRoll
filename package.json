@@ -1,0 +1,26 @@
+{
+  "name": "jroll",
+  "version": "2.1.0",
+  "description": "Smooth scrolling for the mobile.",
+  "main": "src/jroll.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.oschina.net/chenjianlong/JRoll2.git"
+  },
+  "keywords": [
+    "jroll"
+  ],
+  "author": "BarZu",
+  "license": "MIT",
+  "devDependencies": {
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-header": "^1.8.7",
+    "gulp-just-replace": "^1.0.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.4"
+  }
+}

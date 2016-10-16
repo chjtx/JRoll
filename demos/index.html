@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>JRoll2 Demos</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -o-user-select:none;
+            user-select:none;
+        }
+
+        #wrapper {
+            height: 100%;
+        }
+
+        h1, h2 {
+            margin: 0;
+            padding: 40px;
+            padding-bottom: 0;
+        }
+        h2 {
+            padding-top: 0;
+        }
+
+        ul {
+            margin: 0;
+            padding: 20px;
+        }
+
+        li {
+            line-height: 44px;
+            margin-left: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="scroller">
+            <h1>目录</h1>
+            <ul>
+                <li><a href="./1.html">上万级数据测试</a></li>
+                <li><a href="./2.html">自定义滚动条</a></li>
+                <li><a href="./3.html">滑动事件</a></li>
+                <li><a href="./4.html">缩放加自由滑动</a></li>
+                <li><a href="./5.html">嵌套滑动</a></li>
+                <!--<li><a href="./6.html">表单</a></li>--><!--表单交由fixedinput处理-->
+                <li><a href="./7.html">带图片的内容</a></li>
+                <li><a href="./8.html">动态调整可选项</a></li>
+            </ul>
+            <h2>jroll-pulldown</h2>
+            <ul>
+                <li><a href="../plugins/jroll-pulldown/1.html">下拉刷新</a></li>
+                <li><a href="../plugins/jroll-pulldown/2.html">自定义下拉图标</a></li>
+            </ul>
+            <h2>jroll-infinite</h2>
+            <ul>
+                <li><a href="../plugins/jroll-infinite/1.html">无限加载</a></li>
+                <li><a href="../plugins/jroll-infinite/5.html">超出屏幕隐藏图片</a></li>
+                <li><a href="../plugins/jroll-infinite/2.html">自定义图标+开启blank</a></li>
+                <li><a href="../plugins/jroll-infinite/3.html">第三方模板</a></li>
+                <li><a href="../plugins/jroll-infinite/4.html">下拉刷新+无限加载</a></li>
+            </ul>
+            <h2>jroll-fixedinput</h2>
+            <ul>
+                <li><a href="../plugins/jroll-fixedinput/1.html">移动输入框到固定位置</a></li>
+            </ul>
+        </div>
+    </div>
+    <script src="../src/jroll.js"></script>
+    <script>
+        var jroll = new JRoll("#wrapper");
+    </script>
+</body>
+
+</html>

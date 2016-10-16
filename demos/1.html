@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>各种级别数据量测试</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #dadada;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -o-user-select:none;
+            user-select:none;
+        }
+
+        header {
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+            background: #da020c;
+            color: #fff;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        a {
+            height: 34px;
+            line-height: 34px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+        }
+
+        #wrapper {
+            position: absolute;
+            top: 44px;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #scroller {
+            margin: 0;
+            padding: 0;
+        }
+
+        #scroller li {
+            height: 60px;
+            line-height: 60px;
+            border-bottom: 1px solid #ddd;
+            text-indent: 1em;
+            background: #fff;
+        }
+
+        #scroller li:nth-last-child(1) {
+            border-bottom: none;
+        }
+
+        #menu {
+            position: absolute;
+            top: 44px;
+            right: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        #menu li {
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            border-radius: 50px;
+            background: #fff;
+            color: #000;
+            border: 1px solid #fafafa;
+            text-align: center;
+            margin: 20px 0;
+            list-style-type: none;
+            -webkit-box-shadow: rgba(0, 0, 0, .4) 3px 3px 10px;
+            box-shadow: rgba(0, 0, 0, .4) 3px 3px 10px;
+        }
+
+        #menu li.current {
+            background: #da020c;
+            color: #fff;
+            border-color: #da020c;
+        }
+
+        #tips {
+            position: absolute;
+            top: 40%;
+            width: 80%;
+            height: 36px;
+            line-height: 36px;
+            background: rgba(0, 0, 0, .8);
+            border-radius: 5px;
+            text-align: center;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+            color: #fff;
+            z-index: 9;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>各种级别数据量测试</h1>
+        <a onclick="javascript:history.back()">&lt;返回</a>
+    </header>
+    <div id="wrapper">
+        <ul id="scroller"></ul>
+    </div>
+    <ul id="menu">
+        <li class="current">6</li>
+        <li>99</li>
+        <li>999</li>
+        <li>9999</li>
+    </ul>
+    <div id="tips">渲染中，请稍候！</div>
+
+    <script src="../vendor/fastclick.js"></script>
+    <script src="../src/jroll.js"></script>
+    <script>
+        var wrapper = document.getElementById("wrapper");
+        var scroller = document.getElementById("scroller");
+        var jroll = new JRoll(wrapper, {
+            id: "demo1",
+            scrollBarY: true
+        });
+        var menu = document.getElementById("menu");
+        var tips = document.getElementById("tips");
+
+        FastClick.attach(document.body);
+
+        function createLi(n) {
+            var html = "";
+            for (var i = 0; i < n; i++) {
+                html += "<li>" + (i + 1) + "</li>";
+            }
+            scroller.innerHTML = html;
+            jroll.scrollTo(0, 0).refresh();
+        }
+
+        menu.onclick = function(e) {
+            var target = e.target;
+            var num = Number(target.innerText);
+            if (!isNaN(num)) {
+                if (num === 9999) {
+                    tips.style.display = "block";
+                }
+                setTimeout(function() {
+                    createLi(num);
+                    Array.prototype.forEach.call(menu.children, function(c) {
+                        c.classList.remove("current");
+                    });
+                    target.classList.add("current");
+                    tips.style.display = "none";
+                }, 10);
+            }
+        }
+
+        createLi(6);
+    </script>
+</body>
+
+</html>

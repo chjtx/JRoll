@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>嵌套滑动</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #dadada;
+            line-height: 1.75;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -o-user-select:none;
+            user-select:none;
+        }
+
+        header {
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+            background: #da020c;
+            color: #fff;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        a {
+            height: 34px;
+            line-height: 34px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+        }
+
+        #wrapper {
+            position: absolute;
+            top: 44px;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #scroller {
+            margin: 0;
+            padding: 0 10px;
+            background: #fff;
+        }
+
+        #inner {
+            width: 196px;
+            float: left;
+            height: 222px;
+            border: 1px solid #DA020C;
+            color: #DA020C;
+            margin: 12px;
+            margin-left: 0;
+        }
+
+        #inner>div {
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>嵌套滑动</h1>
+        <a onclick="javascript:history.back()">&lt;返回</a>
+    </header>
+    <div id="wrapper">
+        <div id="scroller">
+            噫吁嚱，危乎高哉！蜀道之难，难于上青天！ 蚕丛及鱼凫，开国何茫然！ 尔来四万八千岁，不与秦塞通人烟。 西当太白有鸟道，可以横绝峨眉巅。 地崩山摧壮士死，然后天梯石栈相钩连。
+            <div id="inner">
+                <div>唧唧复唧唧，木兰当户织。不闻机杼声，惟闻女叹息。 问女何所思，问女何所忆。女亦无所思，女亦无所忆。昨夜见军帖，可汗大点兵，军书十二卷，卷卷有爷名。阿爷无大儿，木兰无长兄，愿为市鞍马，从此替爷征。 东市买骏马，西市买鞍鞯，南市买辔头，北市买长鞭。旦辞爷娘去，暮宿黄河边，不闻爷娘唤女声，但闻黄河流水鸣溅溅。旦辞黄河去，暮至黑山头，不闻爷娘唤女声，但闻燕山胡骑鸣啾啾。 万里赴戎机，关山度若飞。朔气传金柝，寒光照铁衣。将军百战死，壮士十年归。 归来见天子，天子坐明堂。策勋十二转，赏赐百千强。可汗问所欲，木兰不用尚书郎，愿驰千里足，送儿还故乡。
+                    爷娘闻女来，出郭相扶将；阿姊闻妹来，当户理红妆；小弟闻姊来，磨刀霍霍向猪羊。开我东阁门，坐我西阁床，脱我战时袍，著我旧时裳。当窗理云鬓，对镜贴花黄。出门看火伴，火伴皆惊忙：同行十二年，不知木兰是女郎。 雄兔脚扑朔，雌兔眼迷离；双兔傍地走，安能辨我是雄雌？
+                </div>
+            </div>
+            上有六龙回日之高标，下有冲波逆折之回川。 黄鹤之飞尚不得过，猿猱欲度愁攀援。 青泥何盘盘，百步九折萦岩峦。 扪参历井仰胁息，以手抚膺坐长叹。 问君西游何时还？畏途巉岩不可攀。 但见悲鸟号古木，雄飞雌从绕林间。 又闻子规啼夜月，愁空山。 蜀道之难,难于上青天，使人听此凋朱颜！ 连峰去天不盈尺，枯松倒挂倚绝壁。 飞湍瀑流争喧豗，砯崖转石万壑雷。 其险也如此，嗟尔远道之人胡为乎来哉！ 剑阁峥嵘而崔嵬，一夫当关，万夫莫开。 所守或匪亲，化为狼与豺。 朝避猛虎，夕避长蛇；磨牙吮血，杀人如麻。 锦城虽云乐，不如早还家。
+            蜀道之难,难于上青天，侧身西望长咨嗟！
+        </div>
+    </div>
+
+    <script src="../vendor/fastclick.js"></script>
+    <script src="../src/jroll.js"></script>
+    <script>
+        var pos;
+        var jroll1 = new JRoll("#wrapper", {
+            id: "demo5"
+        });
+        var jroll2 = new JRoll("#inner");
+        jroll2.on("scrollStart", function() {
+            pos = this.y;
+        });
+        jroll2.on("scroll", function(e) {
+            if ((this.y - pos > 0 && pos === 0) || (this.y - pos < 0 && pos === this.maxScrollY)) {
+                jroll2.call(jroll1, e);
+            }
+        });
+
+        FastClick.attach(document.body);
+    </script>
+</body>
+
+</html>

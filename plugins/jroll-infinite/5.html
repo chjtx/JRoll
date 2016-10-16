@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>JRoll无限加载组件</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #dadada;
+    }
+    
+    header {
+      height: 44px;
+      line-height: 44px;
+      text-align: center;
+      background: #da020c;
+      color: #fff;
+    }
+    
+    header>a {
+      height: 34px;
+      line-height: 34px;
+      position: absolute;
+      top: 5px;
+      left: 10px;
+    }
+    
+    h1 {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: normal;
+    }
+
+    ul, li {
+      margin:0;
+      padding:0;
+      list-style-type:none;
+    }
+    
+    #wrapper {
+      position: absolute;
+      top: 44px;
+      bottom: 0;
+      width: 100%;
+    }
+    
+    #scroller {
+      margin: 0;
+      padding: 0;
+    }
+    
+    .item {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+    }
+
+    .item::after {
+      content: "";
+      clear: both;
+      display: block;
+    }
+
+    .type2 li {
+      float: left;
+      width: 30%;
+      background: #ddd;
+      margin-right: 10px;
+    }
+
+    .type2 li:nth-last-child(1) {
+      margin-right: 0;
+    }
+
+    .type1 img, .type2 img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin:0;
+      padding:0;
+    }
+
+    .type1 {
+      text-indent: 1em;
+    }
+
+    .type1>div {
+      float: left;
+      background: #ddd;
+      margin-right: 10px;
+    }
+
+    .type1-title {
+      height: 26px;
+      line-height: normal;
+    }
+    
+    .jroll-infinite-tip {
+      height: 44px;
+      line-height: 44px;
+      text-align: center;
+    }
+  </style>
+  <script src="../../src/jroll.js"></script>
+  <script src="jroll-infinite.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>开启隐藏图片</h1>
+    <a onclick="javascript:history.back()">&lt;返回</a>
+  </header>
+  <div id="wrapper">
+    <div id="scroller"></div>
+  </div>
+
+  <script>
+    //模拟ajax
+    function ajax(parms) {
+      var a = [],
+        i;
+      var page = parms.url.replace("getData.do?page=", "");
+      for (i = 1; i <= 8; i++) {
+        a.push({
+          "index": i + (page - 1) * 8,
+          "url": "http://www.chjtx.com/JRoll1/images/",
+          "title": i + (page - 1) * 8 + "、开启hideImg，超出屏幕隐藏图片"
+        });
+      }
+      setTimeout(function() {
+        parms.success(a);
+      }, 800);
+    }
+
+    //模板
+    var w = Math.floor((window.innerWidth - 40) / 3);
+    var h = Math.round(w * 0.64);
+    var tpl = "<div class='item'>"
+        + "{{if d.index % 4 !== 0}}"
+          + "<div class='type1'><div style='width:"+w+"px;height:"+h+"px;'>"
+              + "<img src='{{=d.url+(d.index%4)+\".jpg\"}}'></div>{{=d.title}}</div>"
+        + "{{else}}"
+          + "<div class='type1-title'>{{=d.title}}</div>"
+          + "<ul class='type2'><li style='width:"+w+"px;height:"+h+"px;'><img src='{{=d.url+\"4.jpg\"}}'></li>"
+              + "<li style='width:"+w+"px;height:"+h+"px;'><img src='{{=d.url+\"5.jpg\"}}'></li>"
+              + "<li style='width:"+w+"px;height:"+h+"px;'><img src='{{=d.url+\"6.jpg\"}}'></li></ul>"
+        + "{{/if}}"
+        + "</div>";
+
+    //jroll实例
+    var jroll = new JRoll("#wrapper", {
+      scrollBarY: true
+    });
+    jroll.infinite({
+      total: 99, //总页数
+      hideImg: true,
+      root: "d",
+      getData: function(page, callback) { //获取数据的函数，必须传递一个数组给callback
+        ajax({
+          url: "getData.do?page=" + page,
+          success: function(data) {
+            callback(data);
+          }
+        });
+      },
+      template: tpl //每条数据模板
+    });
+  </script>
+</body>
+
+</html>

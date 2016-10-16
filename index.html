@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="keywords" content="JRoll, 醉箩卜">
+  <meta name="description" content="JRoll 2 是在JRoll第一版基础上重写JRoll滑动算法，基于时间运动，解决帧频降低时滑动缓慢的问题，更改横竖方向判断方法，使捕获横竖方向更准确灵敏。">
+  <title>JRoll2 醉萝卜Ⅱ</title>
+  <link href="http://www.chjtx.com/JRoll1/favicon.ico" type="image/x-icon" rel="icon">
+  <link rel="stylesheet" href="./vendor/prism.css">
+  <style>
+    body {
+      font-family: "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+      line-height: 1.5;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    p {
+      text-indent: 2em;
+      color: #222;
+    }
+
+    menu {
+      position: fixed;
+      top: 160px;
+      left: 20px;
+      line-height: 1.8;
+      overflow: auto;
+      bottom: 0;
+      width: 138px;
+    }
+
+    menu a {
+      color: #000;
+      text-decoration: none;
+    }
+
+    menu a.active {
+      color: #da020c;
+    }
+
+    dd {
+      margin: 0 2em;
+    }
+
+    article {
+      margin-left: 220px;
+    }
+
+    pre[class*="language-"] {
+      padding: 0 1em;
+      border-radius: 0;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+
+    tr:nth-child(2n) {
+      background: #f1f1f1;
+    }
+
+    .green {
+      background: green;
+      color: #fff;
+      font-size: 12px;
+      padding: 2px 4px;
+      margin-left: 10px;
+    }
+
+    .red {
+      color: red;
+    }
+
+    li div {
+      text-indent: 2em;
+    }
+
+    #logo {
+      background: url(http://www.chjtx.com/JRoll1/images/logo.png) center no-repeat;
+      background-size: 120px 120px;
+      width: 200px;
+      height: 160px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      border-bottom: 1px dashed #ddd;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="logo"></div>
+  <menu>
+    <li><a href="#summary">概述</a></li>
+    <li><a href="#use">使用</a>
+      <div><a href="#options">可选参数</a></div>
+      <div><a href="#property">属性</a></div>
+      <div><a href="#method">方法</a></div>
+      <div><a href="#events">事件</a></div>
+    </li>
+    <li><a href="#demos">示例</a></li>
+    <li><a href="#download">下载</a></li>
+    <li><a href="#plugins">插件</a></li>
+    <li><a target="_blank" href="https://git.oschina.net/chenjianlong/JRoll2">git源码</a></li>
+    <li><a target="_blank" href="http://www.chjtx.com/JRoll1/">JRoll 1</a></li>
+  </menu>
+  <article class="language-js">
+    <h1>JRoll 2 使用文档</h1>
+
+    <h2 id="summary">概述</h2>
+    <h3>说明</h3>
+    <p>JRoll，一款能滚起上万条数据，具有滑动加速、回弹、缩放、滚动条、滑动事件等功能，兼容CommonJS/AMD/CMD模块规范，开源，免费的轻量级html5滚动插件。</p>
+    <p>JRoll 2 是在JRoll第一版基础上重写JRoll滑动算法，基于时间运动，解决帧频降低时滑动缓慢的问题，更改垂直水平方向判断方法，使捕获垂直水平方向更准确灵敏。</p>
+    <p>JRoll 2 增减了一些api不完全兼容JRoll 1。</p>
+
+    <h3>兼容性</h3>
+    <p>本插件专为移动应用度身设计，目前已测试通过的手机系统有：android4.1/4.2/4.3/4.4/5.0/6.0和ios6/7/8/9，欢迎网友对其它机型进行测试反馈。</p>
+    <p>为使本插件最轻量化，JRoll 2 不兼容PC浏览器，因此强烈建议使用谷歌浏览器模拟器进行开发。</p>
+
+    <h3>引入</h3>
+    <dl>
+      <dt>普通方式引入</dt>
+      <dd>
+        <pre>
+                    <code>
+&lt;script src='jroll.js'&gt;&lt;/script&gt;
+                    </code></pre>
+      </dd>
+      <dt>CommonJS规范引入</dt>
+      <dd>
+        <pre>
+                    <code>
+var JRoll = require('jroll.js');
+                    </code></pre>
+      </dd>
+      <dt>AMD规范引入（requireJS）</dt>
+      <dd>
+        <pre>
+                    <code>
+require(['jroll'], function(JRoll) {
+    ...
+});
+                    </code></pre>
+      </dd>
+      <dt>CMD规范引入（seaJS）</dt>
+      <dd>
+        <pre>
+                    <code>
+seajs.use('jroll', function(JRoll) {
+    ...
+});
+                    </code></pre>
+      </dd>
+    </dl>
+
+    <h3>简单例子</h3>
+    <dt>
+            <dt>html代码</dt>
+    <dd>
+      <pre>
+                    <code class="language-html">
+&lt;div id="wrapper"&gt;
+    &lt;ul id="scroller"&gt;
+        &lt;li&gt;有一美人兮，见之不忘。&lt;/li&gt;
+        &lt;li&gt;一日不见兮，思之如狂。&lt;/li&gt;
+        &lt;li&gt;凤飞翱翔兮，四海求凰。&lt;/li&gt;
+        &lt;li&gt;无奈佳人兮，不在东墙。&lt;/li&gt;
+        &lt;li&gt;将琴代语兮，聊写衷肠。&lt;/li&gt;
+        &lt;li&gt;何日见许兮，慰我彷徨。&lt;/li&gt;
+        &lt;li&gt;愿言配德兮，携手相将。&lt;/li&gt;
+        &lt;li&gt;不得於飞兮，使我沦亡。&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+                    </code></pre>
+    </dd>
+    <dt>css代码</dt>
+    <dd>
+      <pre>
+                    <code class="language-css">
+ul {margin: 0; padding: 0;}
+li {line-height: 24px; margin-left: 24px;}
+#wrapper {width: 200px; height: 100px; border: 1px solid;}
+                    </code></pre>
+    </dd>
+    <dt>js代码</dt>
+    <dd>
+      <pre>
+                    <code>
+new JRoll("#wrapper");
+                    </code></pre>
+    </dd>
+    </dt>
+    <dl>
+      <dt>※ 要使JRoll滚起来需要注意以下几点</dt>
+      <dd>
+        <li>wrapper的高度需要小于scroller高度</li>
+        <li>JRoll虽然可以滚起上万条数据，但仅限于普通标签节点和文本节点，如果图片过多或过大，都会占用过多内存而导致卡顿。</li>
+        <li>wrapper的padding不为0，scroller的margin不为0，否则都有可能导致计算错误，scroller内容显示不全</li>
+      </dd>
+    </dl>
+
+    <br/>
+
+    <h2 id="use">使用</h2>
+    <h3>如何使用</h3>
+    <dl>
+      <dd>
+        <pre>
+            <code>
+var jroll = new JRoll(selector [, options]);
+            </code></pre></dd>
+    </dl>
+    <p>selector是容器，可以是id选择器字符串<em>#wrapper</em>，也可以是dom对象<em>document.getElementById('wrapper')</em>，第二个参数是可选对象，该参数内容决定了创建一个怎样的JRoll对象</p>
+    <dl>
+      <dt>例：创建一个带垂直滚动条的对象</dt>
+      <dd>
+        <pre>
+            <code>
+var jroll = new JRoll("#wrapper", {scrollBarY:true});
+            </code></pre></dd>
+    </dl>
+    <p>保存了JRoll对象后，可动态对部分可选参数进行修改</p>
+    <dl>
+      <dt>例：禁止回弹</dt>
+      <dd>
+        <pre>
+            <code>
+jroll.options.bounce = false;
+            </code></pre></dd>
+    </dl>
+
+    <h3 id="options">可选参数</h3>
+    <table>
+      <tr>
+        <th width="120">可选值</th>
+        <th width="120">默认值</th>
+        <th>说明</th>
+      </tr>
+      <tr>
+        <td>id</td>
+        <td>[随机生成]</td>
+        <td>id，jroll对象的唯一标记，建议手动提供id，方便在全局JRoll.jrollMap访问指定jroll对象，不提供时系统自动创建。</td>
+      </tr>
+      <tr>
+        <td>scrollX</td>
+        <td>false</td>
+        <td>使能水平滑动<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>scrollY</td>
+        <td>true</td>
+        <td>使能垂直滑动<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>scrollFree</td>
+        <td>false</td>
+        <td>使能自由滑动，默认情况下，x方向在滑动时，y方向不能滑动，相反亦然，如果应用于对图片进行放大滑动，可将此参数设为true<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>minX</td>
+        <td>0</td>
+        <td>向左滑动的边界值<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>maxX</td>
+        <td>[负scroller的宽]</td>
+        <td>向右滑动的边界值<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>minY</td>
+        <td>0</td>
+        <td>向下滑动的边界值<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>maxY</td>
+        <td>[负scroller的高]</td>
+        <td>向上滑动的边界值<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>zoom</td>
+        <td>false</td>
+        <td>使能缩放<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>zoomMin</td>
+        <td>1.0</td>
+        <td>最小缩放倍数<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>zoomMax</td>
+        <td>4.0</td>
+        <td>最大缩放倍数<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>bounce</td>
+        <td>true</td>
+        <td>允许回弹<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>scrollBarX</td>
+        <td>false</td>
+        <td>开启水平滚动条</td>
+      </tr>
+      <tr>
+        <td>scrollBarY</td>
+        <td>false</td>
+        <td>开启垂直滚动条</td>
+      </tr>
+      <tr>
+        <td>scrollBarFade</td>
+        <td>false</td>
+        <td>滚动条使用渐隐模式</td>
+      </tr>
+      <tr>
+        <td>preventDefault</td>
+        <td>true</td>
+        <td>禁止touchmove默认事件</td>
+      </tr>
+      <tr>
+        <td>momentum</td>
+        <td>true</td>
+        <td>开启滑动加速，惯性过渡<span class="green">可动态修改</span></td>
+      </tr>
+      <tr>
+        <td>autoStyle</td>
+        <td>true</td>
+        <td>自动为wrapper和scroller添加样式</td>
+      </tr>
+      <tr>
+        <td><del class="red">adjustTop</del></td>
+        <td><del class="red">190</del></td>
+        <td>从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。<del class="red">安卓手机弹出软键盘时自动调整输入框位置，作者不建议使用该项，如遇软键盘遮挡输入框的情况，建议重新设计表单页面。参考：<a target="_blank" href="http://my.oschina.net/cjlice/blog/625526">WebAPP输入框被软键盘遮挡肿么办？</a></del></td>
+      </tr>
+      <tr>
+        <td>scroller</td>
+        <td>[wrapper的第一个子元素]</td>
+        <td>指定scroller，不可动态更改，可以是id选择器字符串<em>#scroller</em>，也可以是dom对象<em>document.getElementById('scroller')</em></td>
+      </tr>
+    </table>
+
+    <h3 id="property">属性</h3>
+    <dl>
+      <dt><strong>id</strong></dt>
+      <dd>
+        JRoll对象的唯一标识符。
+        <pre><code>
+var jroll = new JRoll("#wrapper");
+console.log(jroll.id);
+                </code></pre>
+      </dd>
+
+      <dt><strong>jrollMap</strong></dt>
+      <dd>
+        对象，JRoll对象集合，保存了当前页面的所有JRoll对象。
+        <pre><code>
+console.log(JRoll.jrollMap);
+                </code></pre>
+      </dd>
+    </dl>
+
+    <h3 id="method">方法</h3>
+    <dl>
+      <dt><strong>refresh</strong><span class="green">支持链式调用</span></dt>
+      <dd>
+        当scroller或wrapper的高度发生变化时，需要用此方法对JRoll对象进行刷新
+        <pre><code>
+var jroll = new JRoll("#wrapper");
+    //do something，例：动态修改scroller的内容，使scroller的高度发生变化
+    jroll.refresh();
+                </code></pre>
+      </dd>
+
+      <dt><strong>scrollTo</strong><span class="green">支持链式调用</span></dt>
+      <dd>
+        该方法用于移动scroller，共五个参数，第一个参数是x偏移量（必填），第二个是y偏移量（必填），第三个是滑动时间（可选，单位ms)，第四个是是否允许超出边界（可选，true/false），第五个回调方法（可选）。如果想获取当前x,y偏移量，可直接输出jroll.x和jroll.y
+        <pre><code>
+var jroll = new JRoll("#wrapper");
+    //200ms内滑动到0px, -100px位置
+    jroll.scrollTo(0, -100, 200);
+    //允许超出边界
+    jroll.scrollTo(100, 100, 0, true);
+    //回调
+    jroll.scrollTo(0, 100, 400, false, function() {
+        //滑动结束后执行
+    });
+                </code></pre>
+      </dd>
+
+      <dt><strong>enable</strong><span class="green">支持链式调用</span></dt>
+      <dd>
+        使能滑动，使用disable禁止滑动后可用该方法重新开启
+        <pre><code>
+jroll.enable();
+                </code></pre>
+      </dd>
+
+      <dt><strong>disable</strong><span class="green">支持链式调用</span></dt>
+      <dd>
+        使不能滑动
+        <pre><code>
+jroll.disable();
+                </code></pre>
+      </dd>
+
+      <dt><strong>destroy</strong></dt>
+      <dd>
+        销毁jroll对象
+        <pre><code>
+jroll.destroy();
+                </code></pre>
+      </dd>
+
+      <dt><strong>scale</strong><span class="green">支持链式调用</span></dt>
+      <dd>
+        缩放，只接受一个整型/浮点型参数
+        <pre><code>
+//放大1.5倍
+jroll.scale(1.5);
+                </code></pre>
+      </dd>
+
+      <dt><strong>call</strong></dt>
+      <dd>
+        在滑动时中转移对象，返回转移给的对象。适合于嵌套滑动时内层滑动到末尾开始滑动外层的场景。
+        <pre><code>
+/* 例：
+ * jroll1在外层，包裹jroll2
+ * jroll2在滑动到达指定条件时将滚动权交给jroll1
+ */
+var pos;
+var jroll1 = new JRoll("#wrapper", {bounce:true});
+var jroll2 = new JRoll("#inner", {bounce:true});
+    jroll2.on("scrollStart", function() {
+        pos = this.y;
+    });
+    jroll2.on("scroll", function(e) {
+        if ((this.y-pos > 0 && pos === 0) || (this.y-pos < 0 && pos === this.maxScrollY)) {
+            jroll2.call(jroll1, e); //返回jroll1
+        }
+    });
+                </code></pre>
+      </dd>
+    </dl>
+
+    <h3 id="events">事件</h3>
+    <p>JRoll一共提供8个事件，每个事件都可多次添加行为</p>
+    <dl>
+      <dt><strong>scrollStart</strong></dt>
+      <dd>
+        滑动开始时执行
+        <pre><code>
+jroll.on("scrollStart", function() {
+    console.log(this.x); //输出当前x偏移量，this指向jroll对象
+});
+                </code></pre>
+      </dd>
+
+      <dt><strong>scroll</strong></dt>
+      <dd>
+        滑动过程中执行
+        <pre><code>
+jroll.on("scroll", function() {
+    //该干嘛干嘛去...
+});
+                </code></pre>
+      </dd>
+
+      <dt><strong>scrollEnd</strong></dt>
+      <dd>
+        滑动结束时执行
+        <pre><code>
+jroll.on("scrollEnd", function() {
+    //该干嘛干嘛去...
+});
+                </code></pre>
+      </dd>
+
+      <dt><strong>touchEnd</strong></dt>
+      <dd>
+        用户释放手指时执行，早于scrollEnd晚于scroll事件
+        <pre><code>
+jroll.on("touchEnd", function() {
+    //该干嘛干嘛去...
+});
+                </code></pre>
+      </dd>
+
+      <dt><strong>zoomStart</strong></dt>
+      <dd>
+        开始缩放时执行
+        <pre><code>
+jroll.on("zoomStart", function() {
+    //该干嘛干嘛去...
+});
+                </code></pre>
+      </dd>
+
+      <dt><strong>zoom</strong></dt>
+      <dd>
+        缩放过程中执行
+        <pre><code>
+jroll.on("zoom", function() {
+    //该干嘛干嘛去...
+});
+                </code></pre>
+      </dd>
+
+      <dt><strong>zoomEnd</strong></dt>
+      <dd>
+        缩放结束后执行
+        <pre><code>
+jroll.on("zoomEnd", function() {
+    //该干嘛干嘛去...
+});
+                </code></pre>
+      </dd>
+
+      <dt><strong>refresh</strong></dt>
+      <dd>
+        使用jroll.refresh()刷新后执行
+        <pre><code>
+jroll.on("refresh", function() {
+    //该干嘛干嘛去...
+});
+                </code></pre>
+      </dd>
+    </dl>
+    <br/>
+
+    <h2 id="demos">示例</h2>
+    <p><img width="160" height="160" src="./demos/images/qrcode.png"></p>
+    <p>http://www.chjtx.com/JRoll/demos/</p>
+    <br/>
+
+    <h2 id="download">下载</h2>
+    <em>建议：下载文件后将文件名版本号去掉，这样在JRoll有更新时只需要更新jroll.js文件，不需要更新引用jroll的文件。</em>
+    <ul>
+      <li><a target="_blank" href="./build/jroll.2.3.0.js">jroll.2.3.0.js</a>(27k)</li>
+      <li><a target="_blank" href="./build/jroll.2.3.0.min.js">jroll.2.3.0.min.js</a>(13k)</li>
+    </ul>
+    <ul>
+      <li><del target="_blank" href="./build/jroll.2.2.1.js">jroll.2.2.1.js</del>(27k)</li>
+      <li><del target="_blank" href="./build/jroll.2.2.1.min.js">jroll.2.2.1.min.js</del>(13k)</li>
+    </ul>
+    <ul>
+      <li><del target="_blank" href="./build/jroll.2.2.0.js">jroll.2.2.0.js</del>(27k)</li>
+      <li><del target="_blank" href="./build/jroll.2.2.0.min.js">jroll.2.2.0.min.js</del>(13k)</li>
+    </ul>
+    <ul>
+      <li><del target="_blank" href="./build/jroll.2.1.0.js">jroll.2.1.0.js</del>(28k)</li>
+      <li><del target="_blank" href="./build/jroll.2.1.0.min.js">jroll.2.1.0.min.js</del>(13k)</li>
+    </ul>
+    <ul>
+      <li><del target="_blank" href="./build/jroll.2.0.0.js">jroll.2.0.0.beta</del>(25k)</li>
+      <li><del target="_blank" href="./build/jroll.2.0.0.min.js">jroll.2.0.0.min.beta</del>(12k)</li>
+    </ul>
+    <h3>版本日志</h3>
+    <dl>
+      <dt>v2.3.0（2016-10-16）</dt>
+      <dd>
+        <li>支持PC浏览器（只为方便开发调试使用，并未在PC上作大量测试）。</li>
+        <li>解决wrapper的padding和scroller的margin造成maxWidth/maxHeight计算错误的问题。</li>
+      </dd>
+    </dl>
+    <dl>
+      <dt>v2.2.1（2016-07-29）</dt>
+      <dd>
+        <li>优化滑动。</li>
+        <li>utils工具添加IOS判断。</li>
+      </dd>
+    </dl>
+    <dl>
+      <dt>v2.2.0（2016-07-24）</dt>
+      <dd>
+        <li>防止按停滑动时误触a链接。</li>
+        <li>废除adjustTop选项。</li>
+        <li>抽离focusin/out到jroll-fixedinput组件。</li>
+        <li>滑动时例input/textarea失焦。</li>
+        <li>调整滑动数值。</li>
+      </dd>
+    </dl>
+    <dl>
+      <dt>v2.1.0（2016-07-01）</dt>
+      <dd>
+        <li>正式版!!!</li>
+        <li>修复若干bug。</li>
+        <li>调整滑动数值。</li>
+        <li>使用requestAnimationFrame执行回弹，解决IOS在大量dom时使用transition回弹卡顿问题。</li>
+        <li>textarea不出现滚动条时允许滚动JRoll实例。</li>
+        <li>scrollTo方法添加第五个参数->回调方法。</li>
+        <li>滚动条长度限制最小为8px。</li>
+        <li>删除了g可选项，分阶段使用不同的系数值。</li>
+      </dd>
+    </dl>
+    <dl>
+      <dt>v2.0.0（2016-06-19）</dt>
+      <dd>
+        <li>上线!!!</li>
+        <li>重写滑动算法，基于时间运动，解决帧频降低时滑动缓慢的问题。</li>
+        <li>更改垂直水平方向判断方法，使捕获垂直水平向更准确灵敏。</li>
+        <li>添加minX、maxX、minY、maxY选项。</li>
+        <li>添加touchEnd事件。</li>
+        <li>修改滚动条样式。</li>
+        <li>删除scroll选项。</li>
+      </dd>
+    </dl>
+
+    <br/>
+
+    <h2 id="plugins">插件</h2>
+    <h3>jroll-pulldown.js 下拉组件</h3>
+    <p>下载：<a href="./plugins/jroll-pulldown/build/jroll-pulldown.1.0.0.js" target="_blank">jroll-pulldown.js</a>(9k) <a href="./plugins/jroll-pulldown/build/jroll-pulldown.1.0.0.min.js" target="_blank">jroll-pulldown.min.js</a>(6k)</p>
+    <p>说明：<a href="https://git.oschina.net/chenjianlong/JRoll2/tree/master/plugins/jroll-pulldown" target="_blank">jroll-pulldown 使用文档</a></p>
+
+    <h3>jroll-infinite.js 无限加载组件</h3>
+    <p>下载：<a href="./plugins/jroll-infinite/build/jroll-infinite.2.1.0.js" target="_blank">jroll-infinite.js</a>(7k) <a href="./plugins/jroll-infinite/build/jroll-infinite.2.1.0.min.js" target="_blank">jroll-infinite.min.js</a>(4k)</p>
+    <p>详情：<a href="https://git.oschina.net/chenjianlong/JRoll2/tree/master/plugins/jroll-infinite" target="_blank">jroll-infinite 使用文档</a></p>
+
+    <h3>jroll-fixedinput.js 固定输入框</h3>
+    <p>下载：<a href="./plugins/jroll-fixedinput/build/jroll-fixedinput.1.0.1.js" target="_blank">jroll-fixedinput.js</a>(2k) <a href="./plugins/jroll-fixedinput/build/jroll-fixedinput.1.0.1.min.js" target="_blank">jroll-fixedinput.min.js</a>(1k)</p>
+    <p>详情：<a href="https://git.oschina.net/chenjianlong/JRoll2/tree/master/plugins/jroll-fixedinput" target="_blank">jroll-fixedinput 使用文档</a></p>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+  </article>
+  <script src="./vendor/prism.js"></script>
+  <script>
+    setTimeout(function() {
+      var alist = document.querySelectorAll("menu a");
+      var hrefs = [];
+      var offsets = [];
+      Array.prototype.forEach.call(alist, function(a) {
+        var h = a.hash;
+        if (h.indexOf("#") !== -1) {
+          hrefs.push(h.replace("#", ""));
+        }
+      });
+      hrefs.forEach(function(o) {
+        var d = document.getElementById(o);
+        if (d) {
+          offsets.push(d.offsetTop);
+        }
+      });
+
+      function setMenuTag() {
+        var t = window.scrollY + 90;
+        for (var i = offsets.length - 1; i >= 0; i--) {
+          if (t > offsets[i]) {
+            Array.prototype.forEach.call(alist, function(a) {
+              a.classList.remove("active");
+            });
+            alist[i].classList.add("active");
+            break;
+          }
+        }
+      };
+      setMenuTag();
+      window.onscroll = setMenuTag;
+    }, 300);
+  </script>
+</body>
+
+</html>

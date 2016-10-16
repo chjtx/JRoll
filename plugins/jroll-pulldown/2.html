@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>JRoll下拉组件</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #dadada;
+    }
+    
+    header {
+      height: 44px;
+      line-height: 44px;
+      text-align: center;
+      background: #da020c;
+      color: #fff;
+    }
+    
+    header>a {
+      height: 34px;
+      line-height: 34px;
+      position: absolute;
+      top: 5px;
+      left: 10px;
+    }
+    
+    h1 {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: normal;
+    }
+    
+    #wrapper {
+      position: absolute;
+      top: 44px;
+      bottom: 0;
+      width: 100%;
+    }
+    
+    #scroller {
+      margin: 0;
+      padding: 0;
+    }
+    
+    #scroller li {
+      height: 60px;
+      line-height: 60px;
+      border-bottom: 1px solid #ddd;
+      text-indent: 1em;
+      background: #fff;
+    }
+    
+    #scroller li:nth-last-child(1) {
+      border-bottom: none;
+    }
+  </style>
+  <script src="../../src/jroll.js"></script>
+  <script src="jroll-pulldown.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>JRoll下拉组件（自定义）</h1>
+    <a onclick="javascript:history.back()">&lt;返回</a>
+  </header>
+  <div id="wrapper">
+    <ul id="scroller">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+      <li>10</li>
+      <li>11</li>
+      <li>12</li>
+      <li>13</li>
+      <li>14</li>
+      <li>15</li>
+      <li>16</li>
+      <li>17</li>
+      <li>18</li>
+      <li>19</li>
+      <li>20</li>
+    </ul>
+  </div>
+  <script>
+    //模拟ajax加载
+    function ajax(params) {
+      setTimeout(function() {
+        params.success();
+      }, 800);
+    }
+
+    var jroll = new JRoll("#wrapper");
+    jroll.pulldown({
+      iconLoading: "<img style='width:24px;height:24px;display:block;' src='loading.gif'>",
+      spinning: false,
+      textPull: "继续拉",
+      textRelease: "现在放",
+      textLoading: "更新中",
+      textFinish: "更新完",
+      refresh: function(complete) {
+        ajax({
+          success: function() {
+            //异步数据加载完成后必须要执行该complete方法才能结束loading
+            complete();
+
+            //每行加20表示已刷新
+            jroll.scroller.innerHTML = jroll.scroller.innerHTML.replace(/\d+/g, function(match) {
+              return match * 1 + 20;
+            });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

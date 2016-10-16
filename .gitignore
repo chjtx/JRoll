@@ -1,0 +1,5 @@
+# ignore all files in node_modules
+node_modules/
+
+#ignore npm log
+npm-debug.log

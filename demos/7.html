@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>带图片的内容</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #dadada;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -o-user-select:none;
+            user-select:none;
+        }
+
+        header {
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+            background: #da020c;
+            color: #fff;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        header>a {
+            height: 34px;
+            line-height: 34px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+        }
+
+        #wrapper {
+            position: absolute;
+            top: 44px;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #scroller {
+            margin: 0;
+            padding: 0;
+            background: #fff;
+        }
+
+        p {
+            padding: 10px;
+            text-align: center;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>带图片的内容</h1>
+        <a onclick="javascript:history.back()">&lt;返回</a>
+    </header>
+    <div id="wrapper">
+        <div id="scroller">
+            <img src="http://www.chjtx.com/JRoll1/images/1.jpg" width="100%" height="auto" />
+            <p>纳米核心 图1</p>
+            <img src="http://www.chjtx.com/JRoll1/images/2.jpg" width="100%" height="auto" />
+            <p>纳米核心 图2</p>
+            <img src="http://www.chjtx.com/JRoll1/images/3.jpg" width="100%" height="auto" />
+            <p>纳米核心 图3</p>
+            <img src="http://www.chjtx.com/JRoll1/images/4.jpg" width="100%" height="auto" />
+            <p>纳米核心 图4</p>
+            <img src="http://www.chjtx.com/JRoll1/images/5.jpg" width="100%" height="auto" />
+            <p>纳米核心 图5</p>
+            <img src="http://www.chjtx.com/JRoll1/images/6.jpg" width="100%" height="auto" />
+            <p>纳米核心 图6</p>
+        </div>
+    </div>
+
+    <script src="../vendor/fastclick.js"></script>
+    <script src="../src/jroll.js"></script>
+    <script>
+        var jroll = new JRoll("#wrapper", {
+            id: "demo7"
+        });
+
+        var imgs = document.querySelectorAll("#scroller img");
+
+        if (imgs) {
+            //图片加载完成后会改变scroller的高度，因此要refresh一下
+            Array.prototype.forEach.call(imgs, function(i) {
+                i.onload = function() {
+                    jroll.refresh();
+                };
+            });
+        }
+
+        FastClick.attach(document.body);
+    </script>
+</body>
+
+</html>
