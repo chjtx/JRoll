@@ -9,22 +9,22 @@ var replace = require('gulp-just-replace');
 var license = require('gulp-header');
 
 //替换文本数组
-var replaceArr = [{
-  search: /\"preScroll\"/g,
-  replacement: '1'
-}, {
-  search: /\"preZoom\"/g,
-  replacement: '2'
-}, {
-  search: /\"scrollX\"/g,
-  replacement: '3'
-}, {
-  search: /\"scrollY\"/g,
-  replacement: '4'
-}, {
-  search: /\"scrollFree\"/g,
-  replacement: '5'
-}];
+// var replaceArr = [{
+//   search: /\"preScroll\"/g,
+//   replacement: '1'
+// }, {
+//   search: /\"preZoom\"/g,
+//   replacement: '2'
+// }, {
+//   search: /\"scrollX\"/g,
+//   replacement: '3'
+// }, {
+//   search: /\"scrollY\"/g,
+//   replacement: '4'
+// }, {
+//   search: /\"scrollFree\"/g,
+//   replacement: '5'
+// }];
 
 //压缩/备份JRoll主文件
 gulp.task('default', function() {
@@ -50,7 +50,7 @@ gulp.task('default', function() {
       .pipe(gulp.dest('build/'))
 
       //替换（手动压缩）
-      .pipe(replace(replaceArr))
+      // .pipe(replace(replaceArr))
 
       //压缩
       .pipe(uglify())
