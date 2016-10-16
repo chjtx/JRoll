@@ -9,6 +9,14 @@ JRoll第二版是在JRoll第一版基础上重写JRoll滑动算法，基于时�
 
 JRoll第二版增减了一些api不完全兼容JRoll第一版。
 
+## 先睹为快
+
+手机扫二维查看示例
+
+<img width="160" height="160" src="http://www.chjtx.com/JRoll/demos/images/qrcode.png">
+
+[http://www.chjtx.com/JRoll/demos/](http://www.chjtx.com/JRoll/demos/)
+
 ### 兼容性
 本插件专为移动应用度身设计，目前已测试通过的手机系统有：android4.1/4.2/4.3/4.4/5.0/6.0和ios6/7/8/9，欢迎网友对其它机型进行测试反馈。
 
@@ -93,22 +101,22 @@ jroll.options.bounce = false;
 |可选值	|默认值	|说明 |
 |----------|----------|----------|
 |id	|*[随机生成]*	|id，jroll对象的唯一标记，建议手动提供id，方便在全局JRoll.jrollMap访问指定jroll对象，不提供时系统自动创建。|
-|scrollX	|false	|使能水平滑动`可动态修改`|
-|scrollY	|true	|使能垂直滑动`可动态修改`|
-|scrollFree	|false	|使能自由滑动，默认情况下，x方向在滑动时，y方向不能滑动，相反亦然，如果应用于对图片进行放大滑动，可将此参数设为true`可动态修改`|
-|minX	|0	|向左滑动的边界值`可动态修改`|
-|maxX	|[负scroller的宽]	|向右滑动的边界值`可动态修改`|
-|minY	|0	|向下滑动的边界值`可动态修改`|
-|maxY	|*[负scroller的高]*	|向上滑动的边界值`可动态修改`|
-|zoom	|false	|使能缩放`可动态修改`|
-|zoomMin	|1.0	|最小缩放倍数`可动态修改`|
-|zoomMax	|4.0	|最大缩放倍数`可动态修改`|
-|bounce	|true	|允许回弹`可动态修改`|
+|scrollX	|false	|使能水平滑动<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
+|scrollY	|true	|使能垂直滑动<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
+|scrollFree	|false	|使能自由滑动，默认情况下，x方向在滑动时，y方向不能滑动，相反亦然，如果应用于对图片进行放大滑动，可将此参数设为true<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
+|minX	|0	|向左滑动的边界值<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
+|maxX	|*[负scroller的宽]* |向右滑动的边界值<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
+|minY	|0	|向下滑动的边界值<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
+|maxY	|*[负scroller的高]* |向上滑动的边界值<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
+|zoom	|false	|使能缩放<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
+|zoomMin	|1.0	|最小缩放倍数<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
+|zoomMax	|4.0	|最大缩放倍数<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
+|bounce	|true	|允许回弹<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
 |scrollBarX	|false	|开启水平滚动条|
 |scrollBarY	|false	|开启垂直滚动条|
 |scrollBarFade	|false	|滚动条使用渐隐模式|
 |preventDefault	|true	|禁止touchmove默认事件|
-|momentum	|true	|开启滑动加速，惯性过渡`可动态修改`|
+|momentum	|true	|开启滑动加速，惯性过渡<small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">可动态修改</small>|
 |autoStyle	|true	|自动为wrapper和scroller添加样式|
 | ~~adjustTop~~	|~~190~~ |从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。~~安卓手机弹出软键盘时自动调整输入框位置，作者不建议使用该项，如遇软键盘遮挡输入框的情况，建议重新设计表单页面。参考：WebAPP输入框被软键盘遮挡肿么办？~~|
 |scroller	|*[wrapper的第一个子元素]*	|指定scroller，不可动态更改，可以是id选择器字符串#scroller，也可以是dom对象document.getElementById('scroller')|
@@ -126,7 +134,7 @@ console.log(JRoll.jrollMap);
 ```
 
 ### 方法
-- refresh `支持链式调用`
+- refresh <small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">支持链式调用</small>
 当scroller或wrapper的高度发生变化时，需要用此方法对JRoll对象进行刷新
 ```js
 var jroll = new JRoll("#wrapper");
@@ -134,7 +142,7 @@ var jroll = new JRoll("#wrapper");
     jroll.refresh();
 ```
 
-- scrollTo `支持链式调用`
+- scrollTo <small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">支持链式调用</small>
 该方法用于移动scroller，共五个参数，第一个参数是x偏移量（必填），第二个是y偏移量（必填），第三个是滑动时间（可选，单位ms)，第四个是是否允许超出边界（可选，true/false），第五个回调方法。如果想获取当前x,y偏移量，可直接输出jroll.x和jroll.y
 ```js
 jroll.scrollTo(x, y, duration [, bool, callback])
@@ -154,13 +162,13 @@ var jroll = new JRoll("#wrapper");
     });
 ```
 
-- enable `支持链式调用`
+- enable <small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">支持链式调用</small>
 使能滑动，使用disable禁止滑动后可用该方法重新开启
 ```js
 jroll.enable();
 ```
 
-- disable `支持链式调用`
+- disable <small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">支持链式调用</small>
 使不能滑动
 ```js
 jroll.disable();
@@ -172,7 +180,7 @@ jroll.disable();
 jroll.destroy();
 ```
 
-- scale `支持链式调用`
+- scale <small style="color:#ff;background:green;padding:0 4px;margin-left:10px;">支持链式调用</small>
 缩放，只接受一个整型/浮点型参数
 ```js
 //放大1.5倍
@@ -290,7 +298,7 @@ jroll.s中的s表示status，6种可能取值
 5. `scrollY` 正在进行竖向滑动
 6. `scrollFree` 正在进行横竖方向滑动
 
-> 注意：2.3.0以下版本的min压缩文件的jroll.s值用1、2、3、4、5表示preScroll、preZoom、scrollX、scrollY、scrollFree。在2.3.0版本开始与未压缩版保持一致，当初真不应该为了节省那丁点字节取用数字压缩的。
+> 注意：JRoll v2.3.0以下版本的min压缩文件的jroll.s值用1、2、3、4、5表示preScroll、preZoom、scrollX、scrollY、scrollFree。在JRoll v2.3.0版本开始与未压缩版保持一致，当初真不应该为了节省那丁点字节取用数字压缩的。
 
 ### 判断是否滑动到底部
 ```js
@@ -348,4 +356,17 @@ document.addEventListener("click", function(e) {
 3. 添加事件，点击div.fixed-video-scroll时执行播放或暂停操作
 
 
+### 关于被软键盘遮挡input输入框的问题
 
+评论框贴在底部随着软键盘升起而升起的功能似乎很受客户青睐，这一需求使用H5技术实现很是力不从心，fixed定位失效，第三方输入法不改变window高度致使input被遮挡，IOS自动移动input到错误位置等等问题成了最大的阻力。
+
+现时比较可行的解决方案有：
+
+1. 点击评论时弹出浮动窗，使输入框位于上半屏。
+2. 切换到新页面进行输入操作。
+
+这两种设计方案都巧妙地避开了输入框被软键盘遮挡的情况，可参考这篇文章[WebAPP输入框被软键盘遮挡肿么办？](https://my.oschina.net/cjlice/blog/625526)
+
+JRoll使用translate3d滑动页面，可监听input聚焦事件，使用scrollTo方法将输入框移动到可见位置，在Android机上可解决被遮挡的问题，详见[jroll-fixedinput组件](https://github.com/chjtx/JRoll/tree/master/plugins/jroll-fixedinput)
+
+IOS设备会自动调整输入框位置，尽管有时这个位置并不是我们想要的。很遗憾的是还没找到H5禁止IOS自动移动input位置的方法。

@@ -4,14 +4,17 @@
 JRoll的无限加载组件jroll-infinite.js，依赖JRoll2，必须要先加载jroll.js。为了不占用太多的全局变量，该组件以JRoll原型链的一个方法形式存在，只要运行过jroll-infinite.js即可给JRoll的实例调用。
 
 ## 引入
+
 普通方式引入
-```
+
+```html
 <script src="jroll.js"></script>
 <script src="jroll-infinite.js"></script>
 ```
 
 CommonJS规范引入
-```
+
+```js
 var JRoll = require('jroll.js');
 require('jroll-infinite.js'); //不需要赋给变量，运行就好了
 
@@ -20,7 +23,7 @@ jroll.infinite(); //使能无限加载，具体配置详见下文
 ```
 
 AMD规范引入（requireJS）
-```
+```js
 //配置jroll-infinite依赖jroll
 require.config({
     baseUrl: './',
@@ -42,8 +45,10 @@ define(['jroll-infinite'], function(JRoll) {
 ```
 
 ## 使用
+
 创建JRoll实例，调用infinite方法使能下拉刷新
-```
+
+```js
 var jroll = new JRoll("#wrapper");
 jroll.infinite({
     template: "<div>{{=_obj.title}}</div>",
@@ -60,6 +65,7 @@ jroll.infinite({
 ```
 
 ## 选项
+
 | 选项 | 默认值 | 必填 | 说明 |
 |----------|----------|----------|----------|
 | total | 99 | N | 总页数 |
@@ -77,6 +83,7 @@ jroll.infinite({
 ## 模板
 
 ### 简介
+
 JRoll-Infinite默认使用内置的模板引擎
 
 - 优点：比以渲染速度著称的前端模板引擎——artTemplate，还要快。可传入任意类型的数据变量，artTemplate和underscore只能传入json对象。
@@ -85,7 +92,8 @@ JRoll-Infinite默认使用内置的模板引擎
 > 最新的artTemplate和underscore模板引擎都使用了预编译的方式进行模板渲染，即预先创建一个传入数据对象返回渲染内容的函数。这种方式对于重复使用模板有明显的速度提升。artTemplate使用正则将所有可能出现的变量提前声明，实现限定对象作用域的假象，这种方法很难避免带来冗余的变量。underscore使用with语句限定对象作用域，性能损耗严重，js严格模式已去除了with语句。JRoll-Infinite的模板引擎使用_obj变量（默认为_obj，可自定义）指向数据对象，摒弃以上两种限定对象作用域的方法，因此会更快。
 
 ### 语法
-```
+
+```html
 <script>
 //传入模板的数据对象
 var data = {
@@ -117,7 +125,8 @@ var data = {
 ### 使用第三方模板
 
 - 使用artTemplate模板，重写compile
-```
+
+```js
 var jroll = new JRoll("#wrapper");
 jroll.infinite({
     getData : function(page, callback){...},
@@ -129,7 +138,8 @@ jroll.infinite({
 ```
 
 - 使用underscore模板，重写compile
-```
+
+```js
 var jroll = new JRoll("#wrapper");
 jroll.infinite({
     getData : function(page, callback){...},
@@ -146,7 +156,7 @@ jroll.infinite({
 
 遇到搜索、分类筛选等功能时，总页数因后台返回的数据而改变的情况下需要修改总页数
 
-```
+```js
 var jroll = new JRoll("#wrapper");
 jroll.infinite({
     getData: function(page, callback) {
@@ -166,7 +176,7 @@ jroll.infinite({
 
 遇到搜索、分类筛选等功能时，不能通过下拉刷新去更新数据，此时可手动执行infinite_callback方法。
 
-```
+```js
 var condition, jroll;
 condition = {
     filter : "a",

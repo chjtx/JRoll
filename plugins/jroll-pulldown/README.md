@@ -1,26 +1,31 @@
 # JRoll下拉组件
 
 ## 说明
+
 JRoll的下拉组件jroll-pulldown.js，依赖JRoll2，必须要先加载jroll.js。为了不占用太多的全局变量，该组件以JRoll原型链的一个方法形式存在，只要运行过jroll-pulldown.js即可给JRoll的实例调用。
 
 ## 引入
+
 普通方式引入
-```
+
+```html
 <script src="jroll.js"></script>
 <script src="jroll-pulldown.js"></script>
 ```
 
 CommonJS规范引入
-```
+
+```js
 var JRoll = require('jroll.js');
 require('jroll-pulldown.js'); //不需要赋给变量，运行就好了
 
 var jroll = new JRoll("#wrapper");
-jroll.pulldown(); //使能下拉刷新，具体配置详见下文 
+jroll.pulldown(); //使能下拉刷新，具体配置详见下文
 ```
 
 AMD规范引入（requireJS）
-```
+
+```js
 //配置jroll-pulldown依赖jroll
 require.config({
     baseUrl: './',
@@ -42,8 +47,10 @@ define(['jroll-pulldown'], function(JRoll) {
 ```
 
 ## 使用
+
 创建JRoll实例，调用pulldown方法使能下拉刷新
-```
+
+```js
 var jroll = new JRoll("#wrapper");
 jroll.pulldown({
     refresh: function(complete) {
@@ -54,6 +61,7 @@ jroll.pulldown({
 ```
 
 ## 选项
+
 | 选项 | 默认值 | 必填 | 说明 |
 |----------|----------|----------|----------|
 | iconArrow | [自带箭头图片] | N | 下拉过程中的箭头图标 |
