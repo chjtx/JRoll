@@ -11,7 +11,7 @@
   <style>
     body {
       font-family: "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
-      line-height: 1.5;
+      line-height: 1.75;
     }
 
     h1 {
@@ -31,6 +31,10 @@
       overflow: auto;
       bottom: 0;
       width: 138px;
+    }
+
+    li {
+      list-style-type: none;
     }
 
     menu a {
@@ -78,6 +82,13 @@
       margin-left: 10px;
     }
 
+    .grey {
+      background: #555;
+      color: white;
+      padding: 0 4px;
+      margin-right: 10px;
+    }
+
     .red {
       color: red;
     }
@@ -100,6 +111,8 @@
 </head>
 
 <body>
+  <a target="_blank" href="https://github.com/chjtx/JRoll"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
   <div id="logo"></div>
   <menu>
     <li><a href="#summary">概述</a></li>
@@ -110,9 +123,9 @@
       <div><a href="#events">事件</a></div>
     </li>
     <li><a href="#demos">示例</a></li>
+    <li><a href="#senior">进阶</a></li>
     <li><a href="#download">下载</a></li>
     <li><a href="#plugins">插件</a></li>
-    <li><a target="_blank" href="https://git.oschina.net/chenjianlong/JRoll2">git源码</a></li>
     <li><a target="_blank" href="http://www.chjtx.com/JRoll1/">JRoll 1</a></li>
   </menu>
   <article class="language-js">
@@ -121,12 +134,13 @@
     <h2 id="summary">概述</h2>
     <h3>说明</h3>
     <p>JRoll，一款能滚起上万条数据，具有滑动加速、回弹、缩放、滚动条、滑动事件等功能，兼容CommonJS/AMD/CMD模块规范，开源，免费的轻量级html5滚动插件。</p>
-    <p>JRoll 2 是在JRoll第一版基础上重写JRoll滑动算法，基于时间运动，解决帧频降低时滑动缓慢的问题，更改垂直水平方向判断方法，使捕获垂直水平方向更准确灵敏。</p>
-    <p>JRoll 2 增减了一些api不完全兼容JRoll 1。</p>
+    <p>JRoll第二版是在JRoll第一版基础上重写JRoll滑动算法，基于时间运动，解决帧频降低时滑动缓慢的问题，更改垂直水平方向判断方法，使捕获垂直水平方向更准确灵敏。</p>
+    <p>JRoll第二版增减了一些api不完全兼容JRoll第一版。</p>
 
     <h3>兼容性</h3>
     <p>本插件专为移动应用度身设计，目前已测试通过的手机系统有：android4.1/4.2/4.3/4.4/5.0/6.0和ios6/7/8/9，欢迎网友对其它机型进行测试反馈。</p>
-    <p>为使本插件最轻量化，JRoll 2 不兼容PC浏览器，因此强烈建议使用谷歌浏览器模拟器进行开发。</p>
+    <p>为使本插件轻量化，JRoll对PC浏览器的兼容只为方便开发调试，没作过多处理，因此强烈建议使用谷歌浏览器模拟器进行开发，在移动端使用。</p>
+    <p>在UC浏览器上表现较差，作者已将UC浏览器定义为资讯类应用，非专业浏览器，不会专门去兼容它</p>
 
     <h3>引入</h3>
     <dl>
@@ -141,7 +155,7 @@
       <dd>
         <pre>
                     <code>
-var JRoll = require('jroll.js');
+var JRoll = require('jroll');
                     </code></pre>
       </dd>
       <dt>AMD规范引入（requireJS）</dt>
@@ -201,14 +215,6 @@ new JRoll("#wrapper");
                     </code></pre>
     </dd>
     </dt>
-    <dl>
-      <dt>※ 要使JRoll滚起来需要注意以下几点</dt>
-      <dd>
-        <li>wrapper的高度需要小于scroller高度</li>
-        <li>JRoll虽然可以滚起上万条数据，但仅限于普通标签节点和文本节点，如果图片过多或过大，都会占用过多内存而导致卡顿。</li>
-        <li>wrapper的padding不为0，scroller的margin不为0，否则都有可能导致计算错误，scroller内容显示不全</li>
-      </dd>
-    </dl>
 
     <br/>
 
@@ -249,7 +255,7 @@ jroll.options.bounce = false;
       </tr>
       <tr>
         <td>id</td>
-        <td>[随机生成]</td>
+        <td><em>[随机生成]</em></td>
         <td>id，jroll对象的唯一标记，建议手动提供id，方便在全局JRoll.jrollMap访问指定jroll对象，不提供时系统自动创建。</td>
       </tr>
       <tr>
@@ -274,7 +280,7 @@ jroll.options.bounce = false;
       </tr>
       <tr>
         <td>maxX</td>
-        <td>[负scroller的宽]</td>
+        <td><em>[负scroller的宽]</em></td>
         <td>向右滑动的边界值<span class="green">可动态修改</span></td>
       </tr>
       <tr>
@@ -284,7 +290,7 @@ jroll.options.bounce = false;
       </tr>
       <tr>
         <td>maxY</td>
-        <td>[负scroller的高]</td>
+        <td><em>[负scroller的高]</em></td>
         <td>向上滑动的边界值<span class="green">可动态修改</span></td>
       </tr>
       <tr>
@@ -344,7 +350,7 @@ jroll.options.bounce = false;
       </tr>
       <tr>
         <td>scroller</td>
-        <td>[wrapper的第一个子元素]</td>
+        <td><em>[wrapper的第一个子元素]</em></td>
         <td>指定scroller，不可动态更改，可以是id选择器字符串<em>#scroller</em>，也可以是dom对象<em>document.getElementById('scroller')</em></td>
       </tr>
     </table>
@@ -384,6 +390,9 @@ var jroll = new JRoll("#wrapper");
       <dt><strong>scrollTo</strong><span class="green">支持链式调用</span></dt>
       <dd>
         该方法用于移动scroller，共五个参数，第一个参数是x偏移量（必填），第二个是y偏移量（必填），第三个是滑动时间（可选，单位ms)，第四个是是否允许超出边界（可选，true/false），第五个回调方法（可选）。如果想获取当前x,y偏移量，可直接输出jroll.x和jroll.y
+        <pre><code>
+jroll.scrollTo(x, y, duration [, bool, callback])
+        </code></pre>
         <pre><code>
 var jroll = new JRoll("#wrapper");
     //200ms内滑动到0px, -100px位置
@@ -454,7 +463,7 @@ var jroll2 = new JRoll("#inner", {bounce:true});
     </dl>
 
     <h3 id="events">事件</h3>
-    <p>JRoll一共提供8个事件，每个事件都可多次添加行为</p>
+    <p>JRoll一共提供8个事件，每个事件都可多次添加行为。事件里的this指向jroll对象。</p>
     <dl>
       <dt><strong>scrollStart</strong></dt>
       <dd>
@@ -538,16 +547,114 @@ jroll.on("refresh", function() {
     </dl>
     <br/>
 
+
     <h2 id="demos">示例</h2>
     <p><img width="160" height="160" src="./demos/images/qrcode.png"></p>
-    <p>http://www.chjtx.com/JRoll/demos/</p>
+    <p><a target="_blank" href="http://www.chjtx.com/JRoll/demos/">http://www.chjtx.com/JRoll/demos/</a></p>
+    <br/>
+
+    <h2 id="senior">进阶</h2>
+
+    <h3>使用this.s判断当前滑动状态</h3>
+    <pre><code>
+var jroll = new JRoll("#wrapper");
+jroll.on("scroll", function() {
+    if (this.s === "scrollY") {
+        //干点你想干的事情
+    } else {
+        //或者干点别的事情
+    }
+})
+    </code></pre>
+
+    <p>jroll.s中的s表示status，6种可能取值</p>
+
+    <ul>
+      <li>1. <span class="grey">null</span>初始状态，未进行任何滑动操作</li>
+      <li>2. <span class="grey">preScroll</span>准备开始滑动</li>
+      <li>3. <span class="grey">preZoom</span>准备开始缩放</li>
+      <li>4. <span class="grey">scrollX</span>正在进行横向滑动</li>
+      <li>5. <span class="grey">scrollY</span>正在进行竖向滑动</li>
+      <li>6. <span class="grey">scrollFree</span>正在进行横竖方向滑动</li>
+    </ul>
+
+    <p>注意：JRoll v2.3.0以下版本的min压缩文件的jroll.s值用1、2、3、4、5表示preScroll、preZoom、scrollX、scrollY、scrollFree。在JRoll v2.3.0版本开始与未压缩版保持一致，当初真不应该为了节省那丁点字节取用数字压缩的。</p>
+
+    <h3>判断是否滑动到底部</h3>
+    <pre><code>
+var jroll = JRoll("#wrapper");
+jroll.on("scrollEnd", function() {
+    if (this.y === this.maxScrollY) {
+        console.log("已滑动到底部");
+    }
+});
+    </code></pre>
+    <p>有关jroll对象更多的属性请自行在浏览器控制台输出jroll对象查看。</p>
+
+    <h3>自定义滚动条样式</h3>
+    <p>只要scrollBarX/scrollBarY的值为字符串，即为开启自定义滚动条，需要自己写样式。</p>
+    <p>滚动条对样式定位有些特殊要求，自定义滚动条大小、颜色时需要先将默认样式拷贝下来，再对 .jroll-ybar/.jroll-xbar 和 .jroll-ybtn/.jroll-xbtn 进行修改。</p>
+
+    <pre><code>
+var jroll = new JRoll("#wrapper", {
+        scrollBarY: "custom",
+        scrollBarFade: true
+    });
+    </code></pre>
+
+    <h3>解决某些安卓机无法滑动非播放状态的&lt;video&gt;</h3>
+    <p>如果您的页面需要播放视频，在某些安卓机下无法滑动&lt;video&gt;，可用以下方法解决。</p>
+
+    <p>非播放状态的&lt;video&gt;其表现像controls一样无法捕获touchstart等事件，因此无法使用JRoll滑动，可使用透明div解决。</p>
+
+    <pre class="language-html"><code>
+&lt;div id="parent">
+    &lt;video id="video" controls="controls">
+        &lt;source src="./video.ogg" type="video/ogg">
+    &lt;/video>
+    &lt;div class="fixed-video-scroll">&lt;/div>
+&lt;/div>
+&lt;script>
+var video = document.getElementById("video");
+document.addEventListener("click", function(e) {
+    if (e.target.className === "fixed-video-scroll") {
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    }
+})
+&lt;/script>
+    </code></pre>
+
+    <ul>
+      <li>1. 使#parent为相对定位，video的宽度为100%，高度可自动也可自己计算</li>
+      <li>2. div.fixed-video-scroll绝对定位，覆盖video，高度为video的高度减去44px，确保不会遮挡controls</li>
+      <li>3. 添加事件，点击div.fixed-video-scroll时执行播放或暂停操作</li>
+    </ul>
+
+    <h3>关于被软键盘遮挡input输入框的问题</h3>
+
+    <p>评论框贴在底部随着软键盘升起而升起的功能似乎很受客户青睐，这一需求使用H5技术实现很是力不从心，fixed定位失效，第三方输入法不改变window高度致使input被遮挡，IOS自动移动input到错误位置等等问题成了最大的阻力。</p>
+
+    <p><strong>现时比较可行的解决方案有：</strong></p>
+    <ul>
+      <li>1. 点击评论时弹出浮动窗，使输入框位于上半屏。</li>
+      <li>2. 切换到新页面进行输入操作。</li>
+    </ul>
+
+    <p>这两种设计方案都巧妙地避开了输入框被软键盘遮挡的情况，可参考这篇文章<a target="_blank" href="https://my.oschina.net/cjlice/blog/625526">WebAPP输入框被软键盘遮挡肿么办？</a></p>
+
+    <p>JRoll使用translate3d滑动页面，可监听input聚焦事件，使用scrollTo方法将输入框移动到可见位置，在Android机上可解决被遮挡的问题，详见<a target="_blank" href="https://github.com/chjtx/JRoll/tree/master/plugins/jroll-fixedinput">jroll-fixedinput组件</a></p>
+
     <br/>
 
     <h2 id="download">下载</h2>
     <em>建议：下载文件后将文件名版本号去掉，这样在JRoll有更新时只需要更新jroll.js文件，不需要更新引用jroll的文件。</em>
     <ul>
-      <li><a target="_blank" href="./build/jroll.2.3.0.js">jroll.2.3.0.js</a>(27k)</li>
-      <li><a target="_blank" href="./build/jroll.2.3.0.min.js">jroll.2.3.0.min.js</a>(13k)</li>
+      <li><a target="_blank" href="./build/jroll.2.3.0.js">jroll.2.3.0.js</a>(28k)</li>
+      <li><a target="_blank" href="./build/jroll.2.3.0.min.js">jroll.2.3.0.min.js</a>(14k)</li>
     </ul>
     <ul>
       <li><del target="_blank" href="./build/jroll.2.2.1.js">jroll.2.2.1.js</del>(27k)</li>
@@ -621,15 +728,15 @@ jroll.on("refresh", function() {
     <h2 id="plugins">插件</h2>
     <h3>jroll-pulldown.js 下拉组件</h3>
     <p>下载：<a href="./plugins/jroll-pulldown/build/jroll-pulldown.1.0.0.js" target="_blank">jroll-pulldown.js</a>(9k) <a href="./plugins/jroll-pulldown/build/jroll-pulldown.1.0.0.min.js" target="_blank">jroll-pulldown.min.js</a>(6k)</p>
-    <p>说明：<a href="https://git.oschina.net/chenjianlong/JRoll2/tree/master/plugins/jroll-pulldown" target="_blank">jroll-pulldown 使用文档</a></p>
+    <p>说明：<a href="https://github.com/chjtx/JRoll/tree/master/plugins/jroll-pulldown" target="_blank">jroll-pulldown 使用文档</a></p>
 
     <h3>jroll-infinite.js 无限加载组件</h3>
     <p>下载：<a href="./plugins/jroll-infinite/build/jroll-infinite.2.1.0.js" target="_blank">jroll-infinite.js</a>(7k) <a href="./plugins/jroll-infinite/build/jroll-infinite.2.1.0.min.js" target="_blank">jroll-infinite.min.js</a>(4k)</p>
-    <p>详情：<a href="https://git.oschina.net/chenjianlong/JRoll2/tree/master/plugins/jroll-infinite" target="_blank">jroll-infinite 使用文档</a></p>
+    <p>详情：<a href="https://github.com/chjtx/JRoll/tree/master/plugins/jroll-infinite" target="_blank">jroll-infinite 使用文档</a></p>
 
     <h3>jroll-fixedinput.js 固定输入框</h3>
     <p>下载：<a href="./plugins/jroll-fixedinput/build/jroll-fixedinput.1.0.1.js" target="_blank">jroll-fixedinput.js</a>(2k) <a href="./plugins/jroll-fixedinput/build/jroll-fixedinput.1.0.1.min.js" target="_blank">jroll-fixedinput.min.js</a>(1k)</p>
-    <p>详情：<a href="https://git.oschina.net/chenjianlong/JRoll2/tree/master/plugins/jroll-fixedinput" target="_blank">jroll-fixedinput 使用文档</a></p>
+    <p>详情：<a href="https://github.com/chjtx/JRoll/tree/master/plugins/jroll-fixedinput" target="_blank">jroll-fixedinput 使用文档</a></p>
 
     <br/>
     <br/>

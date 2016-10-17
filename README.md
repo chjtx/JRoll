@@ -22,7 +22,7 @@ JRoll第二版增减了一些api不完全兼容JRoll第一版。
 
 > 为使本插件轻量化，JRoll对PC浏览器的兼容只为方便开发调试，没作过多处理，因此强烈建议使用谷歌浏览器模拟器进行开发，在移动端使用。
 
-> 在UC浏览器上表现较差，作者已将UC浏览器定义为资讯类应用，非专业浏览器，不会专门去兼容它
+> 在UC浏览器上表现较差，作者已将UC浏览器定义为资讯类应用，非专业浏览器，不会专门去兼容它。
 
 ### 引入
 普通方式引入
@@ -274,7 +274,7 @@ jroll.on("refresh", function() {
 });
 ```
 
-## 高级
+## 进阶
 
 ### 使用this.s判断当前滑动状态
 
@@ -370,3 +370,8 @@ document.addEventListener("click", function(e) {
 JRoll使用translate3d滑动页面，可监听input聚焦事件，使用scrollTo方法将输入框移动到可见位置，在Android机上可解决被遮挡的问题，详见[jroll-fixedinput组件](https://github.com/chjtx/JRoll/tree/master/plugins/jroll-fixedinput)
 
 IOS设备会自动调整输入框位置，尽管有时这个位置并不是我们想要的。很遗憾的是还没找到H5禁止IOS自动移动input位置的方法。
+
+
+## 特别鸣谢
+
+JRoll的灵感源于[iScroll](https://github.com/cubiq/iscroll)
