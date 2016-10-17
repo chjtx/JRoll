@@ -139,47 +139,58 @@ jroll.options.bounce = false;
 |----------|----------|----------|
 |id	|*[随机生成]*<br/>*[Randomly generated]*	|id，jroll对象的唯一标记，建议手动提供id，方便在全局JRoll.jrollMap访问指定jroll对象，不提供时系统自动创建。<br/>Id, jroll the unique identifier of the object, it is recommended to manually provide id, convenient access to the specified global JRoll.jrollMap jroll object, the system is not automatically created.|
 |scrollX	|false	|使能水平滑动 :white_check_mark:<br/>Enable horizontal sliding |
-|scrollY	|true	|使能垂直滑动 :white_check_mark:|
-|scrollFree	|false	|使能自由滑动，默认情况下，x方向在滑动时，y方向不能滑动，相反亦然，如果应用于对图片进行放大滑动，可将此参数设为true :white_check_mark:|
-|minX	|0	|向左滑动的边界值 :white_check_mark:|
-|maxX	|*[负scroller的宽]* |向右滑动的边界值 :white_check_mark:|
-|minY	|0	|向下滑动的边界值 :white_check_mark:|
-|maxY	|*[负scroller的高]* |向上滑动的边界值 :white_check_mark:|
-|zoom	|false	|使能缩放 :white_check_mark:|
-|zoomMin	|1.0	|最小缩放倍数 :white_check_mark:|
-|zoomMax	|4.0	|最大缩放倍数 :white_check_mark:|
-|bounce	|true	|允许回弹 :white_check_mark:|
-|scrollBarX	|false	|开启水平滚动条|
-|scrollBarY	|false	|开启垂直滚动条|
-|scrollBarFade	|false	|滚动条使用渐隐模式|
-|preventDefault	|true	|禁止touchmove默认事件|
-|momentum	|true	|开启滑动加速，惯性过渡 :white_check_mark:|
-|autoStyle	|true	|自动为wrapper和scroller添加样式|
+|scrollY	|true	|使能垂直滑动 :white_check_mark:<br/>Enable vertical sliding|
+|scrollFree	|false	|使能自由滑动，默认情况下，x方向在滑动时，y方向不能滑动，相反亦然，如果应用于对图片进行放大滑动，可将此参数设为true :white_check_mark:<br/>By default, the y direction does not slide when the x direction is sliding, and vice versa. If you apply zooming to a picture, you can set this parameter to true|
+|minX	|0	|向左滑动的边界值 :white_check_mark:<br/>The boundary value to the right|
+|maxX	|*[负scroller的宽]*<br/>*[-scroller's width]*|向右滑动的边界值 :white_check_mark:<br/>The boundary value to the left|
+|minY	|0	|向下滑动的边界值 :white_check_mark:<br/>The boundary value to the up|
+|maxY	|*[负scroller的高]*<br/>*[-scroller's height]*|向上滑动的边界值 :white_check_mark:<br/>The boundary value to the down|
+|zoom	|false	|使能缩放 :white_check_mark:<br/>Enable scaling|
+|zoomMin	|1.0	|最小缩放倍数 :white_check_mark:<br/>Minimum zoom factor|
+|zoomMax	|4.0	|最大缩放倍数 :white_check_mark:<br/>Maximum zoom factor|
+|bounce	|true	|允许回弹 :white_check_mark:<br/>Allow the rebound|
+|scrollBarX	|false	|开启水平滚动条<br/>Open the horizontal scroll bar|
+|scrollBarY	|false	|开启垂直滚动条<br/>Open the vertical scroll bar|
+|scrollBarFade	|false	|滚动条使用渐隐模式<br/>The scroll bar uses fade mode|
+|preventDefault	|true	|禁止touchmove默认事件<br/>Disables the touchmove default event|
+|momentum	|true	|开启滑动加速，惯性过渡 :white_check_mark:<br/>Open sliding acceleration, inertial transition|
+|autoStyle	|true	|自动为wrapper和scroller添加样式<br/>Automatically adds styles to the wrapper and scroller|
 | ~~adjustTop~~	|~~190~~ |从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。~~安卓手机弹出软键盘时自动调整输入框位置，作者不建议使用该项，如遇软键盘遮挡输入框的情况，建议重新设计表单页面。参考：WebAPP输入框被软键盘遮挡肿么办？~~|
-|scroller	|*[wrapper的第一个子元素]*	|指定scroller，不可动态更改，可以是id选择器字符串#scroller，也可以是dom对象document.getElementById('scroller')|
+|scroller	|*[wrapper的第一个子元素]*<br/>*[Wrapper's first child element]*|指定scroller，不可动态更改，可以是id选择器字符串`#scroller`，也可以是dom对象`document.getElementById('scroller')`<br/>Specified scroller, can not be dynamically changed, can be id selector string `#scroller`, it can be dom object `document.getElementById ( 'scroller')`|
 
-### 属性
+### 属性 Attributes
+
 - id，JRoll对象的唯一标识符。
+- id -> the unique identifier for the JRoll instances.
+
 ```js
 var jroll = new JRoll("#wrapper");
 console.log(jroll.id);
 ```
 
 - jrollMap，对象，JRoll对象集合，保存了当前页面的所有JRoll对象。
+- jrollMap -> object, JRoll instances collection, the current page to save all the JRoll instances.
+
 ```js
 console.log(JRoll.jrollMap);
 ```
 
-### 方法
-- refresh  `支持链式调用`
+### 方法 Method
+
+:link: 表示支持链式调用
+
+:link: Indicates that chained calls are supported
+
+- refresh  :link:
 当scroller或wrapper的高度发生变化时，需要用此方法对JRoll对象进行刷新
+
 ```js
 var jroll = new JRoll("#wrapper");
     //do something，例：动态修改scroller的内容，使scroller的高度发生变化
     jroll.refresh();
 ```
 
-- scrollTo  `支持链式调用`
+- scrollTo  :link:
 该方法用于移动scroller，共五个参数，第一个参数是x偏移量（必填），第二个是y偏移量（必填），第三个是滑动时间（可选，单位ms)，第四个是是否允许超出边界（可选，true/false），第五个回调方法。如果想获取当前x,y偏移量，可直接输出jroll.x和jroll.y
 ```js
 jroll.scrollTo(x, y, duration [, bool, callback])
@@ -199,13 +210,13 @@ var jroll = new JRoll("#wrapper");
     });
 ```
 
-- enable  `支持链式调用`
+- enable  :link:
 使能滑动，使用disable禁止滑动后可用该方法重新开启
 ```js
 jroll.enable();
 ```
 
-- disable  `支持链式调用`
+- disable  :link:
 使不能滑动
 ```js
 jroll.disable();
@@ -217,7 +228,7 @@ jroll.disable();
 jroll.destroy();
 ```
 
-- scale  `支持链式调用`
+- scale  :link:
 缩放，只接受一个整型/浮点型参数
 ```js
 //放大1.5倍
