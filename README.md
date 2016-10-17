@@ -425,7 +425,7 @@ jroll.on("scroll", function() {
 5. `scrollY` 正在进行竖向滑动
 6. `scrollFree` 正在进行横竖方向滑动
 
-The s in `jroll.s` represents status, and six possible values
+The `jroll.s` represents status, and six possible values
 
 1. `null` The initial state, without any sliding operation
 2. `preScroll` Ready to start sliding
@@ -506,6 +506,7 @@ document.addEventListener("click", function(e) {
 2. div.fixed-video-scroll绝对定位，覆盖video，高度为video的高度减去44px，确保不会遮挡controls
 3. 添加事件，点击div.fixed-video-scroll时执行播放或暂停操作
 
+>
 
 1. Make #parent relative positioning, video width of 100%, height can also be calculated automatically
 2. `div.fixed-video-scroll` absolute positioning, covering video, the height of the height of video minus 44px, to ensure that will not obscure controls
@@ -525,6 +526,7 @@ At present, the more feasible solutions are:
 1. 点击评论时弹出浮动窗，使输入框位于上半屏。
 2. 切换到新页面进行输入操作。
 
+>
 
 1. Click on the comment pop-up floating window, so that the input box in the upper half screen.
 2. Switch to a new page for input.
