@@ -181,7 +181,8 @@ console.log(JRoll.jrollMap);
 
 :link: Indicates that chained calls are supported
 
-- refresh  :link:
+#### refresh  :link:
+
 当scroller或wrapper的高度发生变化时，需要用此方法对JRoll对象进行刷新
 
 ```js
