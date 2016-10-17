@@ -131,25 +131,29 @@ jroll.options.bounce = false;
 
 ### 可选参数 Options
 
+:white_check_mark: 表示可动态修改
+
+:white_check_mark: That can be dynamically modified
+
 |可选值 Key |默认值 Default Value|说明 Description |
 |----------|----------|----------|
 |id	|*[随机生成]*<br/>*[Randomly generated]*	|id，jroll对象的唯一标记，建议手动提供id，方便在全局JRoll.jrollMap访问指定jroll对象，不提供时系统自动创建。<br/>Id, jroll the unique identifier of the object, it is recommended to manually provide id, convenient access to the specified global JRoll.jrollMap jroll object, the system is not automatically created.|
-|scrollX	|false	|使能水平滑动 `可动态修改`|
-|scrollY	|true	|使能垂直滑动 `可动态修改`|
-|scrollFree	|false	|使能自由滑动，默认情况下，x方向在滑动时，y方向不能滑动，相反亦然，如果应用于对图片进行放大滑动，可将此参数设为true `可动态修改`|
-|minX	|0	|向左滑动的边界值 `可动态修改`|
-|maxX	|*[负scroller的宽]* |向右滑动的边界值 `可动态修改`|
-|minY	|0	|向下滑动的边界值 `可动态修改`|
-|maxY	|*[负scroller的高]* |向上滑动的边界值 `可动态修改`|
-|zoom	|false	|使能缩放 `可动态修改`|
-|zoomMin	|1.0	|最小缩放倍数 `可动态修改`|
-|zoomMax	|4.0	|最大缩放倍数 `可动态修改`|
-|bounce	|true	|允许回弹 `可动态修改`|
+|scrollX	|false	|使能水平滑动 :white_check_mark:<br/>Enable horizontal sliding |
+|scrollY	|true	|使能垂直滑动 :white_check_mark:|
+|scrollFree	|false	|使能自由滑动，默认情况下，x方向在滑动时，y方向不能滑动，相反亦然，如果应用于对图片进行放大滑动，可将此参数设为true :white_check_mark:|
+|minX	|0	|向左滑动的边界值 :white_check_mark:|
+|maxX	|*[负scroller的宽]* |向右滑动的边界值 :white_check_mark:|
+|minY	|0	|向下滑动的边界值 :white_check_mark:|
+|maxY	|*[负scroller的高]* |向上滑动的边界值 :white_check_mark:|
+|zoom	|false	|使能缩放 :white_check_mark:|
+|zoomMin	|1.0	|最小缩放倍数 :white_check_mark:|
+|zoomMax	|4.0	|最大缩放倍数 :white_check_mark:|
+|bounce	|true	|允许回弹 :white_check_mark:|
 |scrollBarX	|false	|开启水平滚动条|
 |scrollBarY	|false	|开启垂直滚动条|
 |scrollBarFade	|false	|滚动条使用渐隐模式|
 |preventDefault	|true	|禁止touchmove默认事件|
-|momentum	|true	|开启滑动加速，惯性过渡 `可动态修改`|
+|momentum	|true	|开启滑动加速，惯性过渡 :white_check_mark:|
 |autoStyle	|true	|自动为wrapper和scroller添加样式|
 | ~~adjustTop~~	|~~190~~ |从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。~~安卓手机弹出软键盘时自动调整输入框位置，作者不建议使用该项，如遇软键盘遮挡输入框的情况，建议重新设计表单页面。参考：WebAPP输入框被软键盘遮挡肿么办？~~|
 |scroller	|*[wrapper的第一个子元素]*	|指定scroller，不可动态更改，可以是id选择器字符串#scroller，也可以是dom对象document.getElementById('scroller')|
