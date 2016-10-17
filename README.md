@@ -1,30 +1,49 @@
-# JRoll
+# 醉萝卜 JRoll
 
-## 概述
+> My English is very poor, but this does not affect my heart to communicate with the world, thanks for Google translation
 
-### 说明
+## 概述 Overview
+
+### 说明 Description
+
 JRoll，一款能滚起上万条数据，具有滑动加速、回弹、缩放、滚动条、滑动事件等功能，兼容CommonJS/AMD/CMD模块规范，开源，免费的轻量级html5滚动插件。
 
 JRoll第二版是在JRoll第一版基础上重写JRoll滑动算法，基于时间运动，解决帧频降低时滑动缓慢的问题，更改垂直水平方向判断方法，使捕获垂直水平方向更准确灵敏。
 
 JRoll第二版增减了一些api不完全兼容JRoll第一版。
 
-## 先睹为快
+JRoll is a lightweight, lightweight HTML5 scroll plug-in compatible with the CommonJS / AMD / CMD module specification, open source, free slideshow, scroll acceleration, resizing, scrolling, and slide events.
+
+JRoll second edition is based on the first version of JRoll JRroll sliding algorithm rewrite, based on time movement, to solve the problem of slow sliding frame rate, change the vertical and horizontal direction to determine the direction of the vertical and horizontal capture more accurate and sensitive.
+
+JRoll Second Edition adds some APIs that are not fully compatible with JRoll first edition.
+
+## 先睹为快 Preview
 
 手机扫二维查看示例
+
+Use the phone to scan the QR code to see the example
 
 <img width="160" height="160" src="http://www.chjtx.com/JRoll/demos/images/qrcode.png">
 
 [http://www.chjtx.com/JRoll/demos/](http://www.chjtx.com/JRoll/demos/)
 
-### 兼容性
+### 兼容性 compatibility
+
 本插件专为移动应用度身设计，目前已测试通过的手机系统有：android4.1/4.2/4.3/4.4/5.0/6.0和ios6/7/8/9，欢迎网友对其它机型进行测试反馈。
+
+The plug-in for mobile applications tailor-made, has been tested by the mobile phone system: android4.1 / 4.2 / 4.3 / 4.4 / 5.0 / 6.0 and ios6 / 7/8/9, welcome to test feedback on other models
 
 > 为使本插件轻量化，JRoll对PC浏览器的兼容只为方便开发调试，没作过多处理，因此强烈建议使用谷歌浏览器模拟器进行开发，在移动端使用。
 
+> In order to make this plug-in lightweight, JRoll PC browser compatible only to facilitate the development of debugging, not to do too much processing, it is strongly recommended to use the Google browser simulator for development, use in the mobile side.
+
 > 在UC浏览器上表现较差，作者已将UC浏览器定义为资讯类应用，非专业浏览器，不会专门去兼容它。
 
-### 引入
+> No translation
+
+### 引入 Import
+
 普通方式引入
 ```html
 <script src='jroll'></script>
@@ -49,7 +68,7 @@ seajs.use('jroll', function(JRoll) {
 });
 ```
 
-### 简单例子
+### 简单例子 Simple example
 ```html
 <!-- html代码 -->
 <div id="wrapper">
@@ -79,28 +98,42 @@ new JRoll("#wrapper");
 ```
 
 
-## 使用
+## 使用 Use
 
-### 如何使用
+### 如何使用 How to use
+
 ```js
 var jroll = new JRoll(selector [, options]);
 ```
 selector是容器，可以是id选择器字符串#wrapper，也可以是dom对象document.getElementById('wrapper')，第二个参数是可选对象，该参数内容决定了创建一个怎样的JRoll对象
 
+The selector is a container, either an id selector string #wrapper or a dom object document.getElementById ( 'wrapper'). The second argument is an optional object that determines how a JRoll object is created
+
 例：创建一个带垂直滚动条的对象
+
+Example: Create an object with a vertical scroll bar
+
 ```js
 var jroll = new JRoll("#wrapper", {scrollBarY:true});
 ```
+
 保存了JRoll对象后，可动态对部分可选参数进行修改
+
+Save the JRoll instance, you can dynamically modify some of the optional parameters
+
 例：禁止回弹
+
+Example: No rebound
+
 ```js
 jroll.options.bounce = false;
 ```
 
-### 可选参数
-|可选值	|默认值	|说明 |
+### 可选参数 Options
+
+|可选值 Key |默认值 Default Value|说明 Description |
 |----------|----------|----------|
-|id	|*[随机生成]*	|id，jroll对象的唯一标记，建议手动提供id，方便在全局JRoll.jrollMap访问指定jroll对象，不提供时系统自动创建。|
+|id	|*[随机生成]*<br/>*[Randomly generated]*	|id，jroll对象的唯一标记，建议手动提供id，方便在全局JRoll.jrollMap访问指定jroll对象，不提供时系统自动创建。<br/>Id, jroll the unique identifier of the object, it is recommended to manually provide id, convenient access to the specified global JRoll.jrollMap jroll object, the system is not automatically created.|
 |scrollX	|false	|使能水平滑动 `可动态修改`|
 |scrollY	|true	|使能垂直滑动 `可动态修改`|
 |scrollFree	|false	|使能自由滑动，默认情况下，x方向在滑动时，y方向不能滑动，相反亦然，如果应用于对图片进行放大滑动，可将此参数设为true `可动态修改`|
