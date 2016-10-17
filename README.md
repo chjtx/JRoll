@@ -513,7 +513,7 @@ document.addEventListener("click", function(e) {
 3. To add an event, click on `div.fixed-video-scroll` to play or pause
 
 
-### 关于被软键盘遮挡input输入框的问题 On the soft keyboard to block input input box problem
+### 关于被软键盘遮挡input输入框的问题 On the soft keyboard to block input box problem
 
 评论框贴在底部随着软键盘升起而升起的功能似乎很受客户青睐，这一需求使用H5技术实现很是力不从心，fixed定位失效，第三方输入法不改变window高度致使input被遮挡，IOS自动移动input到错误位置等等问题成了最大的阻力。
 
