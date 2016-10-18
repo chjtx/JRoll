@@ -2,6 +2,43 @@
 
 > My English is very poor, but this does not affect my heart to communicate with the world, thanks for Google translation
 
+## 先睹为快 Preview
+
+手机扫二维查看示例
+
+Use the phone to scan the QR code to see the example
+
+<img width="160" height="160" src="http://www.chjtx.com/JRoll/demos/images/qrcode.png">
+
+[http://www.chjtx.com/JRoll/demos/](http://www.chjtx.com/JRoll/demos/)
+
+
+## 运行示例 Run Demos
+
+```
+//克隆仓库 Clone repository
+git clone https://github.com/chjtx/JRoll.git
+
+//进入项目 Go into project
+cd JRoll
+
+//安装express Install express
+npm install -g express
+
+//如果用苹果电脑，需要加sudo
+//If on mac, use sudo
+sudo npm install -g express
+
+//运行 Run
+node server.js
+```
+
+然后在浏览器打开 `localhost:3020/demos/`
+
+And then open the `localhost:3020/demos/` in the browser
+
+
+
 ## 概述 Overview
 
 ### 说明 Description
@@ -17,16 +54,6 @@ JRoll is a lightweight, lightweight HTML5 scroll plug-in compatible with the Com
 JRoll second edition is based on the first version of JRoll, sliding algorithm rewrite, based on time movement, to solve the problem of slow sliding frame rate, change the vertical and horizontal direction to determine the direction of the vertical and horizontal capture more accurate and sensitive.
 
 JRoll Second Edition adds some APIs that are not fully compatible with JRoll first edition.
-
-## 先睹为快 Preview
-
-手机扫二维查看示例
-
-Use the phone to scan the QR code to see the example
-
-<img width="160" height="160" src="http://www.chjtx.com/JRoll/demos/images/qrcode.png">
-
-[http://www.chjtx.com/JRoll/demos/](http://www.chjtx.com/JRoll/demos/)
 
 ### 兼容性 compatibility
 
