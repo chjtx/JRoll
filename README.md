@@ -15,21 +15,21 @@ Use the phone to scan the QR code to see the example
 
 ## 运行示例 Run Demos
 
-```
-//克隆仓库 Clone repository
+```shell
+#克隆仓库 Clone repository
 git clone https://github.com/chjtx/JRoll.git
 
-//进入项目 Go into project
+#进入项目 Go into project
 cd JRoll
 
-//安装express Install express
+#安装express Install express
 npm install -g express
 
-//如果用苹果电脑，需要加sudo
-//If on mac, use sudo
+#如果用苹果电脑，需要加sudo
+#If on mac, use sudo
 sudo npm install -g express
 
-//运行 Run
+#运行 Run
 node server.js
 ```
 
