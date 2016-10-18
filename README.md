@@ -14,7 +14,7 @@ JRoll第二版增减了一些api不完全兼容JRoll第一版。
 
 JRoll is a lightweight, lightweight HTML5 scroll plug-in compatible with the CommonJS / AMD / CMD module specification, open source, free slideshow, scroll acceleration, resizing, scrolling, and slide events.
 
-JRoll second edition is based on the first version of JRoll JRroll sliding algorithm rewrite, based on time movement, to solve the problem of slow sliding frame rate, change the vertical and horizontal direction to determine the direction of the vertical and horizontal capture more accurate and sensitive.
+JRoll second edition is based on the first version of JRoll, sliding algorithm rewrite, based on time movement, to solve the problem of slow sliding frame rate, change the vertical and horizontal direction to determine the direction of the vertical and horizontal capture more accurate and sensitive.
 
 JRoll Second Edition adds some APIs that are not fully compatible with JRoll first edition.
 
@@ -32,7 +32,7 @@ Use the phone to scan the QR code to see the example
 
 本插件专为移动应用度身设计，目前已测试通过的手机系统有：android4.1/4.2/4.3/4.4/5.0/6.0和ios6/7/8/9，欢迎网友对其它机型进行测试反馈。
 
-The plug-in for mobile applications tailor-made, has been tested by the mobile phone system: android4.1 / 4.2 / 4.3 / 4.4 / 5.0 / 6.0 and ios6 / 7/8/9, welcome to test feedback on other models
+The plug-in for mobile applications tailor-made, has been tested by the mobile phone system: android4.1 / 4.2 / 4.3 / 4.4 / 5.0 / 6.0 and ios6 / 7 / 8 / 9, welcome to test feedback on other models.
 
 > 为使本插件轻量化，JRoll对PC浏览器的兼容只为方便开发调试，没作过多处理，因此强烈建议使用谷歌浏览器模拟器进行开发，在移动端使用。
 
@@ -40,7 +40,7 @@ The plug-in for mobile applications tailor-made, has been tested by the mobile p
 
 > 在UC浏览器上表现较差，作者已将UC浏览器定义为资讯类应用，非专业浏览器，不会专门去兼容它。
 
-> No translation
+> Will not specifically go too compatible with the old browser
 
 ### 引入 Import
 
@@ -107,7 +107,7 @@ var jroll = new JRoll(selector [, options]);
 ```
 selector是容器，可以是id选择器字符串#wrapper，也可以是dom对象document.getElementById('wrapper')，第二个参数是可选对象，该参数内容决定了创建一个怎样的JRoll对象
 
-The selector is a container, either an id selector string #wrapper or a dom object document.getElementById ( 'wrapper'). The second argument is an optional object that determines how a JRoll object is created
+The `selector` is a container, either an id selector string #wrapper or a dom object document.getElementById ( 'wrapper'). The second argument is an optional object that determines how a JRoll object is created
 
 例：创建一个带垂直滚动条的对象
 
