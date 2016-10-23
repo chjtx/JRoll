@@ -1,10 +1,10 @@
-/*! JRoll v2.3.1 ~ (c) 2015-2016 Author:BarZu Git:https://github.com/chjtx/JRoll Website:http://www.chjtx.com/JRoll/ */
+/*! JRoll v2.3.2 ~ (c) 2015-2016 Author:BarZu Git:https://github.com/chjtx/JRoll Website:http://www.chjtx.com/JRoll/ */
 /* global define*/
 (function(window, document, Math) {
   "use strict";
 
   var JRoll;
-  var VERSION = "2.3.1";
+  var VERSION = "2.3.2";
   var rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || function(callback) {
     setTimeout(callback, 17);
   };
@@ -583,11 +583,44 @@
      * allow  是否允许超出边界，默认为undefined即不允许超出边界
      * system 为true时即是本程序自己调用，默认为undefined即非本程序调用
      */
-    scrollTo: function(x, y, timing, allow, callback, system) {
+    scrollTo: function(x, y, timing, allow, callback, system, t) {
       var me = this;
       if (!allow) {
-        me.x = (x >= me.minScrollX) ? me.minScrollX : (x <= me.maxScrollX) ? me.maxScrollX : x;
-        me.y = (y >= me.minScrollY) ? me.minScrollY : (y <= me.maxScrollY) ? me.maxScrollY : y;
+        //x
+        if (x >= me.minScrollX) {
+          me.x = me.minScrollX;
+
+          //滑到最大值时手指继续滑，重置开始、结束位置，优化体验
+          if (t) {
+            me._s.startX = t[0].pageX;
+            me._s.endX = me.minScrollX;
+          }
+        } else if (x <= me.maxScrollX) {
+          me.x = me.maxScrollX;
+          if (t) {
+            me._s.startX = t[0].pageX;
+            me._s.endX = me.maxScrollX;
+          }
+        } else {
+          me.x = x;
+        }
+
+        //y
+        if (y >= me.minScrollY) {
+          me.y = me.minScrollY;
+          if (t) {
+            me._s.startY = t[0].pageY;
+            me._s.endY = me.minScrollY;
+          }
+        } else if (y <= me.maxScrollY) {
+          me.y = me.maxScrollY;
+          if (t) {
+            me._s.startY = t[0].pageY;
+            me._s.endY = me.maxScrollY;
+          }
+        } else {
+          me.y = y;
+        }
       } else {
         me.x = x;
         me.y = y;
@@ -747,7 +780,7 @@
         me.x = me._compute(me.x, me.minScrollX, me.maxScrollX);
         me.y = me._compute(me.y, me.minScrollY, me.maxScrollY);
       }
-      me.scrollTo(me.x, me.y, 0, me.options.bounce, null, true);
+      me.scrollTo(me.x, me.y, 0, me.options.bounce, null, true, (e.touches || [e]));
       me._execEvent("scroll", e);
 
       //解决垂直滑动超出屏幕边界时捕捉不到touchend事件无法执行结束方法的问题

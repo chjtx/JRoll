@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>列表单例侧滑(未完成)</title>
+    <title>仿QQ列表侧滑删除</title>
     <style>
         html,
         body {
@@ -56,17 +56,26 @@
 
         .item {
             width: 100%;
-            height: 44px;
+            height: 64px;
             border-bottom: 1px solid #ddd;
-            line-height: 44px;
-            position: relative;
+            line-height: 64px;
+        }
+        .item-scroller {
+            width: 130%;
+            /* 添加absolute属性消除安卓机上滑动删除按钮时的文字重影 */
+            position: absolute;
+        }
+        .content {
+            width: 77%;
+            height: 100%;
+            float: left;
+            padding-left: 20px;
+            box-sizing: border-box;
         }
         .del {
-            position: absolute;
-            top: 0;
-            right: -64px;
-            width: 64px;
+            width: 23%;
             height: 100%;
+            float: right;
             background: red;
             color: #fff;
             text-align: center;
@@ -99,6 +108,60 @@
                     <div class="del">删除</div>
                 </div>
             </div>
+            <div class="item">
+                <div class="item-scroller">
+                    <div class="content">列表内容</div>
+                    <div class="del">删除</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-scroller">
+                    <div class="content">列表内容</div>
+                    <div class="del">删除</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-scroller">
+                    <div class="content">列表内容</div>
+                    <div class="del">删除</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-scroller">
+                    <div class="content">列表内容</div>
+                    <div class="del">删除</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-scroller">
+                    <div class="content">列表内容</div>
+                    <div class="del">删除</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-scroller">
+                    <div class="content">列表内容</div>
+                    <div class="del">删除</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-scroller">
+                    <div class="content">列表内容</div>
+                    <div class="del">删除</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-scroller">
+                    <div class="content">列表内容</div>
+                    <div class="del">删除</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-scroller">
+                    <div class="content">列表内容</div>
+                    <div class="del">删除</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -106,45 +169,49 @@
     <script src="../src/jroll.js"></script>
     <script>
         var jroll = new JRoll("#wrapper", {
-            id: "demo9"
+            id: "demo9",scrollBarY:true
         });
 
         var items = document.querySelectorAll(".item");
-        items.forEach(function(item) {
-            var j = new JRoll(item, {
-                scrollY:false,
+        var current = null; //保存当前滑开的item
+
+        for (var i=0,l=items.length; i<l; i++) {
+            var j = new JRoll(items[i], {
                 scrollX:true,
-                bounce:true
+                bounce:false
             });
-            j.on("scroll", function() {
-                if (this.x === 0) {
-                    j.call(jroll)
+
+            j.on("scrollStart", function() {
+                if (current && current !== this) {
+                    current.scrollTo(0, 0, 100);
+                    current = null;
+                }
+            });
+
+            j.on("scroll", function(e) {
+                if (this.x === 0 && !current) {
+                    j.call(jroll, e);
+                } else {
+                    current = this;
+                }
+            });
+
+            j.on("scrollEnd", function() {
+                if (this.x > -50) {
+                    this.scrollTo(0, 0, 100);
+                    current = null;
+                } else {
+                    this.scrollTo(this.maxScrollX, 0, 100);
                 }
             })
-        });
+        };
 
-        /*var x, y, currentItem;
-
-        jroll.on("scrollStart", function(e) {
-            var a = e.touches || [e];
-            x = a[0].pageX;
-            currentItem = e.target.parentNode;
-            if (currentItem.className !== "item") {
-                currentItem = null;
+        //添加点击删除按钮的事件
+        jroll.scroller.addEventListener("click", function(e) {
+            if (e.target.className === "del") {
+                alert("点击删除");
             }
-        });
-
-        jroll.on("scroll", function(e) {
-            if (currentItem) {
-                var a = e.touches || [e];
-                var p = a[0].pageX - x;
-                JRoll.utils.moveTo(currentItem, p, 0);
-            }
-        });
-
-        jroll.on("scrollEnd", function() {
-            y = this.y;
-        });*/
+        }, false);
 
         FastClick.attach(document.body);
     </script>
