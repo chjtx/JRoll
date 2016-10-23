@@ -190,7 +190,7 @@
 
             j.on("scroll", function(e) {
                 if (this.x === 0 && !current) {
-                    j.call(jroll, e);
+                    this.call(jroll, e);
                 } else {
                     current = this;
                 }
