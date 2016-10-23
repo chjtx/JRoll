@@ -57,13 +57,15 @@ JRoll Second Edition adds some APIs that are not fully compatible with JRoll fir
 
 ### 兼容性 compatibility
 
-本插件专为移动应用度身设计，目前已测试通过的手机系统有：android4.1/4.2/4.3/4.4/5.0/6.0和ios6/7/8/9，欢迎网友对其它机型进行测试反馈。
+- [x] IOS 6+
+- [x] Android 4.0+
+- [x] Chrmoe
+- [x] Firefox
+- [x] IE 9+
 
-The plug-in for mobile applications tailor-made, has been tested by the mobile phone system: android4.1 / 4.2 / 4.3 / 4.4 / 5.0 / 6.0 and ios6 / 7 / 8 / 9, welcome to test feedback on other models.
+> 注意：JRoll专为移动应用度身设计，对PC浏览器的兼容只为方便开发调试，没作过多处理，因此强烈建议使用谷歌浏览器模拟器进行开发，在移动端使用。
 
-> 为使本插件轻量化，JRoll对PC浏览器的兼容只为方便开发调试，没作过多处理，因此强烈建议使用谷歌浏览器模拟器进行开发，在移动端使用。
-
-> In order to make this plug-in lightweight, JRoll PC browser compatible only to facilitate the development of debugging, not to do too much processing, it is strongly recommended to use the Google browser simulator for development, use in the mobile side.
+> Note: In order to make this plug-in lightweight, JRoll PC browser compatible only to facilitate the development of debugging, not to do too much processing, it is strongly recommended to use the Google browser simulator for development, please use in the mobile side.
 
 > 在UC浏览器上表现较差，作者已将UC浏览器定义为资讯类应用，非专业浏览器，不会专门去兼容它。
 

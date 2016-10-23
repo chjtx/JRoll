@@ -122,7 +122,6 @@
       <div><a href="#method">方法</a></div>
       <div><a href="#events">事件</a></div>
     </li>
-    <li><a href="#demos">示例</a></li>
     <li><a href="#senior">进阶</a></li>
     <li><a href="#download">下载</a></li>
     <li><a href="#plugins">插件</a></li>
@@ -137,9 +136,44 @@
     <p>JRoll第二版是在JRoll第一版基础上重写JRoll滑动算法，基于时间运动，解决帧频降低时滑动缓慢的问题，更改垂直水平方向判断方法，使捕获垂直水平方向更准确灵敏。</p>
     <p>JRoll第二版增减了一些api不完全兼容JRoll第一版。</p>
 
+
+    <h3>先睹为快</h3>
+    <p><img width="160" height="160" src="./demos/images/qrcode.png"></p>
+    <p><a target="_blank" href="http://www.chjtx.com/JRoll/demos/">http://www.chjtx.com/JRoll/demos/</a></p>
+    <br/>
+
+    <h3>运行示例</h3>
+    <p>请先安装 <a target="_blank" href="https://git-scm.com/downloads">git</a> 和 <a target="_blank" href="http://nodejs.cn/">nodejs</a></p>
+<pre class="language-bash"><code>
+#克隆仓库 Clone repository
+git clone https://github.com/chjtx/JRoll.git
+
+#进入项目 Go into project
+cd JRoll
+
+#安装express Install express
+npm install -g express
+
+#如果用苹果电脑，需要加sudo
+#If on mac, use sudo
+sudo npm install -g express
+
+#运行 Run
+node server.js
+</code></pre>
+
+    <p>然后在浏览器打开 localhost:3020/demos/</p>
+    <br/>
+
     <h3>兼容性</h3>
-    <p>本插件专为移动应用度身设计，目前已测试通过的手机系统有：android4.1/4.2/4.3/4.4/5.0/6.0和ios6/7/8/9，欢迎网友对其它机型进行测试反馈。</p>
-    <p>为使本插件轻量化，JRoll对PC浏览器的兼容只为方便开发调试，没作过多处理，因此强烈建议使用谷歌浏览器模拟器进行开发，在移动端使用。</p>
+    <ul>
+      <li>[√] IOS 6+</li>
+      <li>[√] Android 4.0+</li>
+      <li>[√] Chrome</li>
+      <li>[√] Firefox</li>
+      <li>[√] IE 9+</li>
+    </ul>
+    <p>注意：JRoll专为移动应用度身设计，对PC浏览器的兼容只为方便开发调试，没作过多处理，因此强烈建议使用谷歌浏览器模拟器进行开发，在移动端使用。</p>
     <p>在UC浏览器上表现较差，作者已将UC浏览器定义为资讯类应用，非专业浏览器，不会专门去兼容它</p>
 
     <h3>引入</h3>
@@ -548,11 +582,6 @@ jroll.on("refresh", function() {
     <br/>
 
 
-    <h2 id="demos">示例</h2>
-    <p><img width="160" height="160" src="./demos/images/qrcode.png"></p>
-    <p><a target="_blank" href="http://www.chjtx.com/JRoll/demos/">http://www.chjtx.com/JRoll/demos/</a></p>
-    <br/>
-
     <h2 id="senior">进阶</h2>
 
     <h3>使用this.s判断当前滑动状态</h3>
@@ -653,8 +682,12 @@ document.addEventListener("click", function(e) {
     <h2 id="download">下载</h2>
     <em>建议：下载文件后将文件名版本号去掉，这样在JRoll有更新时只需要更新jroll.js文件，不需要更新引用jroll的文件。</em>
     <ul>
-      <li><a target="_blank" href="./build/jroll.2.3.0.js">jroll.2.3.0.js</a>(28k)</li>
-      <li><a target="_blank" href="./build/jroll.2.3.0.min.js">jroll.2.3.0.min.js</a>(14k)</li>
+      <li><a target="_blank" href="./build/jroll.2.3.2.js">jroll.2.3.2.js</a>(30k)</li>
+      <li><a target="_blank" href="./build/jroll.2.3.2.min.js">jroll.2.3.2.min.js</a>(14k)</li>
+    </ul>
+    <ul>
+      <li><del target="_blank" href="./build/jroll.2.3.0.js">jroll.2.3.0.js</del>(28k)</li>
+      <li><del target="_blank" href="./build/jroll.2.3.0.min.js">jroll.2.3.0.min.js</del>(14k)</li>
     </ul>
     <ul>
       <li><del target="_blank" href="./build/jroll.2.2.1.js">jroll.2.2.1.js</del>(27k)</li>
@@ -673,6 +706,14 @@ document.addEventListener("click", function(e) {
       <li><del target="_blank" href="./build/jroll.2.0.0.min.js">jroll.2.0.0.min.beta</del>(12k)</li>
     </ul>
     <h3>版本日志</h3>
+    <dl>
+      <dt>v2.3.2（2016-10-23）</dt>
+      <dd>
+        <li>兼容IE 9+。</li>
+        <li>优化滑动体验，bounce为false滑动到最大/最小值时重置计算开始点和结束点。</li>
+        <li>添加仿QQ列表侧滑删除案例</li>
+      </dd>
+    </dl>
     <dl>
       <dt>v2.3.0（2016-10-16）</dt>
       <dd>
