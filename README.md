@@ -210,12 +210,12 @@ console.log(JRoll.jrollMap);
 
 :link: Means that chained calls are supported
 
-- [refresh](#refresh)
-- [scrollTo](#scrollTo)
-- [enable](#enable)
-- [disable](#disable)
+- [refresh](#refresh--link)
+- [scrollTo](#scrollTo--link)
+- [enable](#enable--link)
+- [disable](#disable--link)
 - [destroy](#destroy)
-- [scale](#scale)
+- [scale](#scale--link)
 - [call](#call)
 
 #### refresh  :link:
