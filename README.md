@@ -211,7 +211,7 @@ console.log(JRoll.jrollMap);
 :link: Means that chained calls are supported
 
 - [refresh](#refresh--link)
-- [scrollTo](#scrollTo--link)
+- [scrollTo](#scrollto--link)
 - [enable](#enable--link)
 - [disable](#disable--link)
 - [destroy](#destroy)
@@ -331,13 +331,13 @@ JRoll一共提供8个事件，每个事件都可多次添加行为。事件里�
 
 JRoll provides a total of eight events, each of which can add behavior multiple times. The "this" in the event points to the jroll instance.
 
-- [scrollStart](#scrollStart)
+- [scrollStart](#scrollstart)
 - [scroll](#scroll)
-- [scrollEnd](#scrollEnd)
-- [touchEnd](#touchEnd)
-- [zoomStart](#zoomStart)
+- [scrollEnd](#scrollend)
+- [touchEnd](#touchend)
+- [zoomStart](#zoomstart)
 - [zoom](#zoom)
-- [zoomEnd](#zoomEnd)
+- [zoomEnd](#zoomend)
 - [refresh](#refresh)
 
 #### scrollStart
