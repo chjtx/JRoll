@@ -49,7 +49,7 @@ JRoll第二版是在JRoll第一版基础上重写JRoll滑动算法，基于时�
 
 JRoll第二版增减了一些api不完全兼容JRoll第一版。
 
-JRoll is a lightweight, lightweight HTML5 scroll plug-in compatible with the CommonJS / AMD / CMD module specification, open source, free slideshow, scroll acceleration, resizing, scrolling, and slide events.
+JRoll is a lightweight, lightweight HTML5 scroll plugin compatible with the CommonJS / AMD / CMD module specification, open source, free slideshow, scroll acceleration, resizing, scrolling, and slide events.
 
 JRoll second edition is based on the first version of JRoll, sliding algorithm rewrite, based on time movement, to solve the problem of slow sliding frame rate, change the vertical and horizontal direction to determine the direction of the vertical and horizontal capture more accurate and sensitive.
 
@@ -65,7 +65,7 @@ JRoll Second Edition adds some APIs that are not fully compatible with JRoll fir
 
 > 注意：JRoll专为移动应用度身设计，对PC浏览器的兼容只为方便开发调试，没作过多处理，因此强烈建议使用谷歌浏览器模拟器进行开发，在移动端使用。
 
-> Note: In order to make this plug-in lightweight, JRoll PC browser compatible only to facilitate the development of debugging, not to do too much processing, it is strongly recommended to use the Google browser simulator for development, please use in the mobile side.
+> Note: In order to make this plugin lightweight, JRoll PC browser compatible only to facilitate the development of debugging, not to do too much processing, it is strongly recommended to use the Google browser simulator for development, please use in the mobile side.
 
 > 在UC浏览器上表现较差，作者已将UC浏览器定义为资讯类应用，非专业浏览器，不会专门去兼容它。
 
@@ -136,11 +136,11 @@ var jroll = new JRoll(selector [, options]);
 ```
 selector是容器，可以是id选择器字符串#wrapper，也可以是dom对象document.getElementById('wrapper')，第二个参数是可选对象，该参数内容决定了创建一个怎样的JRoll对象
 
-The `selector` is a container, either an id selector string #wrapper or a dom object document.getElementById ( 'wrapper'). The second argument is an optional object that determines how a JRoll object is created
+The `selector` is a container, either an id selector string `#wrapper` or a dom object `document.getElementById ( 'wrapper')`. The second argument is an optional object that determines how a JRoll instance is created.
 
 例：创建一个带垂直滚动条的对象
 
-Example: Create an object with a vertical scroll bar
+Example: Create an instance with a vertical scroll bar
 
 ```js
 var jroll = new JRoll("#wrapper", {scrollBarY:true});
@@ -162,11 +162,11 @@ jroll.options.bounce = false;
 
 :white_check_mark: 表示可动态修改
 
-:white_check_mark: That can be dynamically modified
+:white_check_mark: Means that can be dynamically modified
 
 |可选值 Key |默认值 Default Value|说明 Description |
 |----------|----------|----------|
-|id	|*[随机生成]*<br/>*[Randomly generated]*	|id，jroll对象的唯一标记，建议手动提供id，方便在全局JRoll.jrollMap访问指定jroll对象，不提供时系统自动创建。<br/>Id, jroll the unique identifier of the object, it is recommended to manually provide id, convenient access to the specified global JRoll.jrollMap jroll object, the system is not automatically created.|
+|id	|*[随机生成]*<br/>*[Randomly generated]*	|id，jroll对象的唯一标记，建议手动提供id，方便在全局JRoll.jrollMap访问指定jroll对象，不提供时系统自动创建。<br/>Id, the unique identifier of the JRoll instance, it is recommended to manually provide id, convenient access to the specified  JRoll instance in global JRoll.jrollMap, if haven't the system will automatically created.|
 |scrollX	|false	|使能水平滑动 :white_check_mark:<br/>Enable horizontal sliding |
 |scrollY	|true	|使能垂直滑动 :white_check_mark:<br/>Enable vertical sliding|
 |scrollFree	|false	|使能自由滑动，默认情况下，x方向在滑动时，y方向不能滑动，相反亦然，如果应用于对图片进行放大滑动，可将此参数设为true :white_check_mark:<br/>By default, the y direction does not slide when the x direction is sliding, and vice versa. If you apply zooming to a picture, you can set this parameter to true|
@@ -185,7 +185,7 @@ jroll.options.bounce = false;
 |momentum	|true	|开启滑动加速，惯性过渡 :white_check_mark:<br/>Open sliding acceleration, inertial transition|
 |autoStyle	|true	|自动为wrapper和scroller添加样式<br/>Automatically adds styles to the wrapper and scroller|
 | ~~adjustTop~~	|~~190~~ |从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。~~安卓手机弹出软键盘时自动调整输入框位置，作者不建议使用该项，如遇软键盘遮挡输入框的情况，建议重新设计表单页面。参考：WebAPP输入框被软键盘遮挡肿么办？~~|
-|scroller	|*[wrapper的第一个子元素]*<br/>*[Wrapper's first child element]*|指定scroller，不可动态更改，可以是id选择器字符串`#scroller`，也可以是dom对象`document.getElementById('scroller')`<br/>Specified scroller, can not be dynamically changed, can be id selector string `#scroller`, it can be dom object `document.getElementById ( 'scroller')`|
+|scroller	|*[wrapper的第一个子元素]*<br/>*[Wrapper's first child element]*|指定scroller，不可动态更改，可以是id选择器字符串`#scroller`，也可以是dom对象`document.getElementById('scroller')`<br/>Specified scroller, can not be dynamically changed, can be id selector string `#scroller`, or can be dom `document.getElementById ( 'scroller')`|
 
 ### 属性 Attributes
 
@@ -208,7 +208,15 @@ console.log(JRoll.jrollMap);
 
 :link: 表示支持链式调用
 
-:link: Indicates that chained calls are supported
+:link: Means that chained calls are supported
+
+- [refresh](#refresh)
+- [scrollTo](#scrollTo)
+- [enable](#enable)
+- [disable](#disable)
+- [destroy](#destroy)
+- [scale](#scale)
+- [call](#call)
 
 #### refresh  :link:
 
@@ -322,6 +330,15 @@ var jroll2 = new JRoll("#inner", {bounce:true});
 JRoll一共提供8个事件，每个事件都可多次添加行为。事件里的this指向jroll对象。
 
 JRoll provides a total of eight events, each of which can add behavior multiple times. The "this" in the event points to the jroll instance.
+
+- [scrollStart](#scrollStart)
+- [scroll](#scroll)
+- [scrollEnd](#scrollEnd)
+- [touchEnd](#touchEnd)
+- [zoomStart](#zoomStart)
+- [zoom](#zoom)
+- [zoomEnd](#zoomEnd)
+- [refresh](#refresh)
 
 #### scrollStart
 
@@ -480,7 +497,7 @@ jroll.on("scrollEnd", function() {
 
 有关jroll对象更多的属性请自行在浏览器控制台输出jroll对象查看。
 
-For more information about the properties of the jroll object, look for the jroll instance in your browser's console output.
+For more information about the properties of the jroll instance, look for the jroll instance in your browser's console output.
 
 ### 自定义滚动条样式 Customize the scrollbar style
 
