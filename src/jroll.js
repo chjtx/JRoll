@@ -1,10 +1,10 @@
-/*! JRoll v2.3.2 ~ (c) 2015-2016 Author:BarZu Git:https://github.com/chjtx/JRoll Website:http://www.chjtx.com/JRoll/ */
+/*! JRoll v2.3.3 ~ (c) 2015-2016 Author:BarZu Git:https://github.com/chjtx/JRoll Website:http://www.chjtx.com/JRoll/ */
 /* global define*/
 (function(window, document, Math) {
   "use strict";
 
   var JRoll;
-  var VERSION = "2.3.2";
+  var VERSION = "2.3.3";
   var rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || function(callback) {
     setTimeout(callback, 17);
   };
@@ -821,8 +821,8 @@
         me._z.spacing = Math.sqrt(c1 * c1 + c2 * c2);
         me._z.startScale = me._z.scale;
 
-        me.originX = Math.abs(t[0].pageX + t[1].pageX) / 2 - me.wrapperOffset.left - me.x;
-        me.originY = Math.abs(t[0].pageY + t[1].pageY) / 2 - me.wrapperOffset.top - me.y;
+        me.originX = Math.abs(t[0].pageX + t[1].pageX) / 2 - utils.computePosition(me.wrapper).left - me.x;
+        me.originY = Math.abs(t[0].pageY + t[1].pageY) / 2 - utils.computePosition(me.wrapper).top - me.y;
         me._execEvent("zoomStart", e);
         return;
       }
