@@ -1,4 +1,4 @@
-/*! JRollViewer v0.0.1 ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
+/*! JRollViewer v0.0.2 ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
 /* global define, JRoll */
 (function (window, document, JRoll) {
   'use strict'
@@ -35,7 +35,7 @@
     _createStyle: function () {
       // 创建JRollViewer的jroll-style样式
       var jstyle = document.getElementById('jroll_style')
-      var style = '\n/* jroll-infinite */\n.jroll-infinite-hide>*{display:none}.jroll-infinite-hideimg img{display:none}\n'
+      var style = '\n/* jroll-viewer */\n.jroll-viewer{height:100%;width:100%;overflow:hidden;background:#000;position:absolute;top:0;left:0;z-index:9999;-webkit-transform:scale(0.01,0.01);transform:scale(0.01,0.01);-webkit-transition-duration:200ms;transition-duration:200ms}.jroll-viewer.show{-webkit-transform:scale(1,1) !important;transform:scale(1,1) !important}.jroll-viewer-scroller{height:100%}.jroll-viewer-page{height:100%;position:absolute}.jroll-viewer-item{width:100%;height:100%;position:relative;overflow:hidden}.jroll-viewer-img{position:absolute}.jroll-viewer-pointer{position:absolute;left:0;bottom:40px;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}.jroll-viewer-pointer span{display:block;width:4px;height:4px;border-radius:10px;background:#666;float:left;margin:0 5px}.jroll-viewer-pointer span.active{background:#fff}\n'
       if (jstyle) {
         if (!/jroll-infinite/.test(jstyle.innerHTML)) {
           jstyle.innerHTML += style
@@ -55,13 +55,14 @@
       var scroller = createDiv('jroll-viewer-scroller')
       var pointer = createDiv('jroll-viewer-pointer')
       var imgs = me.options.images
+      var length = imgs.length
 
-      scroller.style.width = w * imgs.length + 'px'
+      scroller.style.width = w * length + 'px'
 
       // 创建图片
       var imgHtml = ''
       var pointerHtml = ''
-      for (var i = 0, l = imgs.length; i < l; i++) {
+      for (var i = 0, l = length; i < l; i++) {
         imgHtml += '<div class="jroll-viewer-page" style="width:' + w + 'px;left:' + (i * w) + 'px">' +
             '<div class="jroll-viewer-item">' +
               '<img src="' + imgs[i] + '" class="jroll-viewer-img">' +
@@ -88,7 +89,7 @@
       }
 
       // 查看器最外围JRoll实例
-      me.jroll = new me.options.JRoll(me.viewer, { scrollY: false, scrollX: true, bounce: false, momentum: false })
+      me.jroll = new me.options.JRoll(me.viewer, { scrollY: false, scrollX: true, momentum: false })
       .on('touchEnd', function () {
         var _this = this
         var apart = me.currentIndex * w + _this.x
@@ -133,12 +134,10 @@
           if (e) {
             // 从右向左交权条件
             var condition1 = _this.x === _this.maxScrollX &&
-              me.currentIndex !== me.jrollImages.length - 1 &&
               _this.jroll_viewer_start - e.touches[0].pageX > 50
 
             // 从左向右交权条件
             var condition2 = _this.x === _this.minScrollX &&
-              me.currentIndex !== 0 &&
               e.touches[0].pageX - _this.jroll_viewer_start > 50
 
             // 将滑动权交给外围JRoll实例
@@ -175,8 +174,8 @@
       me.viewer.style.display = 'none'
       me.viewer.style.visibility = 'visible'
 
-      window.addEventListener('resize', me._compute.bind(me))
-      window.addEventListener('orientationchange', me._compute.bind(me))
+      window.addEventListener('resize', me._rotate.bind(me))
+      window.addEventListener('orientationchange', me._rotate.bind(me))
     },
 
     _imgOnload: function (img) {
@@ -203,8 +202,8 @@
       this.jroll.refresh()
     },
 
-    // 重置宽度
-    _compute: function () {
+    // 屏幕旋转，重置窗口宽高、图片属性
+    _rotate: function () {
       w = window.innerWidth
       h = window.innerHeight
       ratio = w / h
@@ -220,14 +219,16 @@
       me.switch(me.currentIndex, 0, true)
     },
 
+    // 重置图片、小圆点
     _reset: function (i) {
       var me = this
       var scroller = me.jrollImages[i].scroller
+      var r = scroller.jroll_viewer_ratio
       me.pointers[i].classList.remove('active')
-      if (scroller.jroll_viewer_ratio > ratio) {
-        scroller.style.top = (h - scroller.height) / 2 + 'px'
+      if (r > ratio) {
+        scroller.style.top = (h - w / r) / 2 + 'px'
       } else {
-        scroller.style.left = (w - scroller.width) / 2 + 'px'
+        scroller.style.left = (w - h * r) / 2 + 'px'
       }
       me.jrollImages[i]._z.scale = 1
       me.jrollImages[i].scrollTo(0, 0).refresh()
@@ -236,29 +237,48 @@
     // 切换图片
     switch: function (index, duration, rotateScreen) {
       var me = this
+      var oldIndex = me.currentIndex
 
-      me.currentIndex = index
-      me.jroll.scrollTo(-(w * index), 0, (duration || 0), false, function () {
-        for (var i = 0, l = me.pointers.length; i < l; i++) {
-          if (i === index) {
-            me.pointers[i].classList.add('active')
-            if (rotateScreen) {
+      if (index >= 0 && index < me.pointers.length) {
+        me.currentIndex = index
+      }
+
+      // 当前图片复位
+      if (me.currentIndex === oldIndex) {
+        me.jroll.scrollTo(-(w * index), 0, (duration || 0))
+
+      // 切到新图片
+      } else {
+        me.jroll.scrollTo(-(w * index), 0, (duration || 0), false, function () {
+          for (var i = 0, l = me.pointers.length; i < l; i++) {
+            if (i === index) {
+              me.pointers[i].classList.add('active')
+              me.jrollImages[i].refresh()
+              if (rotateScreen) {
+                me._reset(i)
+              }
+            } else {
+              // 重置非当前图片
               me._reset(i)
             }
-          } else {
-            // 重置非当前图片
-            me._reset(i)
+
+            // 仅保持前端图片及前后共三张display:block其它为none
+            if (i === index || i === index - 1 || i === index + 1) {
+              me.jrollImages[i].wrapper.style.display = 'block'
+            } else {
+              me.jrollImages[i].wrapper.style.display = 'none'
+            }
           }
-        }
-      })
+        })
+      }
     },
 
     // 显示查看器
     show: function (i) {
       var me = this
       me.viewer.style.display = 'block'
-      me.switch(parseInt(i) || 0)
       me.jroll.refresh()
+      me.switch(parseInt(i) || 0)
       me.viewer.classList.add('show')
     },
 
