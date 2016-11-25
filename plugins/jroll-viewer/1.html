@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>JRoll图片查看器</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #dadada;
+    }
+    
+    header {
+      height: 44px;
+      line-height: 44px;
+      text-align: center;
+      background: #da020c;
+      color: #fff;
+    }
+    
+    header>a {
+      height: 34px;
+      line-height: 34px;
+      position: absolute;
+      top: 5px;
+      left: 10px;
+    }
+    
+    h1 {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: normal;
+    }
+    
+    #wrapper {
+      position: absolute;
+      top: 44px;
+      bottom: 0;
+      width: 100%;
+    }
+    
+    #scroller {
+      margin: 0;
+      padding: 0;
+    }
+
+    #scroller img {
+      display: block;
+      width: 44%;
+      height: 100px;
+      margin-left: 4%;
+      margin-top: 4%;
+      float: left;
+    }
+  </style>
+  <script src="../../src/jroll.js"></script>
+  <script src="./jroll-viewer.js"></script>
+  <script src="../jroll-infinite/jroll-infinite.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>JRoll图片查看器</h1>
+    <a onclick="javascript:history.back()">&lt;返回</a>
+  </header>
+  <div id="wrapper">
+    <div id="scroller">
+      <img src="http://www.chjtx.com/JRoll1/images/1.jpg" data-index="0">
+      <img src="http://ww1.sinaimg.cn/orj480/006003lPjw1f6wuv37rikj30u02x216z.jpg" data-index="1">
+      <img src="http://www.chjtx.com/JRoll1/images/2.jpg" data-index="2">
+      <img src="http://image.diyiyou.com/game/2014/08/1409296997_4.jpg" data-index="3">
+    </div>
+  </div>
+
+  <script>
+    var imgs = [
+      'http://www.chjtx.com/JRoll1/images/1.jpg',
+      'http://ww1.sinaimg.cn/orj480/006003lPjw1f6wuv37rikj30u02x216z.jpg',
+      'http://www.chjtx.com/JRoll1/images/2.jpg',
+      'http://image.diyiyou.com/game/2014/08/1409296997_4.jpg'
+    ]
+    
+    var viewer = new JRollViewer({ images: imgs })
+
+    document.getElementById('scroller').onclick = function (e) {
+      var target = e.target
+      if (target.tagName === 'IMG') {
+        viewer.show(parseInt(target.dataset['index']))
+      }
+    }
+  </script>
+</body>
+
+</html>

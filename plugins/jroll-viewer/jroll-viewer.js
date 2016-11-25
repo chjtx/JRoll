@@ -37,7 +37,7 @@
       var jstyle = document.getElementById('jroll_style')
       var style = '\n/* jroll-viewer */\n.jroll-viewer{height:100%;width:100%;overflow:hidden;background:#000;position:absolute;top:0;left:0;z-index:9999;-webkit-transform:scale(0.01,0.01);transform:scale(0.01,0.01);-webkit-transition-duration:200ms;transition-duration:200ms}.jroll-viewer.show{-webkit-transform:scale(1,1) !important;transform:scale(1,1) !important}.jroll-viewer-scroller{height:100%}.jroll-viewer-page{height:100%;position:absolute}.jroll-viewer-item{width:100%;height:100%;position:relative;overflow:hidden}.jroll-viewer-img{position:absolute}.jroll-viewer-pointer{position:absolute;left:0;bottom:40px;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}.jroll-viewer-pointer span{display:block;width:4px;height:4px;border-radius:10px;background:#666;float:left;margin:0 5px}.jroll-viewer-pointer span.active{background:#fff}\n'
       if (jstyle) {
-        if (!/jroll-infinite/.test(jstyle.innerHTML)) {
+        if (!/jroll-viewer/.test(jstyle.innerHTML)) {
           jstyle.innerHTML += style
         }
       } else {
