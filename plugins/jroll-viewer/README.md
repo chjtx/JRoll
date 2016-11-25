@@ -1,5 +1,7 @@
 # JRollViewer
 
+一款基于JRoll开发的图集查看器插件
+
 ## 使用说明
 
 ```js
