@@ -1,10 +1,10 @@
-/*! JRoll v2.4.0 ~ (c) 2015-2016 Author:BarZu Git:https://github.com/chjtx/JRoll Website:http://www.chjtx.com/JRoll/ */
+/*! JRoll v2.4.1 ~ (c) 2015-2016 Author:BarZu Git:https://github.com/chjtx/JRoll Website:http://www.chjtx.com/JRoll/ */
 /* global define */
 (function (window, document, Math) {
   'use strict'
 
   var JRoll
-  var VERSION = '2.4.0'
+  var VERSION = '2.4.1'
   var rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || function (callback) {
     setTimeout(callback, 17)
   }
@@ -49,7 +49,7 @@
       var y = 0
       var s
       while (a) {
-        s = window.getComputedStyle(a).transform.replace(/matrix\(|\)/g, '').split(', ')
+        s = window.getComputedStyle(a)[utils.TSF].replace(/matrix\(|\)/g, '').split(', ')
         x += parseInt(s[4]) || 0
         y += parseInt(s[5]) || 0
         a = a.parentElement
