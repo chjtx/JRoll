@@ -19,7 +19,7 @@ viewer.show(0)
 ## 选项
 
 | 键名 | 默认值 | 说明 |
-|--|--|--|
+|----------|----------|----------|
 | images | *必填，没默认值* | 要查看的图片地址集 |
 | zoomMax | 图片原始值 | 图片最大缩放倍数，以window.innerWidth为1 |
 | JRoll | window.JRoll | 用于异步引入JRoll，不能确保window.JRoll比window.JRollViewer先加载完成时使用 |
