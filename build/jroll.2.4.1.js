@@ -388,8 +388,8 @@
     // 刷新JRoll的宽高
     refresh: function (notRefreshEvent) {
       var me = this
-      var wrapperStyle = getComputedStyle(me.wrapper)
-      var scrollerStyle = getComputedStyle(me.scroller)
+      var wrapperStyle = window.getComputedStyle(me.wrapper)
+      var scrollerStyle = window.getComputedStyle(me.scroller)
       var paddingX
       var paddingY
       var marginX
