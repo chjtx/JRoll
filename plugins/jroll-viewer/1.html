@@ -48,8 +48,9 @@
       margin: 0;
       padding: 0;
     }
-
-    #scroller img {
+    
+    #scroller img,
+    #scroller2 img {
       display: block;
       width: 44%;
       height: 100px;
@@ -69,29 +70,23 @@
   </header>
   <div id="wrapper">
     <div id="scroller">
-      <img src="http://www.chjtx.com/JRoll1/images/1.jpg" data-index="0">
-      <img src="http://ww1.sinaimg.cn/orj480/006003lPjw1f6wuv37rikj30u02x216z.jpg" data-index="1">
-      <img src="http://www.chjtx.com/JRoll1/images/2.jpg" data-index="2">
-      <img src="http://image.diyiyou.com/game/2014/08/1409296997_4.jpg" data-index="3">
+      <img src="http://www.chjtx.com/JRoll1/images/1.jpg" jroll-viewer-image>
+      <img src="http://ww1.sinaimg.cn/orj480/006003lPjw1f6wuv37rikj30u02x216z.jpg" jroll-viewer-image>
+      <img src="http://www.chjtx.com/JRoll1/images/2.jpg" jroll-viewer-image>
+      <img src="http://image.diyiyou.com/game/2014/08/1409296997_4.jpg" jroll-viewer-image>
+      <img src="../../demos/images/qrcode.png">
+    </div>
+    <div id="scroller2">
+      <img src="http://www.chjtx.com/JRoll1/images/1.jpg" jroll-viewer-image>
+      <img src="http://ww1.sinaimg.cn/orj480/006003lPjw1f6wuv37rikj30u02x216z.jpg" jroll-viewer-image>
+      <img src="http://www.chjtx.com/JRoll1/images/2.jpg" jroll-viewer-image>
+      <img src="http://image.diyiyou.com/game/2014/08/1409296997_4.jpg" jroll-viewer-image>
+      <img src="../../demos/images/qrcode.png">
     </div>
   </div>
-
   <script>
-    var imgs = [
-      'http://www.chjtx.com/JRoll1/images/1.jpg',
-      'http://ww1.sinaimg.cn/orj480/006003lPjw1f6wuv37rikj30u02x216z.jpg',
-      'http://www.chjtx.com/JRoll1/images/2.jpg',
-      'http://image.diyiyou.com/game/2014/08/1409296997_4.jpg'
-    ]
-    
-    var viewer = new JRollViewer({ images: imgs })
-
-    document.getElementById('scroller').onclick = function (e) {
-      var target = e.target
-      if (target.tagName === 'IMG') {
-        viewer.show(parseInt(target.dataset['index']))
-      }
-    }
+    var viewer = new JRollViewer('#scroller')
+    var viewer2 = new JRollViewer('#scroller2', {zoomMax:100, JRoll: JRoll})
   </script>
 </body>
 
