@@ -1,4 +1,4 @@
-/*! JRollViewer v0.0.2 ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
+/*! JRollViewer v0.1.0 ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
 /* global define, JRoll */
 (function (window, document, JRoll) {
   'use strict'
@@ -13,10 +13,16 @@
     return div
   }
 
-  var JRollViewer = function (options) {
+  var JRollViewer = function (el, options) {
     var me = this
+
+    me.el = typeof el === 'string' ? document.querySelector(el) : el
+
+    me.el.addEventListener('click', function (e) {
+      me._click(e)
+    }, false)
+
     me.options = {
-      images: [],
       JRoll: JRoll
     }
 
@@ -24,18 +30,16 @@
       me.options[i] = options[i]
     }
 
-    me.currentIndex = 0
-    me.jrollImages = []
     me._init()
   }
 
-  JRollViewer.version = '0.0.1'
+  JRollViewer.version = '0.1.0'
 
   JRollViewer.prototype = {
+    // 创建JRollViewer的jroll-style样式
     _createStyle: function () {
-      // 创建JRollViewer的jroll-style样式
       var jstyle = document.getElementById('jroll_style')
-      var style = '\n/* jroll-viewer */\n.jroll-viewer{height:100%;width:100%;overflow:hidden;background:#000;position:absolute;top:0;left:0;z-index:9999;-webkit-transform:scale(0.01,0.01);transform:scale(0.01,0.01);-webkit-transition-duration:200ms;transition-duration:200ms}.jroll-viewer.show{-webkit-transform:scale(1,1) !important;transform:scale(1,1) !important}.jroll-viewer-scroller{height:100%}.jroll-viewer-page{height:100%;position:absolute}.jroll-viewer-item{width:100%;height:100%;position:relative;overflow:hidden}.jroll-viewer-img{position:absolute}.jroll-viewer-pointer{position:absolute;left:0;bottom:40px;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}.jroll-viewer-pointer span{display:block;width:4px;height:4px;border-radius:10px;background:#666;float:left;margin:0 5px}.jroll-viewer-pointer span.active{background:#fff}\n'
+      var style = '\n/* jroll-viewer */\n.jroll-viewer{display:none;height:100%;width:100%;overflow:hidden;background:#000;position:absolute;top:0;left:0;z-index:9999}.jroll-viewer.duration{-webkit-transition-duration:200ms;transition-duration:200ms}.jroll-viewer.small{-webkit-transform:scale(0.01,0.01);transform:scale(0.01,0.01);display:block}.jroll-viewer.normal{-webkit-transform:scale(1,1) !important;transform:scale(1,1) !important}.jroll-viewer-scroller{height:100%}.jroll-viewer-page{height:100%;position:absolute}.jroll-viewer-item{width:100%;height:100%;position:relative;overflow:hidden}.jroll-viewer-img{position:absolute}.jroll-viewer-pointer{position:absolute;left:0;bottom:40px;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}.jroll-viewer-pointer span{display:block;width:4px;height:4px;border-radius:10px;background:#666;float:left;margin:0 5px}.jroll-viewer-pointer span.active{background:#fff}\n'
       if (jstyle) {
         if (!/jroll-viewer/.test(jstyle.innerHTML)) {
           jstyle.innerHTML += style
@@ -47,89 +51,63 @@
         document.head.appendChild(jstyle)
       }
     },
-    _init: function () {
+
+    // 创建图片
+    _createImg: function (img, imgs) {
       var me = this
-
-      me._createStyle()
-      me.viewer = createDiv('jroll-viewer')
-      var scroller = createDiv('jroll-viewer-scroller')
-      var pointer = createDiv('jroll-viewer-pointer')
-      var imgs = me.options.images
-      var length = imgs.length
-
-      scroller.style.width = w * length + 'px'
-
       // 创建图片
       var imgHtml = ''
       var pointerHtml = ''
+      var length = imgs.length
+      var index
+
+      if (typeof img === 'number') {
+        index = img
+      } else {
+        index = null
+      }
+
       for (var i = 0, l = length; i < l; i++) {
         imgHtml += '<div class="jroll-viewer-page" style="width:' + w + 'px;left:' + (i * w) + 'px">' +
             '<div class="jroll-viewer-item">' +
-              '<img src="' + imgs[i] + '" class="jroll-viewer-img">' +
+              '<img src="' + imgs[i].src + '" class="jroll-viewer-img">' +
             '</div>' +
           '</div>'
         pointerHtml += '<span></span>'
-      }
 
-      scroller.innerHTML = imgHtml
-      pointer.innerHTML = pointerHtml
-
-      me.viewer.appendChild(scroller)
-      me.viewer.appendChild(pointer)
-
-      me.pointers = pointer.querySelectorAll('span')
-
-      // 使用visibility:hidden不用display:none为了让JRoll创建实例时能正确计算高宽位置
-      me.viewer.style.visibility = 'hidden'
-      document.body.appendChild(me.viewer)
-
-      // 点击退出
-      me.viewer.onclick = function () {
-        me.hide()
-      }
-
-      // 查看器最外围JRoll实例
-      me.jroll = new me.options.JRoll(me.viewer, { scrollY: false, scrollX: true, momentum: false })
-      .on('touchEnd', function () {
-        var _this = this
-        var apart = me.currentIndex * w + _this.x
-        if (_this.x !== _this.minScrollX && _this.x !== _this.maxScrollX && Math.abs(_this.x % w) !== 0) {
-          var f
-          if (Math.abs(apart) < w / 10) {
-            f = 0
-          } else if (apart > 0) {
-            f = -1
-          } else {
-            f = 1
+        // 计算相应图片位置
+        if (index === null) {
+          if (typeof img === 'object' && img === imgs[i] ||
+            typeof img === 'string' && img === imgs[i].getAttribute('src')) {
+            index = i
           }
-
-          me.switch(me.currentIndex + f, 200)
         }
-      })
-      .on('scroll', function (e) {
-        var _this = this
-        var jroll = me.jrollImages[me.currentIndex]
+      }
 
-        // 外围JRoll实例从右向左滑动将滑动权交回当前图片的条件
-        var condition1 = _this.directionX === -1 && _this.x < -me.currentIndex * w && jroll.x > jroll.maxScrollX
-        // 外围JRoll实例从左向右滑动将滑动权交回当前图片的条件
-        var condition2 = _this.directionX === 1 && _this.x > -me.currentIndex * w && jroll.x < jroll.minScrollX
+      me.scroller.innerHTML = imgHtml
+      me.pointer.innerHTML = pointerHtml
 
-        if (condition1 || condition2) {
-          _this.scrollTo(-me.currentIndex * w, 0)
-          _this.call(jroll, e)
-        }
-      })
+      // 小圆点
+      me.pointers = me.pointer.querySelectorAll('span')
 
       // 图片
-      var items = scroller.querySelectorAll('.jroll-viewer-item')
-      var jrollImg
-      for (i = 0, l = items.length; i < l; i++) {
+      var items = me.scroller.querySelectorAll('.jroll-viewer-item')
+      var jr
+      for (i = 0, l = length; i < l; i++) {
         // 每个图片JRoll实例
-        jrollImg = new me.options.JRoll(items[i], { zoom: true, scrollFree: true, bounce: false, autoStyle: false, zoomDuration: 0 })
+        jr = new me.options.JRoll(items[i], {
+          id: imgs[i].getAttribute('jroll-viewer-id'),
+          zoom: true,
+          scrollFree: true,
+          bounce: false,
+          autoStyle: false,
+          zoomDuration: 0
+        })
+
+        imgs[i].setAttribute('jroll-viewer-id', jr.id)
 
         // 每个图片滑动事件
-        jrollImg.on('scroll', function (e) {
+        jr.on('scroll', function (e) {
           var _this = this
           if (e) {
             // 从右向左交权条件
@@ -168,16 +146,88 @@
         .scroller.onload = function () {
           me._imgOnload(this)
         }
-        me.jrollImages.push(jrollImg)
+
+        me.jrolls.push(jr)
       }
 
-      me.viewer.style.display = 'none'
-      me.viewer.style.visibility = 'visible'
+      return index
+    },
+
+    // 点击小图
+    _click: function (e) {
+      var target = e.target
+      var me = this
+      if (target.tagName === 'IMG' && target.hasAttribute('jroll-viewer-image')) {
+        me.show(target)
+      }
+    },
+
+    // 初始化图片查看框
+    _init: function () {
+      var me = this
+
+      me.viewer = document.getElementById('jroll_viewer')
+
+      if (me.viewer) {
+        me.scroller = me.viewer.querySelector('jroll-viewer-scroller')
+        me.pointer = me.viewer.querySelector('jroll-viewer-pointer')
+        return
+      }
+
+      me._createStyle()
+      me.viewer = createDiv('jroll-viewer')
+      me.scroller = createDiv('jroll-viewer-scroller')
+      me.pointer = createDiv('jroll-viewer-pointer')
+
+      me.viewer.id = 'jroll_viewer'
+      me.viewer.appendChild(me.scroller)
+      me.viewer.appendChild(me.pointer)
+
+      document.body.appendChild(me.viewer)
+
+      // 点击退出
+      me.viewer.onclick = function () {
+        me.hide()
+      }
+
+      // 查看器最外围JRoll实例
+      me.jroll = new me.options.JRoll(me.viewer, { scrollY: false, scrollX: true, momentum: false })
+      .on('touchEnd', function () {
+        var _this = this
+        var apart = me.currentIndex * w + _this.x
+        if (_this.x !== _this.minScrollX && _this.x !== _this.maxScrollX && Math.abs(_this.x % w) !== 0) {
+          var f
+          if (Math.abs(apart) < w / 10) {
+            f = 0
+          } else if (apart > 0) {
+            f = -1
+          } else {
+            f = 1
+          }
+
+          me.switch(me.currentIndex + f, 200)
+        }
+      })
+      .on('scroll', function (e) {
+        var _this = this
+        var jroll = me.jrolls[me.currentIndex]
+
+        // 外围JRoll实例从右向左滑动将滑动权交回当前图片的条件
+        var condition1 = _this.directionX === -1 && _this.x < -me.currentIndex * w && jroll.x > jroll.maxScrollX
+        // 外围JRoll实例从左向右滑动将滑动权交回当前图片的条件
+        var condition2 = _this.directionX === 1 && _this.x > -me.currentIndex * w && jroll.x < jroll.minScrollX
+
+        if (condition1 || condition2) {
+          _this.scrollTo(-me.currentIndex * w, 0)
+          _this.call(jroll, e)
+        }
+      })
 
       window.addEventListener('resize', me._rotate.bind(me))
       window.addEventListener('orientationchange', me._rotate.bind(me))
     },
 
+    // 图片加载完毕
     _imgOnload: function (img) {
       var me = this
       var r = img.width / img.height
@@ -199,7 +249,8 @@
         img.style.top = '0'
         img.jroll.options.zoomMax = me.options.zoomMax || (img.naturalHeight / h) || 3
       }
-      this.jroll.refresh()
+      // me.jroll.refresh()
+      img.jroll.maxScrollX = img.jroll.maxScrollY = img.jroll.minScrollX = img.jroll.minScrollY = 0
     },
 
     // 屏幕旋转，重置窗口宽高、图片属性
@@ -210,7 +261,7 @@
 
       var me = this
       me.jroll.scroller.style.width = w * me.options.images.length + 'px'
-      me.jrollImages.forEach(function (j, i) {
+      me.jrolls.forEach(function (j, i) {
         me._imgOnload(j.scroller)
         j.wrapper.parentElement.style.width = w + 'px'
         j.wrapper.parentElement.style.left = w * i + 'px'
@@ -222,7 +273,7 @@
     // 重置图片、小圆点
     _reset: function (i) {
       var me = this
-      var scroller = me.jrollImages[i].scroller
+      var scroller = me.jrolls[i].scroller
       var r = scroller.jroll_viewer_ratio
       me.pointers[i].classList.remove('active')
       if (r > ratio) {
@@ -230,8 +281,8 @@
       } else {
         scroller.style.left = (w - h * r) / 2 + 'px'
       }
-      me.jrollImages[i]._z.scale = 1
-      me.jrollImages[i].scrollTo(0, 0).refresh()
+      me.jrolls[i]._z.scale = 1
+      me.jrolls[i].scrollTo(0, 0).refresh()
     },
 
     // 切换图片
@@ -253,7 +304,7 @@
           for (var i = 0, l = me.pointers.length; i < l; i++) {
             if (i === index) {
               me.pointers[i].classList.add('active')
-              me.jrollImages[i].refresh()
+              me.jrolls[i].refresh()
               if (rotateScreen) {
                 me._reset(i)
               }
@@ -264,9 +315,9 @@
 
             // 仅保持前端图片及前后共三张display:block其它为none
             if (i === index || i === index - 1 || i === index + 1) {
-              me.jrollImages[i].wrapper.style.display = 'block'
+              me.jrolls[i].wrapper.style.display = 'block'
             } else {
-              me.jrollImages[i].wrapper.style.display = 'none'
+              me.jrolls[i].wrapper.style.display = 'none'
             }
           }
         })
@@ -274,19 +325,41 @@
     },
 
     // 显示查看器
-    show: function (i) {
+    show: function (param) {
       var me = this
+      var index
+      var imgs = me.el.querySelectorAll('img[jroll-viewer-image]')
+
+      // 重置外围scroller
+      me.jrolls = []
+      // 使用visibility:hidden不用display:none为了让JRoll创建实例时能正确计算高宽位置
+      me.viewer.style.visibility = 'hidden'
       me.viewer.style.display = 'block'
+      me.scroller.style.width = w * imgs.length + 'px'
       me.jroll.refresh()
-      me.switch(parseInt(i) || 0)
-      me.viewer.classList.add('show')
+
+      // 创建图片
+      index = me._createImg(param, imgs)
+
+      // 切换到对应图片
+      me.switch(index)
+
+      me.viewer.classList.add('small')
+
+      setTimeout(function () {
+        me.viewer.style.visibility = 'visible'
+        me.viewer.classList.add('duration')
+        me.viewer.classList.add('normal')
+      }, 0)
     },
 
     // 隐藏查看器
     hide: function () {
       var me = this
-      me.viewer.classList.remove('show')
+      me.viewer.classList.remove('normal')
       setTimeout(function () {
+        me.viewer.classList.remove('small')
+        me.viewer.classList.remove('duration')
         me.viewer.style.display = 'none'
       }, 250)
     }
