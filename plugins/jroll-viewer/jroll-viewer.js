@@ -1,4 +1,4 @@
-/*! JRollViewer v0.1.0 ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
+/*! JRollViewer v0.1.1 ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
 /* global define, JRoll */
 (function (window, document, JRoll) {
   'use strict'
@@ -6,6 +6,9 @@
   var w = window.innerWidth
   var h = window.innerHeight
   var ratio = w / h
+  var currentIndex = 0
+  var jrolls = []
+  var pointers
 
   function createDiv (className) {
     var div = document.createElement('div')
@@ -33,7 +36,7 @@
     me._init()
   }
 
-  JRollViewer.version = '0.1.0'
+  JRollViewer.version = '0.1.1'
 
   JRollViewer.prototype = {
     // 创建JRollViewer的jroll-style样式
@@ -88,7 +91,7 @@
       me.pointer.innerHTML = pointerHtml
 
       // 小圆点
-      me.pointers = me.pointer.querySelectorAll('span')
+      pointers = me.pointer.querySelectorAll('span')
 
       // 图片
       var items = me.scroller.querySelectorAll('.jroll-viewer-item')
@@ -128,7 +131,7 @@
           this.jroll_viewer_start = e.touches[0].pageX
         })
         .on('zoomStart', function () {
-          me.switch(me.currentIndex)
+          me.switch(currentIndex)
         })
         .on('zoomEnd', function () {
           var _this = this
@@ -147,7 +150,7 @@
           me._imgOnload(this)
         }
 
-        me.jrolls.push(jr)
+        jrolls.push(jr)
       }
 
       return index
@@ -169,8 +172,9 @@
       me.viewer = document.getElementById('jroll_viewer')
 
       if (me.viewer) {
-        me.scroller = me.viewer.querySelector('jroll-viewer-scroller')
-        me.pointer = me.viewer.querySelector('jroll-viewer-pointer')
+        me.scroller = me.viewer.querySelector('.jroll-viewer-scroller')
+        me.pointer = me.viewer.querySelector('.jroll-viewer-pointer')
+        me.jroll = me.scroller.jroll
         return
       }
 
@@ -194,7 +198,7 @@
       me.jroll = new me.options.JRoll(me.viewer, { scrollY: false, scrollX: true, momentum: false })
       .on('touchEnd', function () {
         var _this = this
-        var apart = me.currentIndex * w + _this.x
+        var apart = currentIndex * w + _this.x
         if (_this.x !== _this.minScrollX && _this.x !== _this.maxScrollX && Math.abs(_this.x % w) !== 0) {
           var f
           if (Math.abs(apart) < w / 10) {
@@ -205,20 +209,20 @@
             f = 1
           }
 
-          me.switch(me.currentIndex + f, 200)
+          me.switch(currentIndex + f, 200)
         }
       })
       .on('scroll', function (e) {
         var _this = this
-        var jroll = me.jrolls[me.currentIndex]
+        var jroll = jrolls[currentIndex]
 
         // 外围JRoll实例从右向左滑动将滑动权交回当前图片的条件
-        var condition1 = _this.directionX === -1 && _this.x < -me.currentIndex * w && jroll.x > jroll.maxScrollX
+        var condition1 = _this.directionX === -1 && _this.x < -currentIndex * w && jroll.x > jroll.maxScrollX
         // 外围JRoll实例从左向右滑动将滑动权交回当前图片的条件
-        var condition2 = _this.directionX === 1 && _this.x > -me.currentIndex * w && jroll.x < jroll.minScrollX
+        var condition2 = _this.directionX === 1 && _this.x > -currentIndex * w && jroll.x < jroll.minScrollX
 
         if (condition1 || condition2) {
-          _this.scrollTo(-me.currentIndex * w, 0)
+          _this.scrollTo(-currentIndex * w, 0)
           _this.call(jroll, e)
         }
       })
@@ -261,50 +265,50 @@
 
       var me = this
       me.jroll.scroller.style.width = w * me.options.images.length + 'px'
-      me.jrolls.forEach(function (j, i) {
+      jrolls.forEach(function (j, i) {
         me._imgOnload(j.scroller)
         j.wrapper.parentElement.style.width = w + 'px'
         j.wrapper.parentElement.style.left = w * i + 'px'
       })
 
-      me.switch(me.currentIndex, 0, true)
+      me.switch(currentIndex, 0, true)
     },
 
     // 重置图片、小圆点
     _reset: function (i) {
-      var me = this
-      var scroller = me.jrolls[i].scroller
+      var scroller = jrolls[i].scroller
       var r = scroller.jroll_viewer_ratio
-      me.pointers[i].classList.remove('active')
+      pointers[i].classList.remove('active')
       if (r > ratio) {
         scroller.style.top = (h - w / r) / 2 + 'px'
       } else {
         scroller.style.left = (w - h * r) / 2 + 'px'
       }
-      me.jrolls[i]._z.scale = 1
-      me.jrolls[i].scrollTo(0, 0).refresh()
+      jrolls[i]._z.scale = 1
+      jrolls[i].scrollTo(0, 0).refresh()
     },
 
     // 切换图片
     switch: function (index, duration, rotateScreen) {
       var me = this
-      var oldIndex = me.currentIndex
+      var oldIndex = currentIndex
 
-      if (index >= 0 && index < me.pointers.length) {
-        me.currentIndex = index
+      if (index >= 0 && index < pointers.length) {
+        currentIndex = index
       }
 
       // 当前图片复位
-      if (me.currentIndex === oldIndex) {
+      if (currentIndex === oldIndex) {
         me.jroll.scrollTo(-(w * index), 0, (duration || 0))
+        pointers[currentIndex].classList.add('active')
 
       // 切到新图片
       } else {
         me.jroll.scrollTo(-(w * index), 0, (duration || 0), false, function () {
-          for (var i = 0, l = me.pointers.length; i < l; i++) {
+          for (var i = 0, l = pointers.length; i < l; i++) {
             if (i === index) {
-              me.pointers[i].classList.add('active')
-              me.jrolls[i].refresh()
+              pointers[i].classList.add('active')
+              jrolls[i].refresh()
               if (rotateScreen) {
                 me._reset(i)
               }
@@ -315,9 +319,9 @@
 
             // 仅保持前端图片及前后共三张display:block其它为none
             if (i === index || i === index - 1 || i === index + 1) {
-              me.jrolls[i].wrapper.style.display = 'block'
+              jrolls[i].wrapper.style.display = 'block'
             } else {
-              me.jrolls[i].wrapper.style.display = 'none'
+              jrolls[i].wrapper.style.display = 'none'
             }
           }
         })
@@ -331,10 +335,11 @@
       var imgs = me.el.querySelectorAll('img[jroll-viewer-image]')
 
       // 重置外围scroller
-      me.jrolls = []
+      jrolls = []
       // 使用visibility:hidden不用display:none为了让JRoll创建实例时能正确计算高宽位置
       me.viewer.style.visibility = 'hidden'
       me.viewer.style.display = 'block'
+      me.viewer.style.top = document.body.scrollTop + 'px'
       me.scroller.style.width = w * imgs.length + 'px'
       me.jroll.refresh()
 
