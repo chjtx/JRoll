@@ -1,193 +1,139 @@
-"use strict";
+'use strict'
 
-var fs = require('fs');
+var fs = require('fs')
 
-var gulp = require('gulp');
-var rename = require('gulp-rename');
-var uglify = require('gulp-uglify');
-var replace = require('gulp-just-replace');
-var license = require('gulp-header');
+var gulp = require('gulp')
+var rename = require('gulp-rename')
+var uglify = require('gulp-uglify')
+var replace = require('gulp-just-replace')
+var license = require('gulp-header')
 
-//替换文本数组
-// var replaceArr = [{
-//   search: /\"preScroll\"/g,
-//   replacement: '1'
-// }, {
-//   search: /\"preZoom\"/g,
-//   replacement: '2'
-// }, {
-//   search: /\"scrollX\"/g,
-//   replacement: '3'
-// }, {
-//   search: /\"scrollY\"/g,
-//   replacement: '4'
-// }, {
-//   search: /\"scrollFree\"/g,
-//   replacement: '5'
-// }];
-
-//压缩/备份JRoll主文件
-gulp.task('default', function() {
-
-  //获取头部注释
-  fs.readFile('src/jroll.js', function(err, data) {
-    if (err) throw err;
-    var head = /\/\*.+v(\d+\.\d+\.\d+).+\*\//.exec(data.toString());
-    var copyright = "/*! JRoll v2.0.0 ~ (c) 2015-2016 Author:jlong, Email:jlong@chjtx.com Website:http://www.chjtx.com/JRoll/ */\n;";
-    var version = "2.0.0";
+// 压缩/备份JRoll主文件
+gulp.task('default', function () {
+  // 获取头部注释
+  fs.readFile('src/jroll.js', function (err, data) {
+    if (err) throw err
+    var head = /\/\*.+v(\d+\.\d+\.\d+).+\*\//.exec(data.toString())
+    var copyright = '/*! JRoll v2.0.0 ~ (c) 2015-2016 Author:jlong, Email:jlong@chjtx.com Website:http://www.chjtx.com/JRoll/ */\n;'
+    var version = '2.0.0'
     if (head) {
-      copyright = head[0] + '\n;';  //头部注释
-      version = head[1];    //版本号
+      copyright = head[0] + '\n;'  // 头部注释
+      version = head[1]    // 版本号
     }
 
     gulp.src('src/jroll.js')
 
-      //备份原文件
+      // 备份原文件
       .pipe(rename({
         basename: 'jroll',
-        extname: '.'+version+'.js'
+        extname: '.' + version + '.js'
       }))
       .pipe(gulp.dest('build/'))
 
-      //替换（手动压缩）
-      // .pipe(replace(replaceArr))
-
-      //压缩
+      // 压缩
       .pipe(uglify())
 
-      //加入头部注释
+      // 加入头部注释
       .pipe(license(copyright))
 
-      //修改后缀
+      // 修改后缀
       .pipe(rename({
         basename: 'jroll',
         extname: '.min.js'
       }))
 
-      //输出
+      // 输出
       .pipe(gulp.dest('build/'))
 
-      //备份
+      // 备份
       .pipe(rename({
         basename: 'jroll',
-        extname: '.'+version+'.min.js'
+        extname: '.' + version + '.min.js'
       }))
-      .pipe(gulp.dest('build/'));
+      .pipe(gulp.dest('build/'))
+  })
+})
 
-  });
+// 压缩、备份扩展组件等
+function build (options) {
+  gulp.src(options.src)
 
-});
+    // 备份原文件
+    .pipe(rename({
+      basename: options.basename,
+      extname: '.' + options.version + '.js'
+    }))
+    .pipe(license(options.copyright))
+    .pipe(replace([{
+      search: /\{\{version\}\}/g,
+      replacement: options.version
+    }]))
+    .pipe(gulp.dest(options.dest))
 
-//压缩jroll-pulldown.js
-gulp.task('pulldown', function() {
-  //获取头部注释
-  fs.readFile('plugins/jroll-pulldown/jroll-pulldown.js', function(err, data) {
-    if (err) throw err;
-    var head = /\/\*.+v(\d+\.\d+\.\d+).+\*\//.exec(data.toString());
-    var copyright = "/*! JRoll-PullDown v1.0.0 ~ (c) 2015-2016 Author:BarZu Git:https://git.oschina.net/chenjianlong/JRoll2/ */\n;";
-    var version = "1.0.0";
-    if (head) {
-      copyright = head[0] + '\n;';  //头部注释
-      version = head[1];    //版本号
-    }
+    // 压缩
+    .pipe(uglify())
 
-    gulp.src('plugins/jroll-pulldown/jroll-pulldown.js')
+    // 加入头部注释
+    .pipe(license(options.copyright))
+    .pipe(rename({
+      basename: options.basename,
+      extname: '.' + options.version + '.min.js'
+    }))
+    .pipe(gulp.dest(options.dest))
+}
 
-      //备份原文件
-      .pipe(rename({
-        basename: 'jroll-pulldown',
-        extname: '.'+version+'.js'
-      }))
-      .pipe(gulp.dest('plugins/jroll-pulldown/build/'))
+// JRollViewer 压缩、备份
+gulp.task('viewer', function () {
+  let version = JSON.parse(fs.readFileSync('./package.json'))['version-viewer']
+  let copyright = `/*! JRollViewer v${version} ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/plugins/jroll-viewer */\n`
 
-      //压缩
-      .pipe(uglify())
+  build({
+    version: version,
+    copyright: copyright,
+    src: 'plugins/jroll-viewer/jroll-viewer.js',
+    dest: 'plugins/jroll-viewer/build/',
+    basename: 'jroll-viewer'
+  })
+})
 
-      //加入头部注释
-      .pipe(license(copyright))
+// jroll-fixedinput 压缩、备份
+gulp.task('fixedinput', function () {
+  let version = JSON.parse(fs.readFileSync('./package.json'))['version-fixedinput']
+  let copyright = `/*! JRoll-FixedInput v${version} ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/extends/jroll-fixedinput */\n`
 
-      //备份
-      .pipe(rename({
-        basename: 'jroll-pulldown',
-        extname: '.'+version+'.min.js'
-      }))
-      .pipe(gulp.dest('plugins/jroll-pulldown/build/'));
+  build({
+    version: version,
+    copyright: copyright,
+    src: 'extends/jroll-fixedinput/jroll-fixedinput.js',
+    dest: 'extends/jroll-fixedinput/build/',
+    basename: 'jroll-fixedinput'
+  })
+})
 
-  });
-});
+// jroll-infinite 压缩、备份
+gulp.task('infinite', function () {
+  let version = JSON.parse(fs.readFileSync('./package.json'))['version-infinite']
+  let copyright = `/*! JRoll-Infinite v${version} ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/extends/jroll-infinite */\n`
 
-//压缩jroll-infinite.js
-gulp.task('infinite', function() {
-  //获取头部注释
-  fs.readFile('plugins/jroll-infinite/jroll-infinite.js', function(err, data) {
-    if (err) throw err;
-    var head = /\/\*.+v(\d+\.\d+\.\d+).+\*\//.exec(data.toString());
-    var copyright = "/*! JRoll-Infinite v1.0.0 ~ (c) 2015-2016 Author:BarZu Git:https://git.oschina.net/chenjianlong/JRoll2/ */\n;";
-    var version = "1.0.0";
-    if (head) {
-      copyright = head[0] + '\n;';  //头部注释
-      version = head[1];    //版本号
-    }
+  build({
+    version: version,
+    copyright: copyright,
+    src: 'extends/jroll-infinite/jroll-infinite.js',
+    dest: 'extends/jroll-infinite/build/',
+    basename: 'jroll-infinite'
+  })
+})
 
-    gulp.src('plugins/jroll-infinite/jroll-infinite.js')
+// jroll-pulldown 压缩、备份
+gulp.task('pulldown', function () {
+  let version = JSON.parse(fs.readFileSync('./package.json'))['version-pulldown']
+  let copyright = `/*! JRoll-Pulldown v${version} ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/extends/jroll-pulldown */\n`
 
-      //备份原文件
-      .pipe(rename({
-        basename: 'jroll-infinite',
-        extname: '.'+version+'.js'
-      }))
-      .pipe(gulp.dest('plugins/jroll-infinite/build/'))
-
-      //压缩
-      .pipe(uglify())
-
-      //加入头部注释
-      .pipe(license(copyright))
-
-      //备份
-      .pipe(rename({
-        basename: 'jroll-infinite',
-        extname: '.'+version+'.min.js'
-      }))
-      .pipe(gulp.dest('plugins/jroll-infinite/build/'));
-
-  });
-});
-
-//压缩jroll-fixedinput.js
-gulp.task('fixedinput', function() {
-  //获取头部注释
-  fs.readFile('plugins/jroll-fixedinput/jroll-fixedinput.js', function(err, data) {
-    if (err) throw err;
-    var head = /\/\*.+v(\d+\.\d+\.\d+).+\*\//.exec(data.toString());
-    var copyright = "/*! JRoll-FixedInput v1.0.0 ~ (c) 2015-2016 Author:BarZu Git:https://git.oschina.net/chenjianlong/JRoll2/ */\n;";
-    var version = "1.0.0";
-    if (head) {
-      copyright = head[0] + '\n;';  //头部注释
-      version = head[1];    //版本号
-    }
-
-    gulp.src('plugins/jroll-fixedinput/jroll-fixedinput.js')
-
-      //备份原文件
-      .pipe(rename({
-        basename: 'jroll-fixedinput',
-        extname: '.'+version+'.js'
-      }))
-      .pipe(gulp.dest('plugins/jroll-fixedinput/build/'))
-
-      //压缩
-      .pipe(uglify())
-
-      //加入头部注释
-      .pipe(license(copyright))
-
-      //备份
-      .pipe(rename({
-        basename: 'jroll-fixedinput',
-        extname: '.'+version+'.min.js'
-      }))
-      .pipe(gulp.dest('plugins/jroll-fixedinput/build/'));
-
-  });
-});
+  build({
+    version: version,
+    copyright: copyright,
+    src: 'extends/jroll-pulldown/jroll-pulldown.js',
+    dest: 'extends/jroll-pulldown/build/',
+    basename: 'jroll-pulldown'
+  })
+})
