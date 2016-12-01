@@ -1,3 +1,4 @@
+/*! JRollViewer v0.1.2 ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/plugins/jroll-viewer */
 /* global define, JRoll */
 (function (window, document, JRoll) {
   'use strict'
@@ -35,7 +36,7 @@
     me._init()
   }
 
-  JRollViewer.version = '{{version}}'
+  JRollViewer.version = '0.1.2'
 
   JRollViewer.prototype = {
     // 创建JRollViewer的jroll-style样式

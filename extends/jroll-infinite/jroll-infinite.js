@@ -1,4 +1,3 @@
-/*! JRoll-Infinite v2.1.1 ~ (c) 2015-2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/plugins/jroll-infinite */
 /* global define, JRoll */
 (function (window, document, JRoll) {
   'use strict'
@@ -126,7 +125,7 @@
 
     // 过滤正则特殊字符，由于不能保证浏览转换成innerHTML时单双引号的正确性，因此要特殊处理
     function filterRegChar (str) {
-      return str.replace(/("|')|\$|\(|\)|\+|\*|\.|\[|\]|\?|\\|\^|\{|\}|\|/g, function (match, quote) {
+      return str.replace(/("|')|\$|\(|\)|\+|\*|\.|\[|]|\?|\\|\^|\{|\}|\|/g, function (match, quote) {
         return quote ? "[\"']" : '\\' + match
       })
     }
@@ -180,6 +179,8 @@
       }
     }
   }
+
+  JRoll.prototype.infinite.version = '{{version}}'
 
   // CommonJS/AMD/CMD规范导出JRoll
   if (typeof module !== 'undefined' && module.exports) {
