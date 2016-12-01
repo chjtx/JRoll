@@ -1,4 +1,4 @@
-/*! JRollViewer v0.1.1 ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
+/*! JRollViewer v0.1.2 ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
 /* global define, JRoll */
 (function (window, document, JRoll) {
   'use strict'
@@ -36,7 +36,7 @@
     me._init()
   }
 
-  JRollViewer.version = '0.1.1'
+  JRollViewer.version = '0.1.2'
 
   JRollViewer.prototype = {
     // 创建JRollViewer的jroll-style样式
@@ -73,7 +73,7 @@
       for (var i = 0, l = length; i < l; i++) {
         imgHtml += '<div class="jroll-viewer-page" style="width:' + w + 'px;left:' + (i * w) + 'px">' +
             '<div class="jroll-viewer-item">' +
-              '<img src="' + imgs[i].src + '" class="jroll-viewer-img">' +
+              '<img src="' + (me.options.data ? imgs[i].dataset[me.options.data] : imgs[i].src) + '" class="jroll-viewer-img">' +
             '</div>' +
           '</div>'
         pointerHtml += '<span></span>'

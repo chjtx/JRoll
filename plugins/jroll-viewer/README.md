@@ -2,6 +2,14 @@
 
 一款基于JRoll开发的图集查看器插件
 
+## 注意!!!
+
+若`document.body`高度超出一屏，即当`document.body.scrollTop`不为0时会影响本插件的滚动效果。
+
+请将`document.body`的css样式设为`overflow:hidden;height:100%`，超出内容使用JRoll进行滑动
+
+Tips：html的height为100%时，body的高度才能占满全屏
+
 ## 引入
 
 支持标签、CommonJS、AMD、CMD方式引入
@@ -51,8 +59,25 @@ new JRollViewer(el [, options])
 
 | 键名 | 默认值 | 说明 |
 |----------|----------|----------|
+| data | undefined | 小图dataset的属性作为大图读取的图片路径，若不指定该选项，默认读取小图src |
 | zoomMax | 图片原始值 | 图片最大缩放倍数，以window.innerWidth为1 |
 | JRoll | window.JRoll | 用于异步引入JRoll，不能确保window.JRoll比window.JRollViewer先加载完成时使用 |
+
+例：
+
+```html
+<div id="viewer">
+  <img src="http://www.cdn.cn/1.png" data-big="http://www.cdn.cn/b1.png" jroll-viewer-image>
+</div>
+
+<script>
+var viewer = new JRollViewer('#viewer', {
+  data: 'big',
+  zoomMax: 3,
+  JRoll: window.JRoll
+})
+</script>
+```
 
 ## 方法
 
@@ -75,6 +100,10 @@ viewer.show(document.getElementById('viewer').children[0])
 
 收起图片查看器
 
+```
+viewer.hide()
+```
+
 ### switch
 
 手动切换图片，可利用该方法做图片自动轮播
@@ -89,6 +118,10 @@ viewer.switch(index[, duration])
 - duration 可选，过渡时间
 
 ## Log
+
+### v0.1.2 (2016-12-1)
+
+- 添加data选项
 
 ### v0.1.1 (2016-11-29)
 
