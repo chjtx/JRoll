@@ -125,6 +125,7 @@
     <li><a href="#senior">进阶</a></li>
     <li><a href="#download">下载</a></li>
     <li><a href="#plugins">插件</a></li>
+    <li><a href="#extends">扩展</a></li>
     <li><a target="_blank" href="http://www.chjtx.com/JRoll1/">JRoll 1</a></li>
   </menu>
   <article class="language-js">
@@ -682,8 +683,12 @@ document.addEventListener("click", function(e) {
     <h2 id="download">下载</h2>
     <em>建议：下载文件后将文件名版本号去掉，这样在JRoll有更新时只需要更新jroll.js文件，不需要更新引用jroll的文件。</em>
     <ul>
-      <li><a target="_blank" href="./build/jroll.2.3.2.js">jroll.2.3.2.js</a>(30k)</li>
-      <li><a target="_blank" href="./build/jroll.2.3.2.min.js">jroll.2.3.2.min.js</a>(14k)</li>
+      <li><a target="_blank" href="./build/jroll.2.4.2.js">jroll.2.4.2.js</a>(30k)</li>
+      <li><a target="_blank" href="./build/jroll.2.4.2.min.js">jroll.2.4.2.min.js</a>(15k)</li>
+    </ul>
+    <ul>
+      <li><del target="_blank" href="./build/jroll.2.3.2.js">jroll.2.3.2.js</del>(30k)</li>
+      <li><del target="_blank" href="./build/jroll.2.3.2.min.js">jroll.2.3.2.min.js</del>(14k)</li>
     </ul>
     <ul>
       <li><del target="_blank" href="./build/jroll.2.3.0.js">jroll.2.3.0.js</del>(28k)</li>
@@ -706,6 +711,16 @@ document.addEventListener("click", function(e) {
       <li><del target="_blank" href="./build/jroll.2.0.0.min.js">jroll.2.0.0.min.beta</del>(12k)</li>
     </ul>
     <h3>版本日志</h3>
+    <dl>
+      <dt>v2.4.2（2016-12-01）</dt>
+      <dd>
+        <li>修复缩放时scroller受translate偏移影响定位问题。</li>
+        <li>修复防止重复多次new JRoll。</li>
+        <li>添加zoomDuration选项，缩放结束后回到限定位置的过渡时间。</li>
+        <li>注册事件jroll.on('scroll'...可链式调用。</li>
+        <li>添加图片查看器插件JRollViewer。</li>
+      </dd>
+    </dl>
     <dl>
       <dt>v2.3.2（2016-10-23）</dt>
       <dd>
@@ -767,18 +782,26 @@ document.addEventListener("click", function(e) {
     <br/>
 
     <h2 id="plugins">插件</h2>
+    <h3>jroll-viewer.js 图集查看器</h3>
+    <p>下载：<a href="./plugins/jroll-viewer/build/jroll-viewer.0.1.2.js" target="_blank">jroll-viewer.js</a>(9k) <a href="./plugins/jroll-viewer/build/jroll-viewer.0.1.2.min.js" target="_blank">jroll-viewer.min.js</a>(6k)</p>
+    <p>说明：<a href="https://github.com/chjtx/JRoll/tree/master/plugins/jroll-viewer" target="_blank">JRollViewer 使用文档</a></p>
+
+    <br/>
+
+    <h2 id="extends">扩展</h2>
     <h3>jroll-pulldown.js 下拉组件</h3>
-    <p>下载：<a href="./plugins/jroll-pulldown/build/jroll-pulldown.1.0.0.js" target="_blank">jroll-pulldown.js</a>(9k) <a href="./plugins/jroll-pulldown/build/jroll-pulldown.1.0.0.min.js" target="_blank">jroll-pulldown.min.js</a>(6k)</p>
-    <p>说明：<a href="https://github.com/chjtx/JRoll/tree/master/plugins/jroll-pulldown" target="_blank">jroll-pulldown 使用文档</a></p>
+    <p>下载：<a href="./extends/jroll-pulldown/build/jroll-pulldown.1.0.0.js" target="_blank">jroll-pulldown.js</a>(9k) <a href="./extends/jroll-pulldown/build/jroll-pulldown.1.0.0.min.js" target="_blank">jroll-pulldown.min.js</a>(6k)</p>
+    <p>说明：<a href="https://github.com/chjtx/JRoll/tree/master/extends/jroll-pulldown" target="_blank">jroll-pulldown 使用文档</a></p>
 
     <h3>jroll-infinite.js 无限加载组件</h3>
-    <p>下载：<a href="./plugins/jroll-infinite/build/jroll-infinite.2.1.0.js" target="_blank">jroll-infinite.js</a>(7k) <a href="./plugins/jroll-infinite/build/jroll-infinite.2.1.0.min.js" target="_blank">jroll-infinite.min.js</a>(4k)</p>
-    <p>详情：<a href="https://github.com/chjtx/JRoll/tree/master/plugins/jroll-infinite" target="_blank">jroll-infinite 使用文档</a></p>
+    <p>下载：<a href="./extends/jroll-infinite/build/jroll-infinite.2.1.1.js" target="_blank">jroll-infinite.js</a>(7k) <a href="./extends/jroll-infinite/build/jroll-infinite.2.1.1.min.js" target="_blank">jroll-infinite.min.js</a>(4k)</p>
+    <p>详情：<a href="https://github.com/chjtx/JRoll/tree/master/extends/jroll-infinite" target="_blank">jroll-infinite 使用文档</a></p>
 
     <h3>jroll-fixedinput.js 固定输入框</h3>
-    <p>下载：<a href="./plugins/jroll-fixedinput/build/jroll-fixedinput.1.0.2.js" target="_blank">jroll-fixedinput.js</a>(2k) <a href="./plugins/jroll-fixedinput/build/jroll-fixedinput.1.0.2.min.js" target="_blank">jroll-fixedinput.min.js</a>(1k)</p>
-    <p>详情：<a href="https://github.com/chjtx/JRoll/tree/master/plugins/jroll-fixedinput" target="_blank">jroll-fixedinput 使用文档</a></p>
+    <p>下载：<a href="./extends/jroll-fixedinput/build/jroll-fixedinput.1.0.2.js" target="_blank">jroll-fixedinput.js</a>(2k) <a href="./extends/jroll-fixedinput/build/jroll-fixedinput.1.0.2.min.js" target="_blank">jroll-fixedinput.min.js</a>(1k)</p>
+    <p>详情：<a href="https://github.com/chjtx/JRoll/tree/master/extends/jroll-fixedinput" target="_blank">jroll-fixedinput 使用文档</a></p>
 
+    <br/>
     <br/>
     <br/>
     <br/>
