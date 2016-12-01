@@ -4,9 +4,11 @@
 
 ## 注意!!!
 
-若`document.body`高度超出一屏，即当`document.body.scrollTop`不为0时会影响本插件的滚动效果。
+1. 必须 JRoll v2.4.x 以上
 
-请将`document.body`的css样式设为`overflow:hidden;height:100%`，超出内容使用JRoll进行滑动
+2. 若`document.body`高度超出一屏，即当`document.body.scrollTop`不为0时会影响本插件的滚动效果。
+
+3. 请将`document.body`的css样式设为`overflow:hidden;height:100%`，超出内容使用JRoll进行滑动
 
 Tips：html的height为100%时，body的高度才能占满全屏
 
