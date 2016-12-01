@@ -37,6 +37,11 @@
       font-size: 18px;
       font-weight: normal;
     }
+
+    p {
+      padding: 0 0 0 10px;
+      margin: 10px 0 0 0;
+    }
     
     #wrapper {
       position: absolute;
@@ -63,7 +68,7 @@
     #div2 img {
       display: block;
       width: 44%;
-      height: 100px;
+      height: 70px;
       margin-left: 4%;
       margin-top: 4%;
       float: left;
@@ -79,12 +84,14 @@
     <a onclick="javascript:history.back()">&lt;返回</a>
   </header>
   <div id="wrapper">
+    <p>点击图片打开图集，单指滑动，双指缩放</p>
     <div id="div1">
       <img src="http://www.chjtx.com/JRoll1/images/1.jpg" jroll-viewer-image>
       <img src="http://ww1.sinaimg.cn/orj480/006003lPjw1f6wuv37rikj30u02x216z.jpg" jroll-viewer-image>
       <img src="http://www.chjtx.com/JRoll1/images/2.jpg" jroll-viewer-image>
       <img src="http://image.diyiyou.com/game/2014/08/1409296997_4.jpg" jroll-viewer-image>
     </div>
+    <p>自定义对应大图</p>
     <div id="div2">
       <img src="http://www.chjtx.com/JRoll1/images/1.jpg" data-src="http://image.diyiyou.com/game/2014/08/1409296997_4.jpg" jroll-viewer-image>
       <img src="http://ww1.sinaimg.cn/orj480/006003lPjw1f6wuv37rikj30u02x216z.jpg" data-src="http://www.chjtx.com/JRoll1/images/2.jpg" jroll-viewer-image>
