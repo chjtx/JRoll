@@ -379,6 +379,11 @@ jroll.options.bounce = false;
         <td>自动为wrapper和scroller添加样式</td>
       </tr>
       <tr>
+        <td>autoBlur</td>
+        <td>true</td>
+        <td>JRoll v2.4.3新增，在滑动时自动将input/textarea失焦收起软键盘。设为false将会在IOS上出现光标不跟随输入框移动的现象</td>
+      </tr>
+      <tr>
         <td><del class="red">adjustTop</del></td>
         <td><del class="red">190</del></td>
         <td>从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。<del class="red">安卓手机弹出软键盘时自动调整输入框位置，作者不建议使用该项，如遇软键盘遮挡输入框的情况，建议重新设计表单页面。参考：<a target="_blank" href="http://my.oschina.net/cjlice/blog/625526">WebAPP输入框被软键盘遮挡肿么办？</a></del></td>
@@ -683,8 +688,12 @@ document.addEventListener("click", function(e) {
     <h2 id="download">下载</h2>
     <em>建议：下载文件后将文件名版本号去掉，这样在JRoll有更新时只需要更新jroll.js文件，不需要更新引用jroll的文件。</em>
     <ul>
-      <li><a target="_blank" href="./build/jroll.2.4.2.js">jroll.2.4.2.js</a>(30k)</li>
-      <li><a target="_blank" href="./build/jroll.2.4.2.min.js">jroll.2.4.2.min.js</a>(15k)</li>
+      <li><a target="_blank" href="./build/jroll.2.4.3.js">jroll.2.4.3.js</a>(30k)</li>
+      <li><a target="_blank" href="./build/jroll.2.4.3.min.js">jroll.2.4.3.min.js</a>(15k)</li>
+    </ul>
+    <ul>
+      <li><del target="_blank" href="./build/jroll.2.4.2.js">jroll.2.4.2.js</del>(30k)</li>
+      <li><del target="_blank" href="./build/jroll.2.4.2.min.js">jroll.2.4.2.min.js</del>(15k)</li>
     </ul>
     <ul>
       <li><del target="_blank" href="./build/jroll.2.3.2.js">jroll.2.3.2.js</del>(30k)</li>
@@ -711,6 +720,12 @@ document.addEventListener("click", function(e) {
       <li><del target="_blank" href="./build/jroll.2.0.0.min.js">jroll.2.0.0.min.beta</del>(12k)</li>
     </ul>
     <h3>版本日志</h3>
+    <dl>
+      <dt>v2.4.3（2016-12-16）</dt>
+      <dd>
+        <li>添加autoBlur可选项。</li>
+      </dd>
+    </dl>
     <dl>
       <dt>v2.4.2（2016-12-01）</dt>
       <dd>

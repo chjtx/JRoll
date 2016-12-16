@@ -184,6 +184,7 @@ jroll.options.bounce = false;
 |preventDefault	|true	|禁止touchmove默认事件<br/>Disables the touchmove default event|
 |momentum	|true	|开启滑动加速，惯性过渡 :white_check_mark:<br/>Open sliding acceleration, inertial transition|
 |autoStyle	|true	|自动为wrapper和scroller添加样式<br/>Automatically adds styles to the wrapper and scroller|
+|autoBlur   |true   |JRoll v2.4.3新增，在滑动时自动将input/textarea失焦收起软键盘。设为false将会在IOS上出现光标不跟随输入框移动的现象|
 | ~~adjustTop~~	|~~190~~ |从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。~~安卓手机弹出软键盘时自动调整输入框位置，作者不建议使用该项，如遇软键盘遮挡输入框的情况，建议重新设计表单页面。参考：WebAPP输入框被软键盘遮挡肿么办？~~|
 |scroller	|*[wrapper的第一个子元素]*<br/>*[Wrapper's first child element]*|指定scroller，不可动态更改，可以是id选择器字符串`#scroller`，也可以是dom对象`document.getElementById('scroller')`<br/>Specified scroller, can not be dynamically changed, can be id selector string `#scroller`, or can be dom `document.getElementById ( 'scroller')`|
 
