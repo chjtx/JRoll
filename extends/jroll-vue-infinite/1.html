@@ -13,7 +13,7 @@
       height: 100%;
       background: #dadada;
     }
-    
+
     header {
       height: 44px;
       line-height: 44px;
@@ -21,7 +21,7 @@
       background: #da020c;
       color: #fff;
     }
-    
+
     header>a {
       height: 34px;
       line-height: 34px;
@@ -29,7 +29,7 @@
       top: 5px;
       left: 10px;
     }
-    
+
     h1 {
       margin: 0;
       padding: 0;
@@ -43,19 +43,19 @@
       bottom: 0;
       width: 100%;
     }
-    
+
     #wrapper {
       position: absolute;
       top: 44px;
       bottom: 0;
       width: 100%;
     }
-    
+
     #scroller {
       margin: 0;
       padding: 0;
     }
-    
+
     .item {
       height: 60px;
       line-height: 60px;
@@ -63,11 +63,15 @@
       text-indent: 1em;
       background: #fff;
     }
-    
+
     .jroll-infinite-tip {
       height: 44px;
       line-height: 44px;
       text-align: center;
+    }
+
+    .jroll-vue-infinite {
+      height: 100%;
     }
   </style>
   <script src="../../vendor/vue.js"></script>
@@ -81,13 +85,10 @@
     <a onclick="javascript:history.back()">&lt;返回</a>
   </header>
   <div id="app">
-      <jroll-infinite>
-          <div class='item'>1、{{items[0].text}}</div>
+      <jroll-infinite class="jroll-vue-infinite">
+          <div class='item' v-for="i in items">{{i.index}}、{{i.text}}</div>
       </jroll-infinite>
   </div>
-  <!--<div id="wrapper">
-    <div id="scroller"></div>
-  </div>-->
 
   <script>
     //模拟ajax
@@ -106,30 +107,36 @@
       }, 800);
     }
 
-    // var jroll = new JRoll("#wrapper", {
-    //   scrollBarY: true
-    // });
-    // jroll.infinite({
-    //   getData: function(page, callback) { //获取数据的函数，必须传递一个数组给callback
-    //     ajax({
-    //       url: "getData.do?page=" + page,
-    //       success: function(data) {
-    //         callback(data);
-    //       }
-    //     });
-    //   },
-    //   template: "<div class='item'>{{=_obj.index}}、{{=_obj.text}}</div>" //每条数据模板
-    // });
+    // vue实例
+    var vm
+    var infOptions = {
+      bottomed: function () {
+        var me = this
+        if (me.page < 3) {
+          ajax({
+            url: 'getData.do?page=' + (me.page + 1),
+            success: function (data) {
+              me.page++ // 请求成功将page加1，失败则不要改变page
+              vm.$data.items = vm.$data.items.concat(data)
+              if (me.page === 3) {
+                me.tip = '已全部加载完成'
+              }
+            }
+          })
+        }
+      },
+      updated: function () {
+        console.log('current page is ' + this.page)
+      }
+    }
 
-    var vm = new Vue({
+    vm = new Vue({
       el: '#app',
       components: {
-        'jroll-infinite': JRoll.VueInfinite
+        'jroll-infinite': JRoll.VueInfinite(infOptions, { scrollBarY: true })
       },
       data: {
-        items: [{
-          text: 'JRoll Infinite for Vue'
-        }]
+        items: []
       }
     })
   </script>
