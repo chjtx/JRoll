@@ -1,3 +1,4 @@
+/*! JRoll-Infinite v2.1.3 ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/extends/jroll-infinite */
 /* global define, JRoll */
 (function (window, document, JRoll) {
   'use strict'
@@ -181,7 +182,7 @@
     }
   }
 
-  JRoll.prototype.infinite.version = '{{version}}'
+  JRoll.prototype.infinite.version = '2.1.3'
 
   // CommonJS/AMD/CMD规范导出JRoll
   if (typeof module !== 'undefined' && module.exports) {
