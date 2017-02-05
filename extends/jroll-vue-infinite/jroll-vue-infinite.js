@@ -1,4 +1,4 @@
-/*! JRoll-Vue-Infinite v0.0.1 ~ (c) 2015-2016 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
+/*! JRoll-Vue-Infinite v0.0.2 ~ (c) 2016-2017 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
 /* global JRoll */
 JRoll.VueInfinite = function (options, jrollOptions) {
   options = options || {}
@@ -13,6 +13,17 @@ JRoll.VueInfinite = function (options, jrollOptions) {
     mounted: function () {
       var me = this
       me.jroll = new JRoll(me.$el, jrollOptions || {})
+      if (options.pulldown) {
+        options.pulldown.refresh = function (complete) {
+          me.page = 0
+          options.bottomed.call(me, complete)
+        }
+        if (typeof me.jroll.pulldown === 'function') {
+          me.jroll.pulldown(options.pulldown)
+        } else {
+          console.error('If you want to open the `pulldown` options, you must load `jroll-pulldown.js` first')
+        }
+      }
       me.jroll.on('scrollEnd', function () {
         if (this.y < this.maxScrollY + me.jroll.scroller.querySelector('.jroll-infinite-tip').offsetHeight &&
           this.scrollerHeight > this.wrapperHeight &&
