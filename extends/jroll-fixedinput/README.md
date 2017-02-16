@@ -52,6 +52,11 @@ define(['jroll-fixedinput'], function(JRoll) {
 
 ## 更新日志
 
+
+v1.0.3 (2017-02-16)
+
+- 修复input的type为submit/reset/radio等时页面仍移动的问题
+
 v1.0.2 (2016-11-08)
 
 - 修复在聚焦情况下点击输入框没触发自动调整位置的问题
