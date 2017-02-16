@@ -238,7 +238,7 @@ var jroll = new JRoll("#wrapper");
 The method is used to move the scroller. The first parameter is the x offset (required), the second is the y offset (required), and the third is the sliding time (optional, unit Ms), the fourth is whether to allow out of bounds (optional, true / false), and the fifth callback method. If you want to get the current x, y offset, you can directly output jroll.x and jroll.y
 
 ```js
-jroll.scrollTo(x, y, duration [, bool, callback])
+jroll.scrollTo(x, y [, duration , bool, callback])
 ```
 ```js
 var jroll = new JRoll("#wrapper");
