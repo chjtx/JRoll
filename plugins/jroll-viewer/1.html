@@ -89,17 +89,20 @@
       <img src="http://www.chjtx.com/JRoll1/images/1.jpg" jroll-viewer-image>
       <img src="http://ww1.sinaimg.cn/orj480/006003lPjw1f6wuv37rikj30u02x216z.jpg" jroll-viewer-image>
       <img src="http://www.chjtx.com/JRoll1/images/2.jpg" jroll-viewer-image>
-      <img src="http://image.diyiyou.com/game/2014/08/1409296997_4.jpg" jroll-viewer-image>
+      <!--<img src="http://image.diyiyou.com/game/2014/08/1409296997_4.jpg" jroll-viewer-image>-->
+      <img src="https://farm4.staticflickr.com/3920/15008465772_383e697089_b.jpg" jroll-viewer-image>
     </div>
     <p>自定义对应大图</p>
     <div id="div2">
-      <img src="http://www.chjtx.com/JRoll1/images/1.jpg" data-src="http://image.diyiyou.com/game/2014/08/1409296997_4.jpg" jroll-viewer-image>
+      <img src="http://www.chjtx.com/JRoll1/images/1.jpg" data-src="https://farm4.staticflickr.com/3920/15008465772_383e697089_b.jpg" jroll-viewer-image>
       <img src="http://ww1.sinaimg.cn/orj480/006003lPjw1f6wuv37rikj30u02x216z.jpg" data-src="http://www.chjtx.com/JRoll1/images/2.jpg" jroll-viewer-image>
       <img src="../../demos/images/qrcode.png">
     </div>
   </div>
   <script>
-    var viewer = new JRollViewer('#div1')
+    var viewer = new JRollViewer('#div1', {afterSwitch: function (i) {
+      console.log(i)
+    }})
     var viewer2 = new JRollViewer('#div2', {zoomMax:100, data: 'src', JRoll: JRoll})
   </script>
 </body>

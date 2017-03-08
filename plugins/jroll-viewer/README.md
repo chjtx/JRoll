@@ -63,6 +63,7 @@ new JRollViewer(el [, options])
 |----------|----------|----------|
 | data | undefined | 小图dataset的属性作为大图读取的图片路径，若不指定该选项，默认读取小图src |
 | zoomMax | 图片原始值 | 图片最大缩放倍数，以window.innerWidth为1 |
+| afterSwitch | undefined | 图片切换后执行的回调函数，`function (i) {...}` i为切换后图片的索引值，索引从0开始 |
 | JRoll | window.JRoll | 用于异步引入JRoll，不能确保window.JRoll比window.JRollViewer先加载完成时使用 |
 
 例：
@@ -117,15 +118,20 @@ viewer.switch(1, 200)
 viewer.switch(index[, duration])
 
 - index 必填，索引值，要切换到哪张图片
-- duration 可选，过渡时间
+- duration 可选，过渡时间，当该值转为布尔类型不为false时会执行选项的`afterSwitch`方法
 
 ## Log
 
-### v0.1.3 (2016-12-2)
+### v0.2.0 (2017-03-08)
+
+- 添加afterSwitch方法
+- 修改滑动阀值
+
+### v0.1.3 (2016-12-02)
 
 - 超过5张图，将小圆点改为数字
 
-### v0.1.2 (2016-12-1)
+### v0.1.2 (2016-12-01)
 
 - 添加data选项
 
