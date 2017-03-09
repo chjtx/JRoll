@@ -120,7 +120,26 @@ viewer.switch(index[, duration])
 - index 必填，索引值，要切换到哪张图片
 - duration 可选，过渡时间，当该值转为布尔类型不为false时会执行选项的`afterSwitch`方法
 
+## 技巧
+
+### 自定义点击退出事件
+
+目前默认点击图集查看器时会自动退出，如果需要点击时不退出，而是显示自己的头部导航等内容时，可以自行改写点击事件
+
+在自己的退出按钮点击执行hide方法即可退出图集查看器
+
+```js
+document.getElementById('jroll_viewer').onclick = function () {
+  // 你的代码
+}
+```
+
 ## Log
+
+### v0.2.1 (2017-03-09)
+
+- 优化滑动体验
+- 修复屏幕旋转时报undefined的错误
 
 ### v0.2.0 (2017-03-08)
 
