@@ -20,6 +20,10 @@
   var JRollViewer = function (el, options) {
     var me = this
 
+    w = window.innerWidth
+    h = window.innerHeight
+    ratio = w / h
+
     me.el = typeof el === 'string' ? document.querySelector(el) : el
 
     me.el.addEventListener('click', function (e) {
