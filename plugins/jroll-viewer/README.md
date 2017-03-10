@@ -136,6 +136,10 @@ document.getElementById('jroll_viewer').onclick = function () {
 
 ## Log
 
+### v0.2.2 (2017-03-10)
+
+- 使用JRoll v2.4.7 新增的edgeRelease选项，修复body.scrollTop不为0时图片滑动失效的问题
+
 ### v0.2.1 (2017-03-09)
 
 - 优化滑动体验
