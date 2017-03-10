@@ -381,17 +381,22 @@ jroll.options.bounce = false;
       <tr>
         <td>autoBlur</td>
         <td>true</td>
-        <td>JRoll v2.4.3新增，在滑动时自动将input/textarea失焦收起软键盘。设为false将会在IOS上出现光标不跟随输入框移动的现象</td>
+        <td>v2.4.3新增，在滑动时自动将input/textarea失焦收起软键盘。设为false将会在IOS上出现光标不跟随输入框移动的现象</td>
       </tr>
       <tr>
         <td><del class="red">adjustTop</del></td>
         <td><del class="red">190</del></td>
-        <td>从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。<del class="red">安卓手机弹出软键盘时自动调整输入框位置，作者不建议使用该项，如遇软键盘遮挡输入框的情况，建议重新设计表单页面。参考：<a target="_blank" href="http://my.oschina.net/cjlice/blog/625526">WebAPP输入框被软键盘遮挡肿么办？</a></del></td>
+        <td>从v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。<del class="red">安卓手机弹出软键盘时自动调整输入框位置，作者不建议使用该项，如遇软键盘遮挡输入框的情况，建议重新设计表单页面。参考：<a target="_blank" href="http://my.oschina.net/cjlice/blog/625526">WebAPP输入框被软键盘遮挡肿么办？</a></del></td>
       </tr>
       <tr>
         <td>scroller</td>
         <td><em>[wrapper的第一个子元素]</em></td>
         <td>指定scroller，不可动态更改，可以是id选择器字符串<em>#scroller</em>，也可以是dom对象<em>document.getElementById('scroller')</em></td>
+      </tr>
+      <tr>
+        <td>edgeRelease</td>
+        <td>true</td>
+        <td>v2.4.7新增，边缘释放，滑动到上下边界自动结束，解决手指滑出屏幕没触发touchEnd事件的问题。如果手指滑动屏幕的速度过快该选项并不一定起作用</td>
       </tr>
     </table>
 
@@ -688,14 +693,18 @@ document.addEventListener("click", function(e) {
     <h2 id="download">下载</h2>
     <em>建议：下载文件后将文件名版本号去掉，这样在JRoll有更新时只需要更新jroll.js文件，不需要更新引用jroll的文件。</em>
     <ul>
-      <li><a target="_blank" href="./build/jroll.2.4.6.js">jroll.2.4.6.js</a>(30k)</li>
-      <li><a target="_blank" href="./build/jroll.2.4.6.min.js">jroll.2.4.6.min.js</a>(15k)</li>
+      <li><a target="_blank" href="./build/jroll.2.4.7.js">jroll.2.4.7.js</a>(30k)</li>
+      <li><a target="_blank" href="./build/jroll.2.4.7.min.js">jroll.2.4.7.min.js</a>(15k)</li>
     </ul>
     <ul>
+      <li><del target="_blank" href="./build/jroll.2.4.6.js">jroll.2.4.6.js</del>(30k)</li>
+      <li><del target="_blank" href="./build/jroll.2.4.6.min.js">jroll.2.4.6.min.js</del>(15k)</li>
+    </ul>
+    <!--<ul>
       <li><del target="_blank" href="./build/jroll.2.4.5.js">jroll.2.4.5.js</del>(30k)</li>
       <li><del target="_blank" href="./build/jroll.2.4.5.min.js">jroll.2.4.5.min.js</del>(15k)</li>
     </ul>
-    <!--<ul>
+    <ul>
       <li><del target="_blank" href="./build/jroll.2.4.3.js">jroll.2.4.3.js</del>(30k)</li>
       <li><del target="_blank" href="./build/jroll.2.4.3.min.js">jroll.2.4.3.min.js</del>(15k)</li>
     </ul>
@@ -728,6 +737,12 @@ document.addEventListener("click", function(e) {
       <li><del target="_blank" href="./build/jroll.2.0.0.min.js">jroll.2.0.0.min.beta</del>(12k)</li>
     </ul>-->
     <h3>版本日志</h3>
+    <dl>
+      <dt>v2.4.7（2017-03-10）</dt>
+      <dd>
+        <li>添加 edgeRelease 选项开关，用于控制滑动到屏幕上下边界是否自动结束JRoll，默认为true。</li>
+      </dd>
+    </dl>
     <dl>
       <dt>v2.4.6（2017-03-09）</dt>
       <dd>
