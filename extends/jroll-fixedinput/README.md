@@ -2,7 +2,7 @@
 
 ## 说明
 
-从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。fixedinput会将focusin事件绑定到wrapper上，可使wrapper里的input/textarea在focus时能自动上移到离wrapper默认10px处，可通过传入参数修改默认距离`jroll.fixedinput(20)`。
+从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。fixedinput会将focusin事件绑定到wrapper上，可使wrapper里被遮挡的input/textarea在focus时能自动上移到可见位置（屏幕上半部分）。
 
 ## 引入
 
@@ -24,6 +24,7 @@ jroll.fixedinput(); //使该JRoll对象里的input/textarea在focus时能自动�
 ```
 
 AMD规范引入（requireJS）
+
 ```js
 //配置jroll-fixedinput依赖jroll
 require.config({
@@ -42,9 +43,9 @@ define(['jroll-fixedinput'], function(JRoll) {
     //jroll-fixedinput将会返回JRoll，因此不需要单独引入jroll.js
     var jroll = new JRoll("#wrapper");
 
-    jroll.fixedinput(20); //上移到离wrapper顶部20px处
+    jroll.fixedinput(120); //上移到离wrapper底部120px处
 
-    //jroll.fixedinput(20, true);
+    //jroll.fixedinput(120, true);
     //两个可选参数，当第2个参数为true时，scroller里的input/textarea的tabIndex将会设为-1，
     //第2个参数用于解决当IOS设备input/textarea比较多时用户使用tab键切换输入框导致页面错位的bug
 });
@@ -52,10 +53,10 @@ define(['jroll-fixedinput'], function(JRoll) {
 
 ## 更新日志
 
-v1.0.4 (2017-03-15)
+v1.1.0 (2017-03-15)
 
-- 修改默认位移位置，如果input位于上半屏且不带参数开启`jroll.fixedinput()`，将不会自动移动input的位置
-
+- 修改默认位移位置，只移动位于下半屏的input，如果input位于上半屏将不会自动移动input的位置
+- `jroll.fixedinput(100)`所带的参数由原来是距离顶部位置改为距离底部的位置
 
 v1.0.3 (2017-02-16)
 

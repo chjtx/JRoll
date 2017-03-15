@@ -9,20 +9,15 @@
     var type = e.target.type
     if (e.target === document.activeElement &&
       (tagName === 'INPUT' || tagName === 'TEXTAREA') &&
-      (type === 'text' || type === 'password' || type === 'textarea' || type === 'email' || type === 'number' || type === 'search' || type === 'tel' || type === 'url')) {
+      (type === 'text' || type === 'password' || type === 'textarea' || type === 'email' || type === 'number' || type === 'search' || type === 'tel' || type === 'url') &&
+      window.innerHeight > 479) {
       var me = this
       var t = utils.computePosition(e.target, document.body).top
       var top = utils.computePosition(e.target, me.wrapper).top
 
-      // 手动调整位置
-      if (typeof me.options.adjustTop === 'number') {
-        me.scrollTo(me.x, -1 * top + me.options.adjustTop, 200, true)
-        return
-      }
-
-      // 自动调整位置
+      // 调整位置
       if (t + me.y > window.innerHeight / 2 - 50) {
-        me.scrollTo(me.x, -1 * top + window.innerHeight / 2 - 100, 200, true)
+        me.scrollTo(me.x, -1 * top + window.innerHeight / 2 - me.options.adjustTop, 200, true)
       }
     }
   }
@@ -36,7 +31,7 @@
     var me = this
 
     // 安卓手机输入表单时自动调整输入框位置
-    me.options.adjustTop = adjustTop
+    me.options.adjustTop = adjustTop || 100
 
     // Android
     if (!me.wrapper.jroll_fixedinput && utils.isAndroid) {
