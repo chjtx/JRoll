@@ -1,3 +1,4 @@
+/*! JRoll-FixedInput v1.0.4 ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/extends/jroll-fixedinput */
 /* global define, JRoll */
 (function (window, document, JRoll) {
   'use strict'
@@ -61,7 +62,7 @@
     }
   }
 
-  JRoll.prototype.fixedinput.version = '{{version}}'
+  JRoll.prototype.fixedinput.version = '1.0.4'
 
   // CommonJS/AMD/CMD规范导出JRoll
   if (typeof module !== 'undefined' && module.exports) {

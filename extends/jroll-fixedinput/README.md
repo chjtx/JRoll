@@ -46,11 +46,15 @@ define(['jroll-fixedinput'], function(JRoll) {
 
     //jroll.fixedinput(20, true);
     //两个可选参数，当第2个参数为true时，scroller里的input/textarea的tabIndex将会设为-1，
-    //第2个参数用于解决当input/textarea比较多时用户使用tab键切换输入框导致页面错位的bug
+    //第2个参数用于解决当IOS设备input/textarea比较多时用户使用tab键切换输入框导致页面错位的bug
 });
 ```
 
 ## 更新日志
+
+v1.0.4 (2017-03-15)
+
+- 修改默认位移位置，如果input位于上半屏且不带参数开启`jroll.fixedinput()`，将不会自动移动input的位置
 
 
 v1.0.3 (2017-02-16)
