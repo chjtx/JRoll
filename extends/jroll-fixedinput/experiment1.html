@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>用span计算宽度（不可取）</title>
+  <meta name="description" content="尝试用div模拟输入框">
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #dadada;
+    }
+    
+    header {
+      height: 44px;
+      line-height: 44px;
+      text-align: center;
+      background: #da020c;
+      color: #fff;
+    }
+    
+    h1 {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: normal;
+    }
+    
+    header>a {
+      height: 34px;
+      line-height: 34px;
+      position: absolute;
+      top: 5px;
+      left: 10px;
+    }
+    
+    #warning {
+      height: 64px;
+      padding: 10px;
+      font-size: 14px;
+      line-height: 1.3;
+      color: red;
+    }
+    
+    #wrapper {
+      position: absolute;
+      top: 44px;
+      bottom: 44px;
+      width: 100%;
+    }
+    
+    #scroller {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+    }
+    
+    table {
+      width: 100%;
+      line-height: 42px;
+    }
+    
+    table tr td:nth-child(1) {
+      width: 100px;
+      text-align: right;
+    }
+    
+    input,
+    textarea {
+      border: 1px solid #ddd;
+      width: 90%;
+      padding: 4px 0;
+      font-family: Consolas!important;
+    }
+    
+    textarea {
+      height: 50px;
+    }
+    
+    #footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 44px;
+      background: #aaa;
+    }
+    
+    #footer input {
+      float: left;
+      width: 70%;
+      margin-left: 5%;
+      height: 20px;
+      margin-top: 8px;
+    }
+    
+    #footer input[type='button'] {
+      width: 12%;
+      float: right;
+      margin-right: 5%;
+      margin-top: 8px;
+      height: 30px;
+      padding: 0;
+    }
+    .input {
+      min-height: 28px;
+      border: 1px solid #abcccc;
+      border-radius: 3px;
+      width: 90%;
+      font-size: 14px;
+      line-height: 28px;
+      word-break: break-word;
+      word-wrap: break-word;
+      position: relative;
+      font-family: Consolas!important;
+    }
+    #blink {
+      content: '|';
+      position: absolute;
+      color:#000;
+      animation:blink 1s infinite;
+    }
+    @keyframes blink
+    {
+      0% {opacity: 1;}
+      49% {opacity: 1;}
+      50% {opacity: 0;}
+      99% {opacity: 0;}
+    }
+  </style>
+</head>
+
+<body>
+  <input type="text" id="hidden_input" style="position:fixed;top:-10000px;">
+  <span id="blink">|</span>
+  <span id="computeWidth" style="position:fixed;top:-10000px;"></span>
+  <header>
+    <h1>表单</h1>
+    <a onclick="javascript:history.back()">&lt;返回</a>
+  </header>
+  <div id="wrapper">
+    <div id="scroller">
+      <table>
+        <tr>
+          <td>姓名：</td>
+          <td><div class="input" contenteditenable="true"><span class="text">李424西大坨村灯</span></div></td>
+        </tr>
+        <tr>
+          <td>年龄：</td>
+          <td><textarea></textarea></td>
+        </tr>
+        <tr>
+          <td>户籍：</td>
+          <td><input></td>
+        </tr>
+        <tr>
+          <td>性别：</td>
+          <td><textarea></textarea></td>
+        </tr>
+        <tr>
+          <td>学校：</td>
+          <td><input></td>
+        </tr>
+        <tr>
+          <td>职业：</td>
+          <td><textarea></textarea></td>
+        </tr>
+        <tr>
+          <td>兴趣：</td>
+          <td><div class="input"><span class="text"></span></div></td>
+        </tr>
+        <tr>
+          <td>爱好：</td>
+          <td><textarea></textarea></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div id="footer">
+    <input type="text">
+    <input type="button" value="提交">
+  </div>
+
+  <script src="../../vendor/fastclick.js"></script>
+  <script src="../../src/jroll.js"></script>
+  <script src="./jroll-fixedinput.js"></script>
+  <script>
+    // getClientRects
+    // setSelectionRange
+    var jroll = new JRoll("#wrapper");
+    jroll.fixedinput(120, true);
+
+    FastClick.attach(document.body);
+
+    var manual_inputs = document.querySelectorAll('.input')
+    var hidden_input = document.getElementById('hidden_input')
+    var blink = document.getElementById('blink')
+    var computeWidth = document.getElementById('computeWidth')
+    var activeInput
+
+    // 
+    function getCursorPosition(width, span, callback) {
+      computeWidth.style.fontSize = getComputedStyle(span).fontSize
+      computeWidth.innerText = ""
+      var fonts = span.innerText.split('')
+      var i = 0
+      var l = fonts.length
+      var w = 0
+      function a () {
+        if (i < l) {
+          computeWidth.innerText += fonts[i]
+          i++
+          setTimeout(function () {
+            if (computeWidth.clientWidth > width) {
+              callback(w, i - 1)
+            } else {
+              w = computeWidth.clientWidth
+              a()
+            }
+          }, 0)
+        }
+      }
+      a()
+    }
+
+    for (var i=0;i<manual_inputs.length;i++) {
+      manual_inputs[i].addEventListener('click', function (e) {
+        var span = this.querySelector('.text')
+        activeInput = this
+        hidden_input.value = span.innerText
+        hidden_input.focus()
+
+        var w = Math.floor(span.getClientRects()[0].width)
+        if (e.offsetX > w) {
+          hidden_input.setSelectionRange(hidden_input.value.length, hidden_input.value.length)
+          blink.style.left = 'auto'
+        } else {
+          getCursorPosition(e.offsetX, span, function (position, offset) {
+            hidden_input.setSelectionRange(offset, offset)
+            blink.style.left = position + 'px'
+          })
+        }
+
+        if (blink.parentNode !== this) this.appendChild(blink)
+      }, false)
+    }
+
+    hidden_input.addEventListener('input', function (e) {
+      activeInput.querySelector('.text').innerText = this.value
+    }, false)
+  </script>
+</body>
+
+</html>
