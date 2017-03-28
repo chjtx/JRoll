@@ -143,6 +143,8 @@
     <p><a target="_blank" href="http://www.chjtx.com/JRoll/demos/">http://www.chjtx.com/JRoll/demos/</a></p>
     <br/>
 
+    <p><strong>注意：</strong> JRoll是独立插件，不需要依赖任何第三方库，Demo代码上引入了FastClick库是为了演示JRoll能和FastClick配合使用，因为IScroll5开启click:true后在IOS上与FastClick一起使用会导致单击事件需要双击才能触发的问题，与之对比JRoll不会有这个问题。</p>
+
     <h3>运行示例</h3>
     <p>请先安装 <a target="_blank" href="https://git-scm.com/downloads">git</a> 和 <a target="_blank" href="http://nodejs.cn/">nodejs</a></p>
 <pre class="language-bash"><code>
@@ -695,14 +697,18 @@ document.addEventListener("click", function(e) {
     <h2 id="download">下载</h2>
     <em>建议：下载文件后将文件名版本号去掉，这样在JRoll有更新时只需要更新jroll.js文件，不需要更新引用jroll的文件。</em>
     <ul>
-      <li><a target="_blank" download="jroll.js" href="./build/jroll.2.4.7.js">jroll.2.4.7.js</a>(30k)</li>
-      <li><a target="_blank" download="jroll.min.js" href="./build/jroll.2.4.7.min.js">jroll.2.4.7.min.js</a>(15k)</li>
+      <li><a target="_blank" download="jroll.js" href="./build/jroll.2.4.8.js">jroll.2.4.8.js</a>(31k)</li>
+      <li><a target="_blank" download="jroll.min.js" href="./build/jroll.2.4.8.min.js">jroll.2.4.8.min.js</a>(15k)</li>
     </ul>
     <ul>
+      <li><del target="_blank" download="jroll.js" href="./build/jroll.2.4.7.js">jroll.2.4.7.js</del>(30k)</li>
+      <li><del target="_blank" download="jroll.min.js" href="./build/jroll.2.4.7.min.js">jroll.2.4.7.min.js</del>(15k)</li>
+    </ul>
+    <!--<ul>
       <li><del target="_blank" href="./build/jroll.2.4.6.js">jroll.2.4.6.js</del>(30k)</li>
       <li><del target="_blank" href="./build/jroll.2.4.6.min.js">jroll.2.4.6.min.js</del>(15k)</li>
     </ul>
-    <!--<ul>
+    <ul>
       <li><del target="_blank" href="./build/jroll.2.4.5.js">jroll.2.4.5.js</del>(30k)</li>
       <li><del target="_blank" href="./build/jroll.2.4.5.min.js">jroll.2.4.5.min.js</del>(15k)</li>
     </ul>
@@ -739,6 +745,12 @@ document.addEventListener("click", function(e) {
       <li><del target="_blank" href="./build/jroll.2.0.0.min.js">jroll.2.0.0.min.beta</del>(12k)</li>
     </ul>-->
     <h3>版本日志</h3>
+    <dl>
+      <dt>v2.4.8（2017-03-28）</dt>
+      <dd>
+        <li>修复issues-14里提到的bug，当内层jroll将滑动权交给外层jroll后，再次触碰不能停住外层jroll。</li>
+      </dd>
+    </dl>
     <dl>
       <dt>v2.4.7（2017-03-10）</dt>
       <dd>

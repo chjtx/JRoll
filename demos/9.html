@@ -90,84 +90,28 @@
     </header>
     <div id="wrapper">
         <div id="scroller">
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item-scroller">
-                    <div class="content">列表内容</div>
-                    <div class="del">删除</div>
-                </div>
-            </div>
+            <!-- 用js添加内容 -->
         </div>
     </div>
 
     <script src="../vendor/fastclick.js"></script>
     <script src="../src/jroll.js"></script>
     <script>
+        // 给scroller添加元素
+        var count = 50
+        var html = ''
+        while (count--) {
+            html += 
+            '<div class="item">\
+                <div class="item-scroller">\
+                    <div class="content">列表内容</div>\
+                    <div class="del">删除</div>\
+                </div>\
+            </div>'
+        }
+        document.getElementById('scroller').innerHTML = html
+
+        // 创建外层jroll实例
         var jroll = new JRoll("#wrapper", {
             id: "demo9",scrollBarY:true
         });
@@ -176,6 +120,7 @@
         var current = null; //保存当前滑开的item
 
         for (var i=0,l=items.length; i<l; i++) {
+            // 每行创建jroll实例
             var j = new JRoll(items[i], {
                 scrollX:true,
                 bounce:false

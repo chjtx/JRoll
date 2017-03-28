@@ -12,6 +12,9 @@ Use the phone to scan the QR code to see the example
 
 [http://www.chjtx.com/JRoll/demos/](http://www.chjtx.com/JRoll/demos/)
 
+**注意：** JRoll是独立插件，不需要依赖任何第三方库，Demo代码上引入了FastClick库是为了演示JRoll能和FastClick配合使用，因为IScroll5开启click:true后在IOS上与FastClick一起使用会导致单击事件需要双击才能触发的问题，与之对比JRoll不会有这个问题。
+
+**Notice:** JRoll does not need to rely on any third party libraries.
 
 ## 运行示例 Run Demos
 
