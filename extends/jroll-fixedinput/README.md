@@ -45,13 +45,14 @@ define(['jroll-fixedinput'], function(JRoll) {
 
     jroll.fixedinput(120); //上移到离wrapper底部120px处
 
-    //jroll.fixedinput(120, true);
-    //两个可选参数，当第2个参数为true时，scroller里的input/textarea的tabIndex将会设为-1，
-    //第2个参数用于解决当IOS设备input/textarea比较多时用户使用tab键切换输入框导致页面错位的bug
 });
 ```
 
 ## 更新日志
+
+v1.2.0 (2017-03-29)
+
+- 取消第二个参数，使用scrollIntoView来解决tab切换输入框导致页面滑不下来的问题
 
 v1.1.0 (2017-03-15)
 
