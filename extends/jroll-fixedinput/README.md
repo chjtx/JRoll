@@ -50,6 +50,10 @@ define(['jroll-fixedinput'], function(JRoll) {
 
 ## 更新日志
 
+v1.2.1 (2017-03-30)
+
+- 使用getClientRects来判断div是否被手机自动移位再进行scrollIntoView操作
+
 v1.2.0 (2017-03-29)
 
 - 取消第二个参数，使用scrollIntoView来解决tab切换输入框导致页面滑不下来的问题
