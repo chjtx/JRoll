@@ -2,7 +2,7 @@
 
 ## 说明
 
-从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。fixedinput会将focusin事件绑定到wrapper上，可使wrapper里被遮挡的input/textarea在focus时能自动上移到可见位置（屏幕上半部分）。
+从JRoll v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。fixedinput.js可使wrapper里被遮挡的input/textarea在focus时能自动上移到可见位置（屏幕上半部分）。
 
 ## 引入
 
