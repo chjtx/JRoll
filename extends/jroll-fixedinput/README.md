@@ -50,7 +50,7 @@ define(['jroll-fixedinput'], function(JRoll) {
 
 ## Tips
 
-如果遇到输入框聚焦时，滑动页面，软件盘收起后页面向上缩减了一截滑不下来的情况，可以尝试将`wrapper`设为`position:fixed`来解决
+如果遇到输入框聚焦时滑动页面，软键盘收起后页面向上缩减了一截滑不下来的情况，可以尝试将`wrapper`设为`position:fixed`来解决
 
 ## 更新日志
 
