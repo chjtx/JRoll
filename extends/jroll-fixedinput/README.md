@@ -54,6 +54,10 @@ define(['jroll-fixedinput'], function(JRoll) {
 
 ## 更新日志
 
+v1.2.3 (2017-04-06)
+
+- 判断只有安卓才使用jroll移动input，避免与IOS自动偏移冲突
+
 v1.2.2 (2017-03-31)
 
 - 调整需要自动移动输入框位置的判断数值
