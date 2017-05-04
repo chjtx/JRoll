@@ -76,6 +76,11 @@ JRoll Second Edition adds some APIs that are not fully compatible with JRoll fir
 
 ### 引入 Import
 
+npm
+```bash
+npm install jroll --save-dev
+```
+
 普通方式引入
 ```html
 <script src='jroll'></script>
