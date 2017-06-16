@@ -606,6 +606,17 @@ jroll.on("refresh", function() {
 
     <h2 id="senior">进阶</h2>
 
+    <h3>使用 scroller div 的 jroll 属性获取JRoll对象</h3>
+    <pre><code class="language-html">
+&lt;div id="w">
+  &lt;div id="s">&lt;/div>
+&lt;/div>
+&lt;script>
+var jroll = new JRoll('#w')
+document.getElementById('s').jroll === jroll // true
+&lt;/script>
+    </code></pre>
+
     <h3>使用this.s判断当前滑动状态</h3>
     <pre><code>
 var jroll = new JRoll("#wrapper");

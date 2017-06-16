@@ -457,6 +457,20 @@ jroll.on("refresh", function() {
 
 ## 进阶 Advanced
 
+### 使用 scroller div 的 jroll 属性获取JRoll对象 Use the attribute jroll to get the JRoll instance
+
+每个scroller都有索引指向其本身的jroll的
+
+```html
+<div id="w">
+  <div id="s"></div>
+</div>
+<script>
+var jroll = new JRoll('#w')
+document.getElementById('s').jroll === jroll // true
+</script>
+```
+
 ### 使用this.s判断当前滑动状态 Use `this.s` to determine the current sliding state
 
 ```js
