@@ -605,9 +605,9 @@ At present, the more feasible solutions are:
 
 These two designs are clever to avoid the input box is the case of the soft keyboard block, you can refer to this article [WebAPP输入框被软键盘遮挡肿么办？](https://my.oschina.net/cjlice/blog/625526)
 
-JRoll使用translate3d滑动页面，可监听input聚焦事件，使用scrollTo方法将输入框移动到可见位置，在Android机上可解决被遮挡的问题，详见[jroll-fixedinput组件](https://github.com/chjtx/JRoll/tree/master/plugins/jroll-fixedinput)
+JRoll使用translate3d滑动页面，可监听input聚焦事件，使用scrollTo方法将输入框移动到可见位置，在Android机上可解决被遮挡的问题，详见[jroll-fixedinput组件](https://github.com/chjtx/JRoll/tree/master/extends/jroll-fixedinput)
 
-JRoll uses the translate3d to scroll through the page, listen for input focus events, use the scrollTo method to move the input box to the visible position, and solve the occluded problem on Android. look [jroll-fixedinput组件](https://github.com/chjtx/JRoll/tree/master/plugins/jroll-fixedinput)
+JRoll uses the translate3d to scroll through the page, listen for input focus events, use the scrollTo method to move the input box to the visible position, and solve the occluded problem on Android. look [jroll-fixedinput组件](https://github.com/chjtx/JRoll/tree/master/extends/jroll-fixedinput)
 
 IOS设备会自动调整输入框位置，尽管有时这个位置并不是我们想要的。很遗憾的是还没找到H5禁止IOS自动移动input位置的方法。
 
