@@ -137,3 +137,17 @@ gulp.task('pulldown', function () {
     basename: 'jroll-pulldown'
   })
 })
+
+// jroll-lite 压缩、备份
+gulp.task('lite', function () {
+  let version = JSON.parse(fs.readFileSync('./package.json'))['version-lite']
+  let copyright = `/*! JRoll-Lite v${version} ~ (c) 2017 Author:BarZu Git:https://github.com/chjtx/JRoll/blob/master/README-LITE.md */\n`
+
+  build({
+    version: version,
+    copyright: copyright,
+    src: 'src/jroll-lite.js',
+    dest: 'build/',
+    basename: 'jroll-lite'
+  })
+})

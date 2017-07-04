@@ -5,6 +5,7 @@
   "version-infinite": "2.1.4",
   "version-fixedinput": "1.2.3",
   "version-viewer": "0.2.2",
+  "version-lite": "2.4.11",
   "description": "Smooth scrolling for the mobile web.",
   "main": "src/jroll.js",
   "scripts": {
