@@ -60,6 +60,7 @@
             border-bottom: 1px solid #ddd;
             text-indent: 1em;
             background: #fff;
+            list-style-type: none;
         }
 
         #scroller li:nth-last-child(1) {
@@ -127,7 +128,7 @@
         <li>99</li>
         <li>999</li>
         <li>9999</li>
-        <li>横</li>
+        <li>竖</li>
     </ul>
     <div id="tips">渲染中，请稍候！</div>
 
@@ -137,13 +138,12 @@
         var scroller = document.getElementById("scroller");
         var jroll = new JRoll(wrapper, {
             id: "demo1",
-            scrollBar: true,
-            scrollX: true
+            scrollBarY: true,
+            scrollBarX: true,
+            scrollBarFade: true
         });
         var menu = document.getElementById("menu");
         var tips = document.getElementById("tips");
-
-        FastClick.attach(document.body);
 
         function createLi(n) {
             var html = "";
@@ -173,14 +173,12 @@
                 if (target.innerText === '横') {
                     target.innerText = '竖'
                     jroll.options.scrollX = false
-                } else {
+                    jroll.refresh().scrollTo(0, 0)
+                } else if (target.innerText === '竖') {
                     target.innerText = '横'
                     jroll.options.scrollX = true
+                    jroll.refresh().scrollTo(0, 0)
                 }
-                jroll.options.scrollBar = false
-                jroll.refresh().scrollTo(0)
-                jroll.options.scrollBar = true
-                jroll.refresh()
             }
         }
 

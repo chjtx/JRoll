@@ -116,6 +116,14 @@
     }
   }
 
+  function _resize () {
+    setTimeout(function () {
+      for (var i in jrollMap) {
+        jrollMap[i].refresh().scrollTo(0, jrollMap[i].y, 200)
+      }
+    }, 600)
+  }
+
   // 检测是否支持passive选项
   var supportsPassiveOption = false
   try {
@@ -136,12 +144,16 @@
   addEvent('touchmove', _touchmove)
   addEvent('touchend', _touchend)
   addEvent('touchcancel', _touchend)
+  window.addEventListener('resize', _resize)
+  window.addEventListener('orientationchange', _resize)
 
   JRoll = function (el, options) {
     var me = this
 
-    me.w = me.wrapper = typeof el === 'string' ? document.querySelector(el) : el
-    me.s = me.scroller = options && options.scroller ? (typeof options.scroller === 'string' ? document.querySelector(options.scroller) : options.scroller) : me.w.children[0]
+    me.wrapper = typeof el === 'string' ? document.querySelector(el) : el
+    me.w = me.wrapper
+    me.scroller = options && options.scroller ? (typeof options.scroller === 'string' ? document.querySelector(options.scroller) : options.scroller) : me.w.children[0]
+    me.s = me.scroller
 
     // 防止重复多次new JRoll
     if (me.s.jroll) {
@@ -174,21 +186,19 @@
 
       // 默认选项
       me.options = {
-        scrollX: false,
-        minX: null, // 向左滑动的边界值，默认为0
-        maxX: null, // 向右滑动的边界值，默认为scroller的宽*-1
-        minY: null, // 向下滑动的边界值，默认为0
-        maxY: null, // 向上滑动的边界值，默认为scroller的高*-1
+        min: null, // 向下滑动的边界值，默认为0
+        max: null, // 向上滑动的边界值，默认为scroller的高*-1
+        scrollX: false, // 横向滑动
         bounce: true, // 回弹
-        scrollBarX: false, // 开启x滚动条
-        scrollBarY: false, // 开启y滚动条
+        scrollBar: false, // 开启y滚动条
         scrollBarFade: false, // 滚动条使用渐隐模式
         preventDefault: true, // 禁止touchmove默认事件
         momentum: true, // 滑动结束平滑过渡
         autoStyle: true, // 自动为wrapper和scroller添加样式
         autoBlur: true  // 在滑动时自动将input/textarea失焦
       }
-      // 使用别名减少文件体积
+
+      // 使用别名减少压缩体积
       me.o = me.options
 
       for (var i in options) {
@@ -209,20 +219,12 @@
       }
 
       me.s.style.touchAction = 'none'
-
-      me.x = 0
       me.y = 0
-
-      me.scrollBarX = null // x滚动条
-      me.scrollBarY = null // y滚动条
-
+      me.scrollBar = null // y滚动条
       me._s = {
-        startX: 0,
-        startY: 0,
-        lastX: 0,
-        lastY: 0,
-        endX: 0,
-        endY: 0
+        start: 0,
+        last: 0,
+        end: 0
       }
 
       me._event = {
@@ -255,76 +257,50 @@
       var me = this
       var wrapperStyle = window.getComputedStyle(me.w)
       var scrollerStyle = window.getComputedStyle(me.s)
-      var paddingX
-      var paddingY
-      var marginX
-      var marginY
+      var padding
+      var margin
       var temp
       var size
 
-      me.wrapperWidth = me.w.clientWidth
-      me.wrapperHeight = me.w.clientHeight
-
-      me.scrollerWidth = me.s.offsetWidth
-      me.scrollerHeight = me.s.offsetHeight
-
       // 解决wrapper的padding和scroller的margin造成maxWidth/maxHeight计算错误的问题
-      paddingX = parseInt(wrapperStyle['padding-left']) + parseInt(wrapperStyle['padding-right'])
-      paddingY = parseInt(wrapperStyle['padding-top']) + parseInt(wrapperStyle['padding-bottom'])
-      marginX = parseInt(scrollerStyle['margin-left']) + parseInt(scrollerStyle['margin-right'])
-      marginY = parseInt(scrollerStyle['margin-top']) + parseInt(scrollerStyle['margin-bottom'])
-
-      // 最大/最小范围
-      me.minScrollX = me.o.minX === null ? 0 : me.o.minX
-      me.maxScrollX = me.o.maxX === null ? me.wrapperWidth - me.scrollerWidth - paddingX - marginX : me.o.maxX
-      me.minScrollY = me.o.minY === null ? 0 : me.o.minY
-      me.maxScrollY = me.o.maxY === null ? me.wrapperHeight - me.scrollerHeight - paddingY - marginY : me.o.maxY
-
-      if (me.minScrollX < 0) {
-        me.minScrollX = 0
-      }
-      if (me.minScrollY < 0) {
-        me.minScrollY = 0
-      }
-      if (me.maxScrollX > 0) {
-        me.maxScrollX = 0
-      }
-      if (me.maxScrollY > 0) {
-        me.maxScrollY = 0
+      if (me.o.scrollX) {
+        padding = parseInt(wrapperStyle['padding-left']) + parseInt(wrapperStyle['padding-right'])
+        margin = parseInt(scrollerStyle['margin-left']) + parseInt(scrollerStyle['margin-right'])
+        // 最大/最小范围
+        me.minScroll = me.o.min === null ? 0 : me.o.min
+        me.maxScroll = me.o.max === null ? me.w.clientWidth - me.s.offsetWidth - padding - margin : me.o.max
+      } else {
+        padding = parseInt(wrapperStyle['padding-top']) + parseInt(wrapperStyle['padding-bottom'])
+        margin = parseInt(scrollerStyle['margin-top']) + parseInt(scrollerStyle['margin-bottom'])
+        // 最大/最小范围
+        me.minScroll = me.o.min === null ? 0 : me.o.min
+        me.maxScroll = me.o.max === null ? me.w.clientHeight - me.s.offsetHeight - padding - margin : me.o.max
       }
 
-      me._s.endX = me.x
-      me._s.endY = me.y
+      if (me.minScroll < 0) {
+        me.minScroll = 0
+      }
 
-      // x滚动条
-      if (me.o.scrollBarX) {
-        if (!me.scrollBarX) {
-          temp = me._createScrollBar('jroll-xbar', 'jroll-xbtn', false)
-          me.scrollBarX = temp[0]
-          me.scrollBtnX = temp[1]
+      if (me.maxScroll > 0) {
+        me.maxScroll = 0
+      }
+
+      me._s.end = me.y
+
+      // 滚动条
+      if (me.o.scrollBar) {
+        if (!me.scrollBar) {
+          temp = me._createScrollBar('jroll-bar', 'jroll-btn')
+          me.scrollBar = temp[0]
+          me.scrollBtn = temp[1]
         }
-        me.scrollBarScaleX = me.w.clientWidth / me.s.offsetWidth
-        size = Math.round(me.scrollBarX.clientWidth * me.scrollBarScaleX)
-        me.scrollBtnX.style.width = (size > 8 ? size : 8) + 'px'
-        me._runScrollBarX()
-      } else if (me.scrollBarX) {
-        me.w.removeChild(me.scrollBarX)
-        me.scrollBarX = null
-      }
-      // y滚动条
-      if (me.o.scrollBarY) {
-        if (!me.scrollBarY) {
-          temp = me._createScrollBar('jroll-ybar', 'jroll-ybtn', true)
-          me.scrollBarY = temp[0]
-          me.scrollBtnY = temp[1]
-        }
-        me.scrollBarScaleY = me.w.clientHeight / me.s.offsetHeight
-        size = Math.round(me.scrollBarY.clientHeight * me.scrollBarScaleY)
-        me.scrollBtnY.style.height = (size > 8 ? size : 8) + 'px'
-        me._runScrollBarY()
-      } else if (me.scrollBarY) {
-        me.w.removeChild(me.scrollBarY)
-        me.scrollBarY = null
+        me.scrollBarScale = me.o.scrollX ? me.w.clientWidth / me.s.offsetWidth : me.w.clientHeight / me.s.offsetHeight
+        size = Math.round((me.o.scrollX ? me.w.clientWidth : me.scrollBar.clientHeight) * me.scrollBarScale)
+        me.scrollBtn.style[me.o.scrollX ? 'width' : 'height'] = (size > 8 ? size : 8) + 'px'
+        me._runScrollBar()
+      } else if (me.scrollBar) {
+        me.w.removeChild(me.scrollBar)
+        me.scrollBar = null
       }
 
       if (!notRefreshEvent) {
@@ -334,26 +310,20 @@
       return me
     },
 
-    // 滑动滚动条
-    _runScrollBarX: function () {
+    _runScrollBar: function () {
       var me = this
-      var x = Math.round(-1 * me.x * me.scrollBarScaleX)
+      var y = Math.round(-1 * me.y * me.scrollBarScale)
 
       me._scrollTo.call({
-        scroller: me.scrollBtnX
-      }, x, 0)
-    },
-    _runScrollBarY: function () {
-      var me = this
-      var y = Math.round(-1 * me.y * me.scrollBarScaleY)
-
-      me._scrollTo.call({
-        scroller: me.scrollBtnY
-      }, 0, y)
+        scroller: me.scrollBtn,
+        options: {
+          scrollX: me.o.scrollX
+        }
+      }, y)
     },
 
     // 创建滚动条
-    _createScrollBar: function (a, b, isY) {
+    _createScrollBar: function (a, b) {
       var me = this
       var bar
       var btn
@@ -363,13 +333,13 @@
       bar.className = a
       btn.className = b
 
-      if (this.options.scrollBarX === true || this.options.scrollBarY === true) {
-        if (isY) {
-          bar.style.cssText = 'position:absolute;top:2px;right:2px;bottom:2px;width:6px;overflow:hidden;border-radius:2px;-webkit-transform: scaleX(.5);transform: scaleX(.5);'
-          btn.style.cssText = 'background:rgba(0,0,0,.4);position:absolute;top:0;left:0;right:0;border-radius:2px;'
-        } else {
+      if (this.options.scrollBar === true) {
+        if (me.o.scrollX) {
           bar.style.cssText = 'position:absolute;left:2px;bottom:2px;right:2px;height:6px;overflow:hidden;border-radius:2px;-webkit-transform: scaleY(.5);transform: scaleY(.5);'
           btn.style.cssText = 'background:rgba(0,0,0,.4);height:100%;position:absolute;left:0;top:0;bottom:0;border-radius:2px;'
+        } else {
+          bar.style.cssText = 'position:absolute;top:2px;right:2px;bottom:2px;width:6px;overflow:hidden;border-radius:2px;-webkit-transform: scaleX(.5);transform: scaleX(.5);'
+          btn.style.cssText = 'background:rgba(0,0,0,.4);position:absolute;top:0;left:0;right:0;border-radius:2px;'
         }
       }
 
@@ -447,89 +417,67 @@
       return val
     },
 
-    _scrollTo: function (x, y) {
-      this.scroller.style[utils.TSF] = 'translate3d(' + x + 'px, ' + y + 'px, 0px)'
+    _scrollTo: function (y) {
+      this.scroller.style[utils.TSF] = this.options.scrollX ? 'translate3d(' + y + 'px, 0px, 0px)' : 'translate3d(0px, ' + y + 'px, 0px)'
     },
 
     /**
      * 供用户调用的scrollTo方法
-     * x x坐标
      * y y坐标
      * timing 滑动时长，使用css3的transition-duration进行过渡
      * allow  是否允许超出边界，默认为undefined即不允许超出边界
      * system 为true时即是本程序自己调用，默认为undefined即非本程序调用
      */
-    scrollTo: function (x, y, timing, allow, callback, system, t) {
+    scrollTo: function (y, timing, allow, callback, system, t) {
       var me = this
+      var scrollX = me.o.scrollX
       if (!allow) {
-        // x
-        if (x >= me.minScrollX) {
-          me.x = me.minScrollX
+        // y
+        if (y >= me.minScroll) {
+          me.y = me.minScroll
 
           // 滑到最大值时手指继续滑，重置开始、结束位置，优化体验
           if (t) {
-            me._s.startX = t[0].pageX
-            me._s.endX = me.minScrollX
+            me._s.start = scrollX ? t[0].pageX : t[0].pageY
+            me._s.end = me.minScroll
           }
-        } else if (x <= me.maxScrollX) {
-          me.x = me.maxScrollX
+        } else if (y <= me.maxScroll) {
+          me.y = me.maxScroll
           if (t) {
-            me._s.startX = t[0].pageX
-            me._s.endX = me.maxScrollX
-          }
-        } else {
-          me.x = x
-        }
-
-        // y
-        if (y >= me.minScrollY) {
-          me.y = me.minScrollY
-          if (t) {
-            me._s.startY = t[0].pageY
-            me._s.endY = me.minScrollY
-          }
-        } else if (y <= me.maxScrollY) {
-          me.y = me.maxScrollY
-          if (t) {
-            me._s.startY = t[0].pageY
-            me._s.endY = me.maxScrollY
+            me._s.start = scrollX ? t[0].pageX : t[0].pageY
+            me._s.end = me.maxScroll
           }
         } else {
           me.y = y
         }
       } else {
-        me.x = x
         me.y = y
       }
       if (!system) {
-        me._s.endX = me.x
-        me._s.endY = me.y
+        me._s.end = me.y
       }
       if (timing) {
-        utils.moveTo(me.s, me.x, me.y, timing, callback)
+        utils.moveTo(me.s, scrollX ? me.y : 0, scrollX ? 0 : me.y, timing, callback)
       } else {
-        me._scrollTo(me.x, me.y)
+        me._scrollTo(me.y)
         if (typeof callback === 'function') {
           callback()
         }
       }
 
-      if (me.scrollBtnX) me._runScrollBarX()
-      if (me.scrollBtnY) me._runScrollBarY()
+      if (me.scrollBtn) me._runScrollBar()
 
       return me
     },
 
     _endAction: function () {
       var me = this
-      me._s.endX = me.x
-      me._s.endY = me.y
+      me._s.end = me.y
       me.moving = false
 
       if (me.o.scrollBarFade && !me.fading) {
         me.fading = true // 标记渐隐滚动条
-        if (me.scrollBarX) me._fade(me.scrollBarX, 2000)
-        if (me.scrollBarY) me._fade(me.scrollBarY, 2000)
+        if (me.scrollBar) me._fade(me.scrollBar, 2000)
       }
       me._execEvent('scrollEnd')
     },
@@ -540,53 +488,25 @@
       me.bouncing = false
 
       function over () {
-        me.scrollTo(me.x, me.y, 300)
+        me.scrollTo(me.y, 300)
       }
 
-      // x方向
-      if (me.o.scrollX) {
-        if (me.directionX === 1) {
-          me.scrollTo(me.minScrollX + 15, me.y, 100, true, over)
-          me.x = me.minScrollX
-        } else {
-          me.scrollTo(me.maxScrollX - 15, me.y, 100, true, over)
-          me.x = me.maxScrollX
-        }
-
-      // y方向
+      if (me.direction === 1) {
+        me.scrollTo(me.minScroll + 15, 100, true, over)
+        me.y = me.minScroll
       } else {
-        if (me.directionY === 1) {
-          me.scrollTo(me.x, me.minScrollY + 15, 100, true, over)
-          me.y = me.minScrollY
-        } else {
-          me.scrollTo(me.x, me.maxScrollY - 15, 100, true, over)
-          me.y = me.maxScrollY
-        }
-      }
-    },
-
-    _x: function (p) {
-      var me = this
-      var n = me.directionX * p
-      if (!isNaN(n)) {
-        me.x = me.x + n
-        // 达到边界终止惯性，执行回弹
-        if (me.x >= me.minScrollX || me.x <= me.maxScrollX) {
-          me.moving = false
-          if (me.o.bounce) {
-            me.bouncing = true // 标记回弹
-          }
-        }
+        me.scrollTo(me.maxScroll - 15, 100, true, over)
+        me.y = me.maxScroll
       }
     },
 
     _y: function (p) {
       var me = this
-      var n = me.directionY * p
+      var n = me.direction * p
       if (!isNaN(n)) {
         me.y = me.y + n
         // 达到边界终止惯性，执行回弹
-        if (me.y >= me.minScrollY || me.y <= me.maxScrollY) {
+        if (me.y >= me.minScroll || me.y <= me.maxScroll) {
           me.moving = false
           if (me.o.bounce) {
             me.bouncing = true // 标记回弹
@@ -622,9 +542,8 @@
         }
         time = now
 
-        // _do是可变方法，可为_x,_y，在判断方向时判断为何值，避免在次处进行过多的判断操作
-        me._do(s)
-        me.scrollTo(me.x, me.y, 0, false, null, true)
+        me._y(s)
+        me.scrollTo(me.y, 0, false, null, true)
         me._execEvent('scroll')
       }
 
@@ -635,26 +554,19 @@
       var me = this
       me.distance = d
       if (me.o.bounce) {
-        me.x = me._compute(me.x, me.minScrollX, me.maxScrollX)
-        me.y = me._compute(me.y, me.minScrollY, me.maxScrollY)
+        me.y = me._compute(me.y, me.minScroll, me.maxScroll)
       }
-      me.scrollTo(me.x, me.y, 0, me.o.bounce, null, true, (e.touches || [e]))
+      me.scrollTo(me.y, 0, me.o.bounce, null, true, e.touches)
       me._execEvent('scroll', e)
     },
 
     _start: function (e) {
       var me = this
-      var t = e.touches || [e]
+      var t = e.touches
 
       me.distance = 0
       me.lastMoveTime = me.startTime = Date.now()
-      if (me.o.scrollX) {
-        me._do = me._x
-        me._s.lastX = me.startPositionX = me._s.startX = t[0].pageX
-      } else {
-        me._do = me._y
-        me._s.lastY = me.startPositionY = me._s.startY = t[0].pageY
-      }
+      me._s.last = me.startPosition = me._s.start = me.o.scrollX ? t[0].pageX : t[0].pageY
 
       me._execEvent('scrollStart', e)
     },
@@ -663,63 +575,44 @@
       var me = this
       var t = e.touches || [e]
       var now
-      var x
       var y
-      var dx
       var dy
-      var px
       var py
-      var directionX = 1
-      var directionY = 1
+      var direction = 1
+
+      y = me.o.scrollX ? t[0].pageX : t[0].pageY
+      dy = y - me._s.last
+
+      me._s.last = y
+
+      direction = dy >= 0 ? 1 : -1 // 手指滑动方向，1(向右/下) | -1(向左/上)
 
       now = Date.now()
 
-      if (me.o.scrollBarFade) {
-        me.fading = false // 终止滑动条渐隐
-        if (me.scrollBarX) me.scrollBarX.style.opacity = 1
-        if (me.scrollBarY) me.scrollBarY.style.opacity = 1
-      }
-
-      // x方向滑动
-      if (me.o.scrollX) {
-        x = t[0].pageX
-        dx = x - me._s.lastX
-        me._s.lastX = x
-        directionX = dx >= 0 ? 1 : -1 // 手指滑动方向，1(向右) | -1(向左)
-        if (now - me.lastMoveTime > 200 || me.directionX !== directionX) {
-          me.startTime = now
-          me.startPositionX = x
-          me.directionX = directionX
-        }
-        px = x - me.startPositionX
-        me.x = x - me._s.startX + me._s.endX
-        me._doScroll(px, e)
-
-      // y方向滑动
-      } else {
-        y = t[0].pageY
-        dy = y - me._s.lastY
-        me._s.lastY = y
-        directionY = dy >= 0 ? 1 : -1 // 手指滑动方向，1(向下) | -1(向上)
-        if (now - me.lastMoveTime > 200 || me.directionY !== directionY) {
-          me.startTime = now
-          me.startPositionY = y
-          me.directionY = directionY
-        }
-        py = y - me.startPositionY
-        me.y = y - me._s.startY + me._s.endY
-        me._doScroll(py, e)
+      if (now - me.lastMoveTime > 200 || me.direction !== direction) {
+        me.startTime = now
+        me.startPosition = y
+        me.direction = direction
       }
 
       me.lastMoveTime = now
+      py = y - me.startPosition
+
+      // 显示滚动条
+      if (me.o.scrollBarFade) {
+        me.fading = false // 终止滑动条渐隐
+        if (me.scrollBar) me.scrollBar.style.opacity = 1
+      }
+
+      me.y = y - me._s.start + me._s.end
+      me._doScroll(py, e)
     },
 
     _end: function (e) {
       var me = this
-      var ex1
-      var ex2
       var now = Date.now()
 
+      // 滑动结束
       if (e.touches && e.touches.length) {
         return
       }
@@ -728,12 +621,9 @@
       JRoll.jrollActive = null
       me.duration = now - me.startTime
 
-      ex1 = me.y > me.minScrollY || me.y < me.maxScrollY
-      ex2 = me.x > me.minScrollX || me.x < me.maxScrollX
-
       // 超出边界回弹
-      if (ex1 || ex2) {
-        me.scrollTo(me.x, me.y, 300)._endAction()
+      if (me.y > me.minScroll || me.y < me.maxScroll) {
+        me.scrollTo(me.y, 300)._endAction()
 
       // 惯性滑动
       } else if (me.o.momentum && me.duration < 200 && me.distance) {
@@ -743,6 +633,12 @@
         rAF(me._step.bind(me, now))
       } else {
         me._endAction()
+      }
+
+      // 隐藏滑动条
+      if (me.o.scrollBarFade && !me.fading) {
+        me.fading = true
+        if (me.scrollBar) me._fade(me.scrollBar, 2000)
       }
     }
   }
