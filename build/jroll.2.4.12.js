@@ -1,10 +1,10 @@
-/*! JRoll v2.5.0 ~ (c) 2015-2017 Author:BarZu Git:https://github.com/chjtx/JRoll Website:http://www.chjtx.com/JRoll/ */
+/*! JRoll v2.4.12 ~ (c) 2015-2017 Author:BarZu Git:https://github.com/chjtx/JRoll Website:http://www.chjtx.com/JRoll/ */
 /* global define */
 (function (window, document, Math) {
   'use strict'
 
   var JRoll
-  var VERSION = '2.5.0'
+  var VERSION = '2.4.12'
   var rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || function (callback) {
     setTimeout(callback, 17)
   }
@@ -748,26 +748,26 @@
       me.bouncing = false
 
       function over () {
-        me.scrollTo(me.x, me.y, 500)
+        me.scrollTo(me.x, me.y, 300)
       }
 
       // y方向
       if (me.s === 'scrollY') {
         if (me.directionY === 1) {
-          me.scrollTo(me.x, me.minScrollY + 20, 100, true, over)
+          me.scrollTo(me.x, me.minScrollY + 15, 100, true, over)
           me.y = me.minScrollY
         } else {
-          me.scrollTo(me.x, me.maxScrollY - 20, 100, true, over)
+          me.scrollTo(me.x, me.maxScrollY - 15, 100, true, over)
           me.y = me.maxScrollY
         }
 
       // x方向
       } else if (me.s === 'scrollX') {
         if (me.directionX === 1) {
-          me.scrollTo(me.minScrollX + 20, me.y, 100, true, over)
+          me.scrollTo(me.minScrollX + 15, me.y, 100, true, over)
           me.x = me.minScrollX
         } else {
-          me.scrollTo(me.maxScrollX - 20, me.y, 100, true, over)
+          me.scrollTo(me.maxScrollX - 15, me.y, 100, true, over)
           me.x = me.maxScrollX
         }
       }
@@ -884,55 +884,15 @@
 
         // textarea滑动条在底部，向下滑动时将滑动权交给textarea
         (target.scrollTop === target.scrollHeight - target.clientHeight && me.directionY === 1))) {
-        me._end(e)
+        me._end(e, true)
+        return false
       }
+      return true
     },
 
     _start: function (e) {
       var me = this
       var t = e.touches || [e]
-
-      // 判断滑动
-      if ((me.options.scrollX || me.options.scrollY || me.options.scrollFree) && (t.length === 1 || !me.options.zoom)) {
-        if (me.options.scrollBarFade) {
-          me.fading = false // 终止滑动条渐隐
-          if (me.scrollBarX) me.scrollBarX.style.opacity = 1
-          if (me.scrollBarY) me.scrollBarY.style.opacity = 1
-        }
-
-        // 任意方向滑动
-        if (me.options.scrollFree) {
-          me._do = me._xy
-          me.s = 'scrollFree'
-
-        // 允许xy两个方向滑动
-        } else if (me.options.scrollX && me.options.scrollY) {
-          me.s = 'preScroll'
-
-        // 只允许y
-        } else if (!me.options.scrollX && me.options.scrollY) {
-          me._do = me._y
-          me.s = 'scrollY'
-          me._yTextarea(e)
-
-        // 只允许x
-        } else if (me.options.scrollX && !me.options.scrollY) {
-          me._do = me._x
-          me.s = 'scrollX'
-        } else {
-          return
-        }
-
-        me.distance = 0
-        me.lastMoveTime = me.startTime = Date.now()
-        me._s.lastX = me.startPositionX = me._s.startX = t[0].pageX
-        me._s.lastY = me.startPositionY = me._s.startY = t[0].pageY
-
-        me._execEvent('scrollStart', e)
-        return
-      } else {
-        me.s = null
-      }
 
       // 判断缩放
       if (me.options.zoom && t.length > 1) {
@@ -956,6 +916,42 @@
         me._execEvent('zoomStart', e)
         return
       }
+
+      if (me.options.scrollBarFade) {
+        me.fading = false // 终止滑动条渐隐
+        if (me.scrollBarX) me.scrollBarX.style.opacity = 1
+        if (me.scrollBarY) me.scrollBarY.style.opacity = 1
+      }
+
+      // 任意方向滑动
+      if (me.options.scrollFree) {
+        me._do = me._xy
+        me.s = 'scrollFree'
+
+      // 允许xy两个方向滑动
+      } else if (me.options.scrollX && me.options.scrollY) {
+        me.s = 'preScroll'
+
+      // 只允许y
+      } else if (!me.options.scrollX && me.options.scrollY) {
+        me._do = me._y
+        me.s = 'scrollY'
+
+      // 只允许x
+      } else if (me.options.scrollX && !me.options.scrollY) {
+        me._do = me._x
+        me.s = 'scrollX'
+      } else {
+        me.s = null
+        return
+      }
+
+      me.distance = 0
+      me.lastMoveTime = me.startTime = Date.now()
+      me._s.lastX = me.startPositionX = me._s.startX = t[0].pageX
+      me._s.lastY = me.startPositionY = me._s.startY = t[0].pageY
+
+      me._execEvent('scrollStart', e)
     },
 
     _move: function (e) {
@@ -972,8 +968,15 @@
       var directionX = 1
       var directionY = 1
 
-      x = t[0].pageX
-      y = t[0].pageY
+      // 一个很奇怪的问题，在小米5默认浏览器上同时对x,y进行赋值流畅度会降低
+      // 因此采取选择性赋值以保证单向运行较好的滑动体验
+      if (me.s === 'preScroll' || me.s === 'scrollX' || me.s === 'scrollFree') {
+        x = t[0].pageX
+      }
+      if (me.s === 'preScroll' || me.s === 'scrollY' || me.s === 'scrollFree') {
+        y = t[0].pageY
+      }
+
       dx = x - me._s.lastX
       dy = y - me._s.lastY
 
@@ -1001,15 +1004,14 @@
       // 判断滑动方向
       if (me.s === 'preScroll') {
         // 判断为y方向，y方向滑动较常使用，因此优先判断
-        if (!me.options.scrollFree && me.options.scrollY && (!me.options.scrollX || Math.abs(y - me._s.startY) >= Math.abs(x - me._s.startX))) {
+        if (Math.abs(y - me._s.startY) >= Math.abs(x - me._s.startX)) {
           me._do = me._y
           me.s = 'scrollY'
-          me._yTextarea(e)
           return
         }
 
         // 判断为x方向
-        if (!me.options.scrollFree && me.options.scrollX && (!me.options.scrollY || Math.abs(y - me._s.startY) < Math.abs(x - me._s.startX))) {
+        if (Math.abs(y - me._s.startY) < Math.abs(x - me._s.startX)) {
           me._do = me._x
           me.s = 'scrollX'
           return
@@ -1019,7 +1021,9 @@
       // y方向滑动
       if (me.s === 'scrollY') {
         me.y = y - me._s.startY + me._s.endY
-        me._doScroll(py, e)
+        if (me._yTextarea(e)) {
+          me._doScroll(py, e)
+        }
         return
       }
 
@@ -1068,7 +1072,7 @@
       }
     },
 
-    _end: function (e) {
+    _end: function (e, manual) {
       var me = this
       var ex1
       var ex2
@@ -1079,7 +1083,9 @@
 
       // 滑动结束
       if (s1 || s2 || s3) {
-        if (e.touches && e.touches.length) {
+        // 禁止第二个手指滑动，只有一个手指时touchend事件的touches.length为0
+        // manual参数用于判断是否手动执行_end方法，用于处理带滚动条的texearea
+        if (e.touches && e.touches.length && !manual) {
           return
         }
 
@@ -1124,13 +1130,6 @@
         me._execEvent('zoomEnd')
 
         return
-      }
-
-      // 隐藏滑动条
-      if ((me.s === 'preScroll' || me.s === 'preZoom') && me.options.scrollBarFade && !me.fading) {
-        me.fading = true
-        if (me.scrollBarX) me._fade(me.scrollBarX, 2000)
-        if (me.scrollBarY) me._fade(me.scrollBarY, 2000)
       }
     }
   }

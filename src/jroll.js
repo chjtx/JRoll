@@ -894,7 +894,6 @@
       var me = this
       var t = e.touches || [e]
 
-
       // 判断缩放
       if (me.options.zoom && t.length > 1) {
         me.s = 'preZoom'
