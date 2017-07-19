@@ -178,7 +178,7 @@ jroll.infinite({
 
 - 使用infinite_callback方法手动更新数据
 
-遇到搜索、分类筛选等功能时，不能通过下拉刷新去更新数据，此时可手动执行infinite_callback方法。
+遇到搜索、分类筛选等功能时，不能通过下拉刷新去更新数据，此时可手动执行infinite_callback或infinite_error_callback方法。
 
 ```js
 var condition, jroll;
