@@ -52,13 +52,16 @@ define(['jroll-infinite'], function(JRoll) {
 var jroll = new JRoll("#wrapper");
 jroll.infinite({
     template: "<div>{{=_obj.title}}</div>",
-    getData: function(page, callback) {
+    getData: function(page, callback, errorCallback) {
         //完成加载数据的操作后回调执行callback方法
         ajax({
         	url: "getData.do?page=" + page,
         	success: function(data) {
         	    callback(data);
-        	}
+        	},
+            error: function() {
+                errorCallback(); // 将会显示错误提示信息
+            }
         });
     }
 });
@@ -75,6 +78,7 @@ jroll.infinite({
 | template | "" | Y | 每条数据的模板，模板里div等元素标签的属性不能省略引号 |
 | loadingTip | &lt;div class=\"jroll-infinite-tip\"&gt;正在加载...&lt;/div&gt; | N | 正在加载提示信息 |
 | completeTip | &lt;div class=\"jroll-infinite-tip\"&gt;已加载全部内容&lt;/div&gt; | N | 加载完成提示信息 |
+| errorTip | &lt;div class=\"jroll-infinite-tip\"&gt;加载失败，上拉重试！&lt;/div&gt; | N | 加载完成提示信息 |
 | root | "_obj" | N | 给内置模板引擎指定根数据变量 |
 | compile | [自带的编译方法] | N | 编译方法 |
 | render | [自带的渲染方法] | N | 渲染方法 |
@@ -129,7 +133,7 @@ var data = {
 ```js
 var jroll = new JRoll("#wrapper");
 jroll.infinite({
-    getData : function(page, callback){...},
+    getData : function(page, callback, errorCallback){...},
     compile: function(text) {
         return template.compile(text);
     },
@@ -142,7 +146,7 @@ jroll.infinite({
 ```js
 var jroll = new JRoll("#wrapper");
 jroll.infinite({
-    getData : function(page, callback){...},
+    getData : function(page, callback, errorCallback){...},
     compile: function(text) {
         return _.template(text);
     },
@@ -159,7 +163,7 @@ jroll.infinite({
 ```js
 var jroll = new JRoll("#wrapper");
 jroll.infinite({
-    getData: function(page, callback) {
+    getData: function(page, callback, errorCallback) {
         $.ajax({
             url : "getdata.php?page="+page+"&filter=a",
             success : function(data) {
@@ -195,12 +199,15 @@ function search(){
         success : function(data) {
             jroll.options.total = data.total;
             jroll.infinite_callback(data.items);
+        },
+        error: function() {
+            jroll.infinite_error_callback()
         }
     });
 }
 jroll = new JRoll("#wrapper");
 jroll.infinite({
-    getData: function(page, callback) {
+    getData: function(page, callback, errorCallback) {
         condition.page = page;
         $.ajax({
             url : "getdata.php",
@@ -209,6 +216,9 @@ jroll.infinite({
             success : function(data) {
                 jroll.options.total = data.total;
                 callback(data.items);
+            },
+            error: function() {
+                errorCallback()
             }
         });
     },
@@ -218,6 +228,10 @@ search(); //执行搜索方法更新数据
 ```
 
 ## 更新日志
+
+### v2.2.0 (2017-07-19)
+
+- 添加错误处理提示`errorTip`选项及错误处理回调`errorCallback`
 
 ### v2.1.4 (2017-05-03)
 

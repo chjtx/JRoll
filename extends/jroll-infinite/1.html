@@ -89,7 +89,11 @@
         });
       }
       setTimeout(function() {
-        parms.success(a);
+        if (Math.random() > 0.5) {
+          parms.success(a);
+        } else {
+          parms.error(a);
+        }
       }, 800);
     }
 
@@ -97,11 +101,15 @@
       scrollBarY: true
     });
     jroll.infinite({
-      getData: function(page, callback) { //获取数据的函数，必须传递一个数组给callback
+      total: 10,
+      getData: function(page, callback, errorCallback) { //获取数据的函数，必须传递一个数组给callback
         ajax({
           url: "getData.do?page=" + page,
           success: function(data) {
             callback(data);
+          },
+          error:function () {
+            errorCallback()
           }
         });
       },

@@ -14,7 +14,7 @@ gulp.task('default', function () {
   fs.readFile('src/jroll.js', function (err, data) {
     if (err) throw err
     var head = /\/\*.+v(\d+\.\d+\.\d+).+\*\//.exec(data.toString())
-    var copyright = '/*! JRoll v2.0.0 ~ (c) 2015-2016 Author:jlong, Email:jlong@chjtx.com Website:http://www.chjtx.com/JRoll/ */\n;'
+    var copyright = '/*! JRoll v2.0.0 ~ (c) 2015-2017 Author:jlong, Email:jlong@chjtx.com Website:http://www.chjtx.com/JRoll/ */\n;'
     var version = '2.0.0'
     if (head) {
       copyright = head[0] + '\n;'  // 头部注释
@@ -85,7 +85,7 @@ function build (options) {
 // JRollViewer 压缩、备份
 gulp.task('viewer', function () {
   let version = JSON.parse(fs.readFileSync('./package.json'))['version-viewer']
-  let copyright = `/*! JRollViewer v${version} ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/plugins/jroll-viewer */\n`
+  let copyright = `/*! JRollViewer v${version} ~ (c) 2016-2017 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/plugins/jroll-viewer */\n`
 
   build({
     version: version,
@@ -99,7 +99,7 @@ gulp.task('viewer', function () {
 // jroll-fixedinput 压缩、备份
 gulp.task('fixedinput', function () {
   let version = JSON.parse(fs.readFileSync('./package.json'))['version-fixedinput']
-  let copyright = `/*! JRoll-FixedInput v${version} ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/extends/jroll-fixedinput */\n`
+  let copyright = `/*! JRoll-FixedInput v${version} ~ (c) 2016-2017 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/extends/jroll-fixedinput */\n`
 
   build({
     version: version,
@@ -113,7 +113,7 @@ gulp.task('fixedinput', function () {
 // jroll-infinite 压缩、备份
 gulp.task('infinite', function () {
   let version = JSON.parse(fs.readFileSync('./package.json'))['version-infinite']
-  let copyright = `/*! JRoll-Infinite v${version} ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/extends/jroll-infinite */\n`
+  let copyright = `/*! JRoll-Infinite v${version} ~ (c) 2016-2017 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/extends/jroll-infinite */\n`
 
   build({
     version: version,
@@ -127,7 +127,7 @@ gulp.task('infinite', function () {
 // jroll-pulldown 压缩、备份
 gulp.task('pulldown', function () {
   let version = JSON.parse(fs.readFileSync('./package.json'))['version-pulldown']
-  let copyright = `/*! JRoll-Pulldown v${version} ~ (c) 2016 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/extends/jroll-pulldown */\n`
+  let copyright = `/*! JRoll-Pulldown v${version} ~ (c) 2016-2017 Author:BarZu Git:https://github.com/chjtx/JRoll/tree/master/extends/jroll-pulldown */\n`
 
   build({
     version: version,
