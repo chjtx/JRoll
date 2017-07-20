@@ -103,27 +103,30 @@
         });
       }
       setTimeout(function() {
-        parms.success(a);
+        if (Math.random() > 0.3) {
+          parms.success(a)
+        } else {
+          parms.error()
+        }
       }, 800);
     }
 
     // vue实例
     var vm
     var infOptions = {
+      total: 10,
       bottomed: function () {
         var me = this
-        if (me.page < 3) {
-          ajax({
-            url: 'getData.do?page=' + (me.page + 1),
-            success: function (data) {
-              me.page++ // 请求成功将page加1，失败则不要改变page
-              vm.$data.items = vm.$data.items.concat(data)
-              if (me.page === 3) {
-                me.tip = '已全部加载完成'
-              }
-            }
-          })
-        }
+        ajax({
+          url: 'getData.do?page=' + (me.page + 1),
+          success: function (data) {
+            vm.$data.items = vm.$data.items.concat(data)
+            me.success()
+          },
+          error: function () {
+            me.error()
+          }
+        })
       },
       updated: function () {
         console.log('current page is ' + this.page)

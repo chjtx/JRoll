@@ -1,4 +1,4 @@
-/*! JRoll-Vue-Infinite v0.0.2 ~ (c) 2016-2017 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
+/*! JRoll-Vue-Infinite v0.1.0 ~ (c) 2016-2017 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
 /* global JRoll */
 JRoll.VueInfinite = function (options, jrollOptions) {
   options = options || {}
@@ -6,6 +6,7 @@ JRoll.VueInfinite = function (options, jrollOptions) {
     template: '<div><div><slot></slot><div class="jroll-infinite-tip" v-html="tip"></div></div></div>',
     data: function () {
       return {
+        total: options.total || 99,
         page: options.page || 0,
         tip: options.tip || '正在加载中...'
       }
@@ -25,9 +26,9 @@ JRoll.VueInfinite = function (options, jrollOptions) {
         }
       }
       me.jroll.on('scrollEnd', function () {
-        if (this.y < this.maxScrollY + me.jroll.scroller.querySelector('.jroll-infinite-tip').offsetHeight &&
-          this.scrollerHeight > this.wrapperHeight &&
-          typeof options.bottomed === 'function') {
+        if (this.y <= this.maxScrollY + me.jroll.scroller.querySelector('.jroll-infinite-tip').offsetHeight &&
+          typeof options.bottomed === 'function' && me.page < me.total) {
+          me.tip = options.tip || '正在加载中...'
           options.bottomed.call(me)
         }
       })
@@ -36,6 +37,21 @@ JRoll.VueInfinite = function (options, jrollOptions) {
     updated: function () {
       if (options && typeof options.updated === 'function') options.updated.call(this)
       this.jroll.refresh()
+    },
+    methods: {
+      success: function () {
+        this.page++
+      },
+      error: function () {
+        this.tip = options.errorTip || '加载失败，上拉重试'
+      }
+    },
+    watch: {
+      page: function (p) {
+        if (p === this.total) {
+          this.tip = options.completeTip || '已全部加载完成'
+        }
+      }
     }
   }
 }

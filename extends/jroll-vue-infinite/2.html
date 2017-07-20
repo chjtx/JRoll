@@ -114,30 +114,19 @@
       pulldown: {},
       bottomed: function (complete) {
         var me = this
-        if (me.page < 3) {
-          ajax({
-            url: 'getData.do?page=' + (me.page + 1),
-            success: function (data) {
-              // 请求成功将page加1，失败则不要改变page
-              me.page++
-
-              // 加入下拉刷新功能后需要判断complete是否为function类型，是，表示刷新，复位第1页；否，表示上拉加载下一页，拼接下一页数据
-              if (typeof complete === 'function') {
-                vm.$data.items = data
-                complete()
-              } else {
-                vm.$data.items = vm.$data.items.concat(data)
-              }
-
-              // jroll-vue-infinite的提示选项只有一个，需要开发者自行判断
-              if (me.page === 3) {
-                me.tip = '已全部加载完成'
-              } else {
-                me.tip = '正在加载中...'
-              }
+        ajax({
+          url: 'getData.do?page=' + (me.page + 1),
+          success: function (data) {
+            // 加入下拉刷新功能后需要判断complete是否为function类型，是，表示刷新，复位第1页；否，表示上拉加载下一页，拼接下一页数据
+            if (typeof complete === 'function') {
+              vm.$data.items = data
+              complete()
+            } else {
+              vm.$data.items = vm.$data.items.concat(data)
             }
-          })
-        }
+            me.success()
+          }
+        })
       },
       updated: function () {
         console.log('current page is ' + this.page)
