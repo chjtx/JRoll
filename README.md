@@ -78,7 +78,7 @@ JRoll Second Edition adds some APIs that are not fully compatible with JRoll fir
 
 npm
 ```bash
-npm install jroll --save-dev
+npm install jroll --save
 ```
 
 普通方式引入
