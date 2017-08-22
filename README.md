@@ -270,7 +270,7 @@ var jroll = new JRoll("#wrapper");
 jroll.scrollToElement(selector[, timing])
 ```
 
-滑动到指定元素，第一个参数为字符串或dom元素（必填），第二个参数为时间（可选）
+滑动到指定元素，第一个参数为字符串或dom元素（必填且必须是scroller的子元素），第二个参数为时间（可选）
 
 ```js
 var jroll = new JRoll("#wrapper")
