@@ -264,6 +264,19 @@ var jroll = new JRoll("#wrapper");
     });
 ```
 
+### scrollToElement  :link:
+
+```js
+jroll.scrollToElement(selector[, timing])
+```
+
+滑动到指定元素，第一个参数为字符串或dom元素（必填），第二个参数为时间（可选）
+
+```js
+var jroll = new JRoll("#wrapper")
+jroll.scrollToElement("#el", 300)
+```
+
 #### enable  :link:
 
 使能滑动，使用disable禁止滑动后可用该方法重新开启

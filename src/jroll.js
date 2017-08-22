@@ -1,10 +1,10 @@
-/*! JRoll v2.4.12 ~ (c) 2015-2017 Author:BarZu Git:https://github.com/chjtx/JRoll Website:http://www.chjtx.com/JRoll/ */
-/* global define */
+/*! JRoll v2.5.0 ~ (c) 2015-2017 Author:BarZu Git:https://github.com/chjtx/JRoll Website:http://www.chjtx.com/JRoll/ */
+/* global define, HTMLElement */
 (function (window, document, Math) {
   'use strict'
 
   var JRoll
-  var VERSION = '2.4.12'
+  var VERSION = '2.5.0'
   var rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || function (callback) {
     setTimeout(callback, 17)
   }
@@ -726,6 +726,18 @@
       if (me.scrollBtnY) me._runScrollBarY()
 
       return me
+    },
+
+    scrollToElement: function (selector, timing) {
+      var me = this
+      var el = typeof selector === 'string' ? me.scroller.querySelector(selector) : selector
+      if (el instanceof HTMLElement) {
+        var p = utils.computePosition(el, me.scroller)
+        var t = utils.computeTranslate(el, me.scroller)
+        var x = -(p.left + t.x)
+        var y = -(p.top + t.y)
+        return me.scrollTo(x, y, timing)
+      }
     },
 
     _endAction: function () {
