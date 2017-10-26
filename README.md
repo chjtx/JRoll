@@ -267,14 +267,14 @@ var jroll = new JRoll("#wrapper");
 ### scrollToElement  :link:
 
 ```js
-jroll.scrollToElement(selector[, timing])
+jroll.scrollToElement(selector[, duration , bool, callback])
 ```
 
-滑动到指定元素，第一个参数为字符串或dom元素（必填且必须是scroller的子元素），第二个参数为时间（可选）
+滑动到指定元素，第一个参数为字符串或dom元素（必填且必须是scroller的子元素），第二个参数为时间（可选），第三个是是否允许超出边界（可选，true/false），第四个回调方法（可选）
 
 ```js
 var jroll = new JRoll("#wrapper")
-jroll.scrollToElement("#el", 300)
+jroll.scrollToElement("#el", 300, false, function () { ... })
 ```
 
 #### enable  :link:

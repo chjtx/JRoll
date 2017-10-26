@@ -466,12 +466,12 @@ var jroll = new JRoll("#wrapper");
       <dt><strong>scrollToElement</strong><span class="green">支持链式调用</span></dt>
       <dd>
         <pre><code>
-jroll.scrollToElement(selector[, timing])
+jroll.scrollToElement(selector[, duration , bool, callback])
         </code></pre>
-        滑动到指定元素，第一个参数为字符串或dom元素（必填且必须是scroller的子元素），第二个参数为时间（可选）
+        滑动到指定元素，第一个参数为字符串或dom元素（必填且必须是scroller的子元素），第二个参数为滑动时间（可选），第三个是是否允许超出边界（可选，true/false），第四个回调方法（可选）
         <pre><code>
 var jroll = new JRoll("#wrapper")
-jroll.scrollToElement("#el", 300)
+jroll.scrollToElement("#el", 300, false, function () { ... })
                 </code></pre>
       </dd>
 
@@ -728,8 +728,8 @@ document.addEventListener("click", function(e) {
     <h2 id="download">下载</h2>
     <em>建议：下载文件后将文件名版本号去掉，这样在JRoll有更新时只需要更新jroll.js文件，不需要更新引用jroll的文件。</em>
     <ul>
-      <li><a target="_blank" download="jroll.js" href="./build/jroll.2.5.0.js">jroll.2.5.0.js</a>(33k)</li>
-      <li><a target="_blank" download="jroll.min.js" href="./build/jroll.2.5.0.min.js">jroll.2.5.0.min.js</a>(16k)</li>
+      <li><a target="_blank" download="jroll.js" href="./build/jroll.2.5.1.js">jroll.2.5.1.js</a>(33k)</li>
+      <li><a target="_blank" download="jroll.min.js" href="./build/jroll.2.5.1.min.js">jroll.2.5.1.min.js</a>(16k)</li>
     </ul>
     <em>JRoll Lite 是JRoll的精简版，具体请查看</em><a target="_blank" href="https://github.com/chjtx/JRoll/blob/master/README-LITE.md">《JRoll Lite 使用说明》</a>
     <ul>
@@ -737,6 +737,12 @@ document.addEventListener("click", function(e) {
       <li><a target="_blank" download="jroll-lite.min.js" href="./build/jroll-lite.2.4.11.min.js">jroll-lite.2.4.11.min.js</a>(10k)</li>
     </ul>
     <h3>版本日志</h3>
+    <dl>
+      <dt>v2.5.1（2017-10-26）</dt>
+      <dd>
+        <li>scrollToElement方法支持超出边界和回调</li>
+      </dd>
+    </dl>
     <dl>
       <dt>v2.5.0（2017-08-22）</dt>
       <dd>
