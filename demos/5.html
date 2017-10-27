@@ -101,8 +101,11 @@
             pos = this.y;
         });
         jroll2.on("scroll", function(e) {
-            if ((this.y - pos > 0 && pos === 0) || (this.y - pos < 0 && pos === this.maxScrollY)) {
-                jroll2.call(jroll1, e);
+            // if ((this.y - pos > 0 && pos === 0) || (this.y - pos < 0 && pos === this.maxScrollY)) {
+            //     jroll2.call(jroll1, e);
+            // }
+            if ((this.y >= this.minScrollY && this.directionY === 1) || (this.y <= this.maxScrollY && this.directionY === -1)) {
+                jroll2.call(jroll1, e)
             }
         });
 
