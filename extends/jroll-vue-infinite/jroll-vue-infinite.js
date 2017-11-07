@@ -1,4 +1,4 @@
-/*! JRoll-Vue-Infinite v0.1.0 ~ (c) 2016-2017 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
+/*! JRoll-Vue-Infinite v0.1.1 ~ (c) 2016-2017 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
 /* global JRoll */
 JRoll.VueInfinite = function (options, jrollOptions) {
   options = options || {}
