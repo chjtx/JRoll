@@ -50,6 +50,8 @@ JRoll.VueInfinite = function (options, jrollOptions) {
       page: function (p) {
         if (p === this.total) {
           this.tip = options.completeTip || '已全部加载完成'
+        } else {
+          this.tip = options.tip || '正在加载中...'
         }
       }
     }
