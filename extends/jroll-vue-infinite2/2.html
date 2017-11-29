@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>JRoll下拉刷新 for Vue2</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #dadada;
+    }
+
+    header {
+      height: 44px;
+      line-height: 44px;
+      text-align: center;
+      background: #da020c;
+      color: #fff;
+    }
+
+    header>a {
+      height: 34px;
+      line-height: 34px;
+      position: absolute;
+      top: 5px;
+      left: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: normal;
+    }
+
+    #app {
+      position: absolute;
+      top: 44px;
+      bottom: 0;
+      width: 100%;
+    }
+
+    #wrapper {
+      position: absolute;
+      top: 44px;
+      bottom: 0;
+      width: 100%;
+    }
+
+    #scroller {
+      margin: 0;
+      padding: 0;
+    }
+
+    .item {
+      height: 60px;
+      line-height: 60px;
+      border-bottom: 1px solid #ddd;
+      text-indent: 1em;
+      background: #fff;
+    }
+
+    .jroll-infinite-tip {
+      height: 44px;
+      line-height: 44px;
+      text-align: center;
+    }
+
+    .jroll-vue-infinite {
+      height: 100%;
+    }
+  </style>
+  <script src="../../vendor/vue.js"></script>
+  <script src="../../src/jroll.js"></script>
+  <script src="../jroll-pulldown/jroll-pulldown.js"></script>
+  <script src="jroll-vue-infinite2.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>JRoll下拉刷新 for Vue2</h1>
+    <a onclick="javascript:history.back()">&lt;返回</a>
+  </header>
+  <div id="app">
+      <jroll-infinite class="jroll-vue-infinite" total="10" :options="options" @on-pulldown="pulldown" @on-scroll-bottom="scrollBottom" :pulldown-options="{}">
+        <div class='item' v-for="i in items">{{i.index}}、{{i.text}}</div>
+      </jroll-infinite>
+  </div>
+  <script>
+    //模拟ajax
+    function ajax(parms) {
+      var a = [],
+        i;
+      var page = parms.url.replace("getData.do?page=", "");
+      for (i = 1; i <= 20; i++) {
+        a.push({
+          "index": i + (page - 1) * 20,
+          "text": "普通分页加载模式"
+        });
+      }
+      setTimeout(function() {
+        if (Math.random() > 0.3) {
+          parms.success(a)
+        } else {
+          parms.error()
+        }
+      }, 800);
+    }
+
+    // 插件
+    Vue.component('jroll-infinite', JRoll.VueInfinite2())
+
+    vm = new Vue({
+      el: '#app',
+      data: {
+        page: 0,
+        items: [],
+        options: {
+          scrollBarY: true
+        }
+      },
+      methods: {
+        pulldown: function (success, error) {
+          var me = this
+          ajax({
+            url: 'getData.do?page=1',
+            success: function (data) {
+              me.items = data
+              success()
+            },
+            error: function () {
+              error()
+            }
+          })
+        },
+        scrollBottom: function (page, success, error) {
+          var me = this
+          ajax({
+            url: 'getData.do?page=' + (page + 1),
+            success: function (data) {
+              me.items = me.items.concat(data)
+              success()
+            },
+            error: function () {
+              error()
+            }
+          })
+        },
+        scrollStart: function (j) {
+          console.log('scrollStart', j)
+        },
+        scroll: function (j) {
+          // console.log('scroll', j)
+        },
+        scrollEnd: function (j) {
+          console.log('scrollEnd', j)
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

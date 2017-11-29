@@ -1,0 +1,22 @@
+{
+  "name": "jroll-vue-infinite2",
+  "version": "2.0.0",
+  "description": "JRoll无限加载 for Vue2",
+  "main": "jroll-vue-infinite2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chjtx/JRoll"
+  },
+  "keywords": [
+    "jroll-vue-infinite"
+  ],
+  "author": "BarZu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chjtx/JRoll/issues"
+  },
+  "homepage": "https://github.com/chjtx/JRoll/tree/master/extends/jroll-vue-infinite2"
+}
