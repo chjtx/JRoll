@@ -85,7 +85,7 @@
     <a onclick="javascript:history.back()">&lt;返回</a>
   </header>
   <div id="app">
-      <jroll-infinite class="jroll-vue-infinite" total="10" :jroll-options="options" @on-scroll-bottom="scrollBottom" @on-scroll-start="scrollStart" @on-scroll="scroll" @on-scroll-end="scrollEnd">
+      <jroll-infinite class="jroll-vue-infinite" ref="myJRoll" total="10" :jroll-options="options" @on-scroll-bottom="scrollBottom" @on-scroll-start="scrollStart" @on-scroll="scroll" @on-scroll-end="scrollEnd">
         <div class='item' v-for="i in items">{{i.index}}、{{i.text}}</div>
       </jroll-infinite>
   </div>
@@ -121,6 +121,9 @@
         options: {
           scrollBarY: true
         }
+      },
+      mounted: function () {
+        console.log(this.$refs.myJRoll.jroll)
       },
       methods: {
         scrollBottom: function (page, success, error) {

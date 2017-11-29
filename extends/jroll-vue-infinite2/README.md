@@ -3,7 +3,7 @@
 ## 示例
 
 ```html
-<jroll-infinite class="jroll-vue-infinite"\
+<jroll-infinite class="jroll-vue-infinite"
   total="10"
   :jroll-options="options"
   @on-scroll-bottom="scrollBottom"
@@ -30,7 +30,7 @@ npm i -S jroll-vue-infinite2
 ## 选项
 
 | 选项 | 默认值 | 必填 | 说明 |
-|:----:|:----:|:----:|----|
+|:----|:----:|:----:|----|
 |total| 99 | 否 | 总页数 |
 |:jroll-options| -- | 否 | 提供jroll的选项，参考[http://www.chjtx.com/JRoll/#options](http://www.chjtx.com/JRoll/#options) |
 |@on-scroll-bottom| -- | 是 | 滑动到底部时执行，初始化时会执行一次，用于更新数据，`function (page, success, error)` |
@@ -42,7 +42,8 @@ npm i -S jroll-vue-infinite2
 
 ```html
 <div id="app">
-  <jroll-infinite class="jroll-vue-infinite" total="10" :jroll-options="options"
+  <jroll-infinite class="jroll-vue-infinite" total="10" ref="myJRoll"
+    :jroll-options="options"
     @on-scroll-bottom="scrollBottom"
     @on-scroll-start="scrollStart">
     <div class='item' v-for="i in items">{{i.index}}、{{i.text}}</div>
@@ -58,6 +59,10 @@ new Vue({
     options: {
       scrollBarY: true
     }
+  },
+  mounted: function () {
+    // 可以通过ref属性获取jroll对象
+    console.log(this.$refs.myJRoll.jroll)
   },
   methods: {
     scrollBottom: function (page, success, error) {
@@ -88,7 +93,7 @@ new Vue({
 补充选项
 
 | 选项 | 默认值 | 必填 | 说明 |
-|:----:|:----:|:----:|----|
+|:----|:----:|:----:|----|
 |:pulldown-options| -- | 是 | 添加该选项才能开启下拉刷新，可为空对象，参考[https://github.com/chjtx/JRoll/tree/master/extends/jroll-pulldown](https://github.com/chjtx/JRoll/tree/master/extends/jroll-pulldown)，除`refresh`选项外，其余选项都有效 |
 |@on-scroll-end| -- | 否 | jroll的`scrollEnd`事件，`function (jroll)` |
 
