@@ -23,8 +23,8 @@ Vue.component('jroll-infinite', JRoll.VueInfinite2())
 ## NPM安装
 
 ```bash
-npm i -S jroll
-npm i -S jroll-vue-infinite2
+npm i -D jroll
+npm i -D jroll-vue-infinite2
 ```
 
 ## 选项
