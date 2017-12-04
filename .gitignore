@@ -4,3 +4,4 @@ node_modules/
 #ignore npm log
 npm-debug.log
 debug.log
+.idea

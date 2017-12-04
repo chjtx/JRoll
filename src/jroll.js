@@ -21,7 +21,18 @@
       if (transform in sty) return vendors[i]
     }
   })()
-
+    
+    // 检测是否支持passive选项
+    var supportsPassiveOption = false
+    try {
+        var opts = Object.defineProperty({}, 'passive', {
+            get: function () {
+                supportsPassiveOption = true
+            }
+        })
+        window.addEventListener('test', null, opts)
+    } catch (e) {}
+    
   // 实用工具
   var utils = {
     // 兼容
@@ -179,7 +190,9 @@
     if (l) {
       while (l--) {
         if (jrolls[l].moving) {
-          e.preventDefault() // 防止按停滑动时误触a链接
+            if (!supportsPassiveOption) {
+                e.preventDefault()
+            } // 防止按停滑动时误触a链接
           jrolls[l]._endAction() // 结束并终止惯性
         }
       }
@@ -195,7 +208,9 @@
     if (JRoll.jrollActive) {
       var activeElement = document.activeElement
       if (JRoll.jrollActive.options.preventDefault) {
-        e.preventDefault()
+          if (!supportsPassiveOption) {
+              e.preventDefault()
+          }
       }
       if (utils.isMobile && JRoll.jrollActive.options.autoBlur && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
         activeElement.blur()
@@ -225,19 +240,8 @@
     }
   }
 
-  // 检测是否支持passive选项
-  var supportsPassiveOption = false
-  try {
-    var opts = Object.defineProperty({}, 'passive', {
-      get: function () {
-        supportsPassiveOption = true
-      }
-    })
-    window.addEventListener('test', null, opts)
-  } catch (e) {}
-
   function addEvent (type, method) {
-    document.addEventListener(type, method, supportsPassiveOption ? { passive: false } : false)
+    document.addEventListener(type, method, supportsPassiveOption ? { passive: true } : false)
   }
 
   // 添加监听事件
