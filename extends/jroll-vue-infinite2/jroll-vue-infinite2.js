@@ -1,10 +1,10 @@
-/*! JRoll-Vue-Infinite v2.0.0 ~ (c) 2017 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
+/*! JRoll-Vue-Infinite v2.0.1 ~ (c) 2017-2018 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
 /* global JRoll */
 JRoll.VueInfinite2 = function () {
   return {
     props: {
       total: [String, Number],
-      options: Object,
+      jrollOptions: Object,
       pulldownOptions: Object
     },
     data: function () {
@@ -21,7 +21,7 @@ JRoll.VueInfinite2 = function () {
     template: '<div><div><slot></slot><div class="jroll-infinite-tip" v-html="tip"></div></div></div>',
     mounted: function () {
       var me = this
-      me.jroll = new JRoll(me.$el, me.options)
+      me.jroll = new JRoll(me.$el, me.jrollOptions)
 
       // 下拉刷新
       if (me.pulldownOptions) {
@@ -81,9 +81,12 @@ JRoll.VueInfinite2 = function () {
       })
     },
     updated: function () {
-      if (this.jroll) {
-        this.jroll.refresh()
-      }
+      var me = this
+      me.$nextTick(function () {
+        if (me.jroll) {
+          me.jroll.refresh()
+        }
+      })
     },
     watch: {
       total: function (val) {

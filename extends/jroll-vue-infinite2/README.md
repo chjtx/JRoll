@@ -150,6 +150,11 @@ new Vue({
 
 ## 更新日志
 
+### v2.0.1 (2018-01-06)
+
+- 修复jrollOptions选项失效的问题
+- 在`updated`方法里使用`$nextTick`解决滑动触发更新的问题
+
 ### v2.0.0 (2017-11-29)
 
 - 发布`jroll-vue-infinite2`
