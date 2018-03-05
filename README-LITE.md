@@ -22,8 +22,8 @@ npm install --save jroll-lite
 ### CDN
 
 ```html
-<script src="https://unpkg.com/jroll-lite/jroll-lite.js"></scritp>
-<script src="https://unpkg.com/jroll-lite/jroll-lite.min.js"></scritp>
+<script src="https://unpkg.com/jroll-lite/jroll-lite.js"></script>
+<script src="https://unpkg.com/jroll-lite/jroll-lite.min.js"></script>
 ```
 
 ### 官网
