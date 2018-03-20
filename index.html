@@ -728,8 +728,8 @@ document.addEventListener("click", function(e) {
     <h2 id="download">下载</h2>
     <em>建议：下载文件后将文件名版本号去掉，这样在JRoll有更新时只需要更新jroll.js文件，不需要更新引用jroll的文件。</em>
     <ul>
-      <li><a target="_blank" download="jroll.js" href="./build/jroll.2.6.0.js">jroll.2.6.0.js</a>(35k)</li>
-      <li><a target="_blank" download="jroll.min.js" href="./build/jroll.2.6.0.min.js">jroll.2.6.0.min.js</a>(16k)</li>
+      <li><a target="_blank" download="jroll.js" href="./build/jroll.2.6.1.js">jroll.2.6.1.js</a>(35k)</li>
+      <li><a target="_blank" download="jroll.min.js" href="./build/jroll.2.6.1.min.js">jroll.2.6.1.min.js</a>(16k)</li>
     </ul>
     <em>JRoll Lite 是JRoll的精简版，具体请查看</em><a target="_blank" href="https://github.com/chjtx/JRoll/blob/master/README-LITE.md">《JRoll Lite 使用说明》</a>
     <ul>
@@ -737,6 +737,13 @@ document.addEventListener("click", function(e) {
       <li><a target="_blank" download="jroll-lite.min.js" href="./build/jroll-lite.2.4.11.min.js">jroll-lite.2.4.11.min.js</a>(10k)</li>
     </ul>
     <h3>版本日志</h3>
+    <dl>
+      <dt>v2.6.1（2018-03-20）</dt>
+      <dd>
+        <li>修复github issues-#63的问题，实例销毁后，惯性移动的me._step还继续被执行</li>
+        <li>修复实例销毁后scroller的transform样式没清除的问题</li>
+      </dd>
+    </dl>
     <dl>
       <dt>v2.6.0（2017-10-27）</dt>
       <dd>
