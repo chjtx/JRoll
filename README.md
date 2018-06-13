@@ -186,8 +186,8 @@ jroll.options.bounce = false;
 |zoomMin	|1.0	|最小缩放倍数 :white_check_mark:<br/>Minimum zoom factor|
 |zoomMax	|4.0	|最大缩放倍数 :white_check_mark:<br/>Maximum zoom factor|
 |bounce	|true	|允许回弹 :white_check_mark:<br/>Allow the rebound|
-|scrollBarX	|false	|开启水平滚动条<br/>Open the horizontal scroll bar|
-|scrollBarY	|false	|开启垂直滚动条<br/>Open the vertical scroll bar|
+|scrollBarX	|false	|开启水平滚动条，滚动页面超过两横屏时才会出现滚动条<br/>Open the horizontal scroll bar|
+|scrollBarY	|false	|开启垂直滚动条，滚动页面超过两竖屏时才会出现滚动条<br/>Open the vertical scroll bar|
 |scrollBarFade	|false	|滚动条使用渐隐模式<br/>The scroll bar uses fade mode|
 |preventDefault	|true	|禁止touchmove默认事件<br/>Disables the touchmove default event|
 |momentum	|true	|开启滑动加速，惯性过渡 :white_check_mark:<br/>Open sliding acceleration, inertial transition|

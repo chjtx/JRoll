@@ -114,6 +114,15 @@
       border-bottom: 1px dashed #ddd;
     }
   </style>
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?13d1748106859cff17352f69a8fa8457";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script> 
 </head>
 
 <body>
@@ -369,12 +378,12 @@ jroll.options.bounce = false;
       <tr>
         <td>scrollBarX</td>
         <td>false</td>
-        <td>开启水平滚动条</td>
+        <td>开启水平滚动条，滚动页面超过两横屏时才会出现滚动条</td>
       </tr>
       <tr>
         <td>scrollBarY</td>
         <td>false</td>
-        <td>开启垂直滚动条</td>
+        <td>开启垂直滚动条，滚动页面超过两竖屏时才会出现滚动条</td>
       </tr>
       <tr>
         <td>scrollBarFade</td>
@@ -734,8 +743,8 @@ document.addEventListener("click", function(e) {
     <h2 id="download">下载</h2>
     <em>建议：下载文件后将文件名版本号去掉，这样在JRoll有更新时只需要更新jroll.js文件，不需要更新引用jroll的文件。</em>
     <ul>
-      <li><a target="_blank" download="jroll.js" href="./build/jroll.2.6.2.js">jroll.2.6.2.js</a>(35k)</li>
-      <li><a target="_blank" download="jroll.min.js" href="./build/jroll.2.6.2.min.js">jroll.2.6.2.min.js</a>(16k)</li>
+      <li><a target="_blank" download="jroll.js" href="./build/jroll.2.6.3.js">jroll.2.6.3.js</a>(35k)</li>
+      <li><a target="_blank" download="jroll.min.js" href="./build/jroll.2.6.3.min.js">jroll.2.6.3.min.js</a>(16k)</li>
     </ul>
     <em>JRoll Lite 是JRoll的精简版，具体请查看</em><a target="_blank" href="https://github.com/chjtx/JRoll/blob/master/README-LITE.md">《JRoll Lite 使用说明》</a>
     <ul>
@@ -743,6 +752,12 @@ document.addEventListener("click", function(e) {
       <li><a target="_blank" download="jroll-lite.min.js" href="./build/jroll-lite.2.4.11.min.js">jroll-lite.2.4.11.min.js</a>(10k)</li>
     </ul>
     <h3>版本日志</h3>
+    <dl>
+      <dt>v2.6.3（2018-06-13）</dt>
+      <dd>
+        <li>优化滚动条，当开启了滚动条选项，且滚动页面超过两屏时才会出现滚动条</li>
+      </dd>
+    </dl>
     <dl>
       <dt>v2.6.2（2018-06-13）</dt>
       <dd>
