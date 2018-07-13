@@ -150,6 +150,10 @@ new Vue({
 
 ## 更新日志
 
+### v2.0.2 (2018-07-13)
+
+- 解决 vue-cli 3.0 使用 vue.runtime.esm.js 解释不了template的问题
+
 ### v2.0.1 (2018-01-06)
 
 - 修复jrollOptions选项失效的问题

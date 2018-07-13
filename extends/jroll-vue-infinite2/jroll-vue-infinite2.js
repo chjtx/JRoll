@@ -1,4 +1,4 @@
-/*! JRoll-Vue-Infinite v2.0.1 ~ (c) 2017-2018 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
+/*! JRoll-Vue-Infinite v2.0.2 ~ (c) 2017-2018 Author:BarZu Git:https://github.com/chjtx/JRoll/ */
 /* global JRoll */
 JRoll.VueInfinite2 = function () {
   return {
@@ -18,7 +18,14 @@ JRoll.VueInfinite2 = function () {
         errorTip: '加载失败，上拉重试'
       }
     },
-    template: '<div><div><slot></slot><div class="jroll-infinite-tip" v-html="tip"></div></div></div>',
+    // template: '<div><div><slot></slot><div class="jroll-infinite-tip" v-html="tip"></div></div></div>',
+    // merge https://github.com/chjtx/JRoll/issues/75 解决vue-cli 3.0 使用 vue.runtime.esm.js 解释不了template的问题
+    render: function (h) {
+      return h('div', [h('div', [this.$slots.default, h('div', {
+        'class': 'jroll-infinite-tip',
+        innerHTML: this.tip
+      })])])
+    },
     mounted: function () {
       var me = this
       me.jroll = new JRoll(me.$el, me.jrollOptions)

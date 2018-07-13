@@ -1,6 +1,6 @@
 {
   "name": "jroll-vue-infinite2",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "JRoll无限加载 for Vue2",
   "main": "jroll-vue-infinite2.js",
   "scripts": {
