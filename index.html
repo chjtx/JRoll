@@ -3,25 +3,30 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="keywords" content="JRoll, 醉箩卜">
   <meta name="description" content="JRoll 2 是在JRoll第一版基础上重写JRoll滑动算法，基于时间运动，解决帧频降低时滑动缓慢的问题，更改横竖方向判断方法，使捕获横竖方向更准确灵敏。">
   <title>JRoll2 醉萝卜Ⅱ</title>
   <link href="http://www.chjtx.com/JRoll1/favicon.ico" type="image/x-icon" rel="icon">
   <link rel="stylesheet" href="./vendor/prism.css">
   <style>
-    #BAIDU_SSP__wrapper_u3460240_0 {
-      position: fixed;
-      top: 138px;
-      right: 10px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
     body {
       font-family: "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
       line-height: 1.75;
       margin-right: 150px;
+      color: #333;
     }
 
     h1 {
       text-align: center;
+      padding-bottom: 0.3em;
+      font-size: 2em;
+      padding-top: 44px;
     }
 
     p {
@@ -29,35 +34,45 @@
       color: #222;
     }
 
-    menu {
+    #menu_btn,
+    #mask {
+      display: none;
+    }
+
+    #left {
       position: fixed;
-      top: 160px;
-      left: 20px;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 200px;
+      background: #fff;
+      z-index: 2;
+    }
+
+    #menu {
       line-height: 1.8;
       overflow: auto;
-      bottom: 0;
-      width: 138px;
+      width: 200px;
+      padding-left: 30px;
+      padding-top: 30px;
     }
 
     li {
       list-style-type: none;
     }
 
-    menu a {
+    #menu a {
       color: #000;
       text-decoration: none;
     }
 
-    menu a.active {
+    #menu a.active {
       color: #da020c;
-    }
-
-    dd {
-      margin: 0 2em;
     }
 
     article {
       margin-left: 220px;
+      margin-right: 20px;
     }
 
     pre[class*="language-"] {
@@ -108,10 +123,73 @@
       background-size: 120px 120px;
       width: 200px;
       height: 160px;
-      position: fixed;
-      left: 0;
-      top: 0;
       border-bottom: 1px dashed #ddd;
+    }
+    #ad {
+      border: none;
+      width: 100%;
+      position: fixed;
+      right: 10px;
+      top: 138px;
+      width: 120px;
+      height: 600px;
+    }
+    @media screen and (max-width: 768px) {
+      #left {
+        transform: translateX(-110%);
+        transition: 300ms ease-out;
+        z-index: 2;
+      }
+      #left.show {
+        transform: translateX(0%);
+      }
+      article {
+        margin-left: 20px;
+      }
+      body {
+        margin-right: 0;
+      }
+      #menu_btn {
+        display: block;
+        position: fixed;
+        color: #fff;
+        background: #da020c;
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
+        position: fixed;
+        top: 53px;
+        left: -10px;
+        width: 55px;
+        height: 38px;
+        line-height: 38px;
+        text-align: center;
+        font-size: 14px;
+        box-shadow: 3px 3px 10px 0px rgba(0,0,0,.4);
+        transform: translateX(0);
+        transition: 300ms ease-out;
+        z-index: 3;
+      }
+      #menu_btn.hide {
+        transform: translateX(-110%);
+      }
+      #mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,.3);
+      }
+      #mask.show {
+        display: block;
+      }
+      #ad {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 48px;
+      }
     }
   </style>
   <script>
@@ -122,30 +200,34 @@
       var s = document.getElementsByTagName("script")[0]; 
       s.parentNode.insertBefore(hm, s);
     })();
-  </script> 
+  </script>
 </head>
 
 <body>
   <a target="_blank" href="https://github.com/chjtx/JRoll"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
 
-  <div id="logo"></div>
-  <menu>
-    <li><a href="#summary">概述</a></li>
-    <li><a href="#use">使用</a>
-      <div><a href="#options">可选参数</a></div>
-      <div><a href="#property">属性</a></div>
-      <div><a href="#method">方法</a></div>
-      <div><a href="#events">事件</a></div>
-    </li>
-    <li><a href="#senior">进阶</a></li>
-    <li><a href="#download">下载</a></li>
-    <li><a href="#plugins">插件</a></li>
-    <li><a href="#extends">扩展</a></li>
-    <li><a target="_blank" href="https://github.com/chjtx/JRoll/blob/master/README-LITE.md">JRoll Lite</a></li>
-    <li><a target="_blank" href="http://www.chjtx.com/JRoll1/">JRoll 1</a></li>
-  </menu>
+  <div id="menu_btn">菜单</div>
+  <div id="mask"></div>
+  <div id="left">
+    <div id="logo"></div>
+    <menu id="menu">
+      <li><a href="#summary">概述</a></li>
+      <li><a href="#use">使用</a>
+        <div><a href="#options">可选参数</a></div>
+        <div><a href="#property">属性</a></div>
+        <div><a href="#method">方法</a></div>
+        <div><a href="#events">事件</a></div>
+      </li>
+      <li><a href="#senior">进阶</a></li>
+      <li><a href="#download">下载</a></li>
+      <li><a href="#plugins">插件</a></li>
+      <li><a href="#extends">扩展</a></li>
+      <li><a target="_blank" href="https://github.com/chjtx/JRoll/blob/master/README-LITE.md">JRoll Lite</a></li>
+      <li><a target="_blank" href="http://www.chjtx.com/JRoll1/">JRoll 1</a></li>
+    </menu>
+  </div>
   <article class="language-js">
-    <h1>JRoll 2 使用文档</h1>
+    <h1>醉萝卜 JRoll 2</h1>
 
     <h2 id="summary">概述</h2>
     <h3>说明</h3>
@@ -309,123 +391,125 @@ jroll.options.bounce = false;
     </dl>
 
     <h3 id="options">可选参数</h3>
-    <table>
-      <tr>
-        <th width="120">可选值</th>
-        <th width="120">默认值</th>
-        <th>说明</th>
-      </tr>
-      <tr>
-        <td>id</td>
-        <td><em>[随机生成]</em></td>
-        <td>id，jroll对象的唯一标记，建议手动提供id，方便在全局JRoll.jrollMap访问指定jroll对象，不提供时系统自动创建。</td>
-      </tr>
-      <tr>
-        <td>scrollX</td>
-        <td>false</td>
-        <td>使能水平滑动<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>scrollY</td>
-        <td>true</td>
-        <td>使能垂直滑动<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>scrollFree</td>
-        <td>false</td>
-        <td>使能自由滑动，默认情况下，x方向在滑动时，y方向不能滑动，相反亦然，如果应用于对图片进行放大滑动，可将此参数设为true<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>minX</td>
-        <td>0</td>
-        <td>向左滑动的边界值<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>maxX</td>
-        <td><em>[负scroller的宽]</em></td>
-        <td>向右滑动的边界值<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>minY</td>
-        <td>0</td>
-        <td>向下滑动的边界值<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>maxY</td>
-        <td><em>[负scroller的高]</em></td>
-        <td>向上滑动的边界值<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>zoom</td>
-        <td>false</td>
-        <td>使能缩放<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>zoomMin</td>
-        <td>1.0</td>
-        <td>最小缩放倍数<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>zoomMax</td>
-        <td>4.0</td>
-        <td>最大缩放倍数<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>bounce</td>
-        <td>true</td>
-        <td>允许回弹<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>scrollBarX</td>
-        <td>false</td>
-        <td>开启水平滚动条，滚动页面超过两横屏时才会出现滚动条</td>
-      </tr>
-      <tr>
-        <td>scrollBarY</td>
-        <td>false</td>
-        <td>开启垂直滚动条，滚动页面超过两竖屏时才会出现滚动条</td>
-      </tr>
-      <tr>
-        <td>scrollBarFade</td>
-        <td>false</td>
-        <td>滚动条使用渐隐模式</td>
-      </tr>
-      <tr>
-        <td>preventDefault</td>
-        <td>true</td>
-        <td>禁止touchmove默认事件</td>
-      </tr>
-      <tr>
-        <td>momentum</td>
-        <td>true</td>
-        <td>开启滑动加速，惯性过渡<span class="green">可动态修改</span></td>
-      </tr>
-      <tr>
-        <td>autoStyle</td>
-        <td>true</td>
-        <td>自动为wrapper和scroller添加样式</td>
-      </tr>
-      <tr>
-        <td>autoBlur</td>
-        <td>true</td>
-        <td>v2.4.3新增，在滑动时自动将input/textarea失焦收起软键盘。设为false将会在IOS上出现光标不跟随输入框移动的现象</td>
-      </tr>
-      <tr>
-        <td><del class="red">adjustTop</del></td>
-        <td><del class="red">190</del></td>
-        <td>从v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。<del class="red">安卓手机弹出软键盘时自动调整输入框位置，作者不建议使用该项，如遇软键盘遮挡输入框的情况，建议重新设计表单页面。参考：<a target="_blank" href="http://my.oschina.net/cjlice/blog/625526">WebAPP输入框被软键盘遮挡肿么办？</a></del></td>
-      </tr>
-      <tr>
-        <td>scroller</td>
-        <td><em>[wrapper的第一个子元素]</em></td>
-        <td>指定scroller，不可动态更改，可以是id选择器字符串<em>#scroller</em>，也可以是dom对象<em>document.getElementById('scroller')</em></td>
-      </tr>
-      <tr>
-        <td>edgeRelease</td>
-        <td>true</td>
-        <td>v2.4.7新增，边缘释放，滑动到上下边界自动结束，解决手指滑出屏幕没触发touchEnd事件的问题。如果手指滑动屏幕的速度过快该选项并不一定起作用</td>
-      </tr>
-    </table>
+    <div style="width:100%;overflow-x:auto;">
+      <table>
+        <tr>
+          <th width="120">可选值</th>
+          <th width="120">默认值</th>
+          <th>说明</th>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td><em>[随机生成]</em></td>
+          <td>id，jroll对象的唯一标记，建议手动提供id，方便在全局JRoll.jrollMap访问指定jroll对象，不提供时系统自动创建。</td>
+        </tr>
+        <tr>
+          <td>scrollX</td>
+          <td>false</td>
+          <td>使能水平滑动<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>scrollY</td>
+          <td>true</td>
+          <td>使能垂直滑动<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>scrollFree</td>
+          <td>false</td>
+          <td>使能自由滑动，默认情况下，x方向在滑动时，y方向不能滑动，相反亦然，如果应用于对图片进行放大滑动，可将此参数设为true<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>minX</td>
+          <td>0</td>
+          <td>向左滑动的边界值<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>maxX</td>
+          <td><em>[负scroller的宽]</em></td>
+          <td>向右滑动的边界值<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>minY</td>
+          <td>0</td>
+          <td>向下滑动的边界值<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>maxY</td>
+          <td><em>[负scroller的高]</em></td>
+          <td>向上滑动的边界值<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>zoom</td>
+          <td>false</td>
+          <td>使能缩放<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>zoomMin</td>
+          <td>1.0</td>
+          <td>最小缩放倍数<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>zoomMax</td>
+          <td>4.0</td>
+          <td>最大缩放倍数<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>bounce</td>
+          <td>true</td>
+          <td>允许回弹<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>scrollBarX</td>
+          <td>false</td>
+          <td>开启水平滚动条，滚动页面超过两横屏时才会出现滚动条</td>
+        </tr>
+        <tr>
+          <td>scrollBarY</td>
+          <td>false</td>
+          <td>开启垂直滚动条，滚动页面超过两竖屏时才会出现滚动条</td>
+        </tr>
+        <tr>
+          <td>scrollBarFade</td>
+          <td>false</td>
+          <td>滚动条使用渐隐模式</td>
+        </tr>
+        <tr>
+          <td>preventDefault</td>
+          <td>true</td>
+          <td>禁止touchmove默认事件</td>
+        </tr>
+        <tr>
+          <td>momentum</td>
+          <td>true</td>
+          <td>开启滑动加速，惯性过渡<span class="green">可动态修改</span></td>
+        </tr>
+        <tr>
+          <td>autoStyle</td>
+          <td>true</td>
+          <td>自动为wrapper和scroller添加样式</td>
+        </tr>
+        <tr>
+          <td>autoBlur</td>
+          <td>true</td>
+          <td>v2.4.3新增，在滑动时自动将input/textarea失焦收起软键盘。设为false将会在IOS上出现光标不跟随输入框移动的现象</td>
+        </tr>
+        <tr>
+          <td><del class="red">adjustTop</del></td>
+          <td><del class="red">190</del></td>
+          <td>从v2.2.0版本开始，JRoll删除了adjustTop选项，自动调整安卓机输入框位置的功能抽离到jroll-fixedinput.js里。<del class="red">安卓手机弹出软键盘时自动调整输入框位置，作者不建议使用该项，如遇软键盘遮挡输入框的情况，建议重新设计表单页面。参考：<a target="_blank" href="http://my.oschina.net/cjlice/blog/625526">WebAPP输入框被软键盘遮挡肿么办？</a></del></td>
+        </tr>
+        <tr>
+          <td>scroller</td>
+          <td><em>[wrapper的第一个子元素]</em></td>
+          <td>指定scroller，不可动态更改，可以是id选择器字符串<em>#scroller</em>，也可以是dom对象<em>document.getElementById('scroller')</em></td>
+        </tr>
+        <tr>
+          <td>edgeRelease</td>
+          <td>true</td>
+          <td>v2.4.7新增，边缘释放，滑动到上下边界自动结束，解决手指滑出屏幕没触发touchEnd事件的问题。如果手指滑动屏幕的速度过快该选项并不一定起作用</td>
+        </tr>
+      </table>
+    </div>
 
     <h3 id="property">属性</h3>
     <dl>
@@ -755,7 +839,7 @@ document.addEventListener("click", function(e) {
     <dl>
       <dt>v2.6.5（2018-06-22）</dt>
       <dd>
-        <li>优化v2.5.4解决的问题</li>
+        <li>优化v2.6.4解决的问题</li>
       </dd>
     </dl>
     <dl>
@@ -967,11 +1051,7 @@ document.addEventListener("click", function(e) {
     <p><em>插件：依赖JRoll，有独立的全局变量名，例`new JRollViewer(...)`</em></p>
     <p><em>扩展：依附JRoll，作为JRoll实例的方法存在，例`var jroll=new JRoll(...); jroll.pulldown(...)`</em></p>
 
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+    <p style="text-align:center;margin-top:100px;margin-bottom:58px;color:#ccc;">&copy;2015-2018 chjtx.com</p>
 
   </article>
   <script src="./vendor/prism.js"></script>
@@ -980,6 +1060,12 @@ document.addEventListener("click", function(e) {
       var alist = document.querySelectorAll("menu a");
       var hrefs = [];
       var offsets = [];
+      
+      var menu = document.getElementById('menu')
+      var left = document.getElementById('left')
+      var mask = document.getElementById('mask')
+      var menu_btn = document.getElementById('menu_btn')
+
       Array.prototype.forEach.call(alist, function(a) {
         var h = a.hash;
         if (h.indexOf("#") !== -1) {
@@ -1007,13 +1093,31 @@ document.addEventListener("click", function(e) {
       };
       setMenuTag();
       window.onscroll = setMenuTag;
+
+      function showMenu () {
+        left.classList.add('show')
+        mask.classList.add('show')
+        menu_btn.classList.add('hide')
+      }
+      function hideMenu () {
+        left.classList.remove('show')
+        mask.classList.remove('show')
+        menu_btn.classList.remove('hide')
+      }
+      menu.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') {
+          hideMenu()
+        }
+      })
+      menu_btn.addEventListener('click', function () {
+        showMenu()
+      }, false)
+      mask.addEventListener('click', function () {
+        hideMenu()
+      }, false)
     }, 300);
   </script>
-  <script type="text/javascript">
-    /*120*600 创建于 2018/6/13*/
-    var cpro_id = "u3460240";
-  </script>
-  <script type="text/javascript" src="https://cpro.baidustatic.com/cpro/ui/c.js"></script>
+  <iframe id="ad" frameborder="no" marginwidth="0" marginheight="0" scrolling="no" src="//www.chjtx.com/JTaro/ad.html"></iframe>
 </body>
 
 </html>
