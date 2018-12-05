@@ -1,6 +1,11 @@
+官网地址：[http://www.chjtx.com/JRoll/](http://www.chjtx.com/JRoll/)
+
 # 醉萝卜 JRoll
 
 > My English is very poor, but this does not affect my heart to communicate with the world, thanks for Google translation
+
+看视频了解更多：<a href="https://v.youku.com/v_show/id_XMzk1MDY5MjIxMg==.html" target="_blank">JRoll大烩[捂脸]</a><br/>
+视频相关PPT下载：<a href="http://www.chjtx.com/JRoll/JRoll视频.pptx" download="JRoll视频.pptx">JRoll视频.pptx</a>
 
 ## 先睹为快 Preview
 
