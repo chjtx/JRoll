@@ -129,6 +129,16 @@
       width: 120px;
       height: 600px;
     }
+    .big {
+      display: block;
+    }
+    .small {
+      display: none;
+    }
+    #ad img {
+      display: block;
+      margin: 0 auto;
+    }
     @media screen and (max-width: 768px) {
       #left {
         transform: translateX(-110%);
@@ -184,6 +194,12 @@
         left: 0;
         width: 100%;
         height: 48px;
+      }
+      .big {
+        display: none;
+      }
+      .small {
+        display: block;
       }
     }
   </style>
@@ -1115,7 +1131,14 @@ document.addEventListener("click", function(e) {
       }, false)
     }, 300);
   </script>
-  <iframe id="ad" frameborder="no" marginwidth="0" marginheight="0" scrolling="no" src="//www.chjtx.com/JTaro/gg.html?v=1&from=jroll"></iframe>
+  <div id="ad">
+    <a class="big" target="_blank" href="https://goodgoodsbook.com/?from=pr1">
+      <img src="http://www.chjtx.com/assets/images/gg-big.jpg">
+    </a>
+    <a class="small" target="_blank" href="https://goodgoodsbook.com/?from=pr1">
+      <img src="http://www.chjtx.com/assets/images/gg-small.jpg">
+    </a>
+  </div>
 </body>
 
 </html>
