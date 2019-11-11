@@ -68,7 +68,7 @@
      */
     findScroller: function (el) {
       var id
-      while (el !== document) {
+      while (el && el !== document) {
         id = el.getAttribute('jroll-id')
         if (id) {
           return jrollMap[id]
