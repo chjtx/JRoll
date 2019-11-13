@@ -150,7 +150,7 @@
       var id
       // 遇到document或带垂直滚动条的textarea终止查找
       if (force || !(el.tagName === 'TEXTAREA' && el.scrollHeight > el.offsetHeight)) {
-        while (el !== document) {
+        while (el && el !== document) {
           id = el.getAttribute('jroll-id')
           if (id) {
             return jrollMap[id]
@@ -166,7 +166,7 @@
       var id
       // 遇到document或带垂直滚动条的textarea终止查找
       if (force || !(el.tagName === 'TEXTAREA' && (el.scrollHeight > el.clientHeight) && (el.scrollTop > 0 && el.scrollTop < el.scrollHeight - el.clientHeight))) {
-        while (el !== document) {
+        while (el && el !== document) {
           id = el.getAttribute('jroll-id')
           if (id) {
             jrolls.push(jrollMap[id])
