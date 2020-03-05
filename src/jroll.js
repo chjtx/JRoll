@@ -29,8 +29,8 @@
     TSD: prefix + 'ransitionDuration',
     TFO: prefix + 'ransformOrigin',
     isAndroid: /android/.test(ua),
-    isIOS: /iphone|ipad/.test(ua),
-    isMobile: /mobile|phone|android|pad/.test(ua),
+    isIOS: /iphone|ipad|macintosh/.test(ua),
+    isMobile: /mobile|phone|android|pad|macintosh/.test(ua),
 
     // 判断浏览是否支持perspective属性，从而判断是否支持开启3D加速
     translateZ: (function (pre) {
